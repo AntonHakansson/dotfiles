@@ -1,4 +1,3 @@
-; vim:ft=dosini
 ;=====================================================
 ;
 ;   To learn more about how to configure Polybar
@@ -29,15 +28,13 @@ background = ${xrdb:color256:#1d2021}
 foreground = ${xrdb:color257:#ebdbb2}
 
 [bar/default]
-;monitor = ${env:MONITOR:LVDS-1}
-;monitor = ${env:MONITOR:HDMI-1}
+monitor = ${env:MONITOR:DVI-I-1}
 enable-ipc = true
-width = 100%
 height = 24
-;offset-x = 1%
-;offset-y = 1%
-;radius = 6.0
+width = 100%:-30
+offset-x = 15
 fixed-center = false
+override-redirect = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -51,32 +48,31 @@ border-color = ${colors.white}
 padding-left = 0
 padding-right = 0
 
-module-margin-left = 1
-module-margin-right = 1
+module-margin-left = 0
+module-margin-right = 0
 
-font-0 = mono:pixelsize=9;1
-font-1 = Inconsolata Nerd Font:size=8;1
-font-2 = Noto Color Emoji:scale=10:style=Regular;2
-font-3 = Symbola:pixelsize=9;1
+font-0 = mono:pixelsize=9;0
+font-1 = FontAwesome5Free:style=Solid:size=9;0
+; fonts for 'centered' text/icons
+font-2 = mono:pixelsize=12;3
+font-3 = FontAwesome5Free:style=Solid:size=12;3
 
 
 ; Other modules: xkeyboard filesystem xbacklight backlight-acpi cpu memory temperature powermenu weather
 modules-left = bspwm xwindow
-;modules-center =
-modules-right = mpd volume mutt-wizard wlan eth battery date
+modules-right = pia memory filesystem volume date
 
-tray-position = right
+tray-position = none
 tray-padding = 0
 
 wm-restack = bspwm
 
 ;override-redirect = true
 
-scroll-up = bspwm-desknext
-scroll-down = bspwm-deskprev
+scroll-down = bspwm-desknext
+scroll-up = bspwm-deskprev
 
 [module/mutt-wizard]
-
 type = custom/script
 exec = mailbox
 interval = 5
@@ -87,7 +83,6 @@ click-left = $TERMINAL -e neomutt
 
 
 [module/weather]
-
 type = custom/script
 exec = weather
 interval = 5000
@@ -95,8 +90,8 @@ interval = 5000
 
 [module/xwindow]
 type = internal/xwindow
-label = %title:0:45:...%
-format-foreground = ${colors.blue}
+label = "  %title:0:45:...%"
+format-foreground = ${colors.darkblue}
 
 [module/xkeyboard]
 type = internal/xkeyboard
@@ -109,78 +104,61 @@ format-prefix-underline = ${colors.darkmagenta}
 label-layout = %layout%
 label-layout-underline = ${colors.darkmagenta}
 
-label-indicator-padding = 2
+label-indicator-padding = 1
 label-indicator-margin = 1
 label-indicator-background = ${colors.darkmagenta}
 label-indicator-underline = ${colors.darkmagenta}
 
 [module/filesystem]
 type = internal/fs
-interval = 25
+interval = 30
 
 mount-0 = /
-mount-1 = /home
 
-label-mounted-underline = ${colors.cyan}
-label-mounted = /: %percentage_used%%
-label-unmounted = %mountpoint% not mounted
+label-mounted = %{O-4}%percentage_used%%
+format-mounted-prefix = "/: "
+format-mounted-prefix-foreground = ${colors.gray}
+format-mounted-underline = ${colors.cyan}
+format-mounted-padding = 1
+
+label-unmounted = <not mounted>
 label-unmounted-foreground = ${colors.gray}
+label-unmounted-padding = 1
 
 [module/bspwm]
 type = internal/bspwm
 
-label-focused = %index%
-label-focused-foreground = ${colors.black}
-label-focused-background = ${colors.blue}
-label-focused-underline= ${colors.yellow}
+; ws-icon-0 = 1;
+; ws-icon-1 = 2;
+; ws-icon-2 = 3;
+ws-icon-0 = 1;1
+ws-icon-1 = 2;2
+ws-icon-2 = 3;3
+ws-icon-3 = 4;4
+ws-icon-4 = 5;5
+ws-icon-5 = 6;6
+ws-icon-6 = 7;7
+ws-icon-7 = 8;8
+ws-icon-8 = 9;9
+ws-icon-9 = 10;
+
+label-focused = %icon%
+label-focused-foreground = ${colors.white}
+label-focused-background = ${colors.darkblue}
 label-focused-padding = 1
 
-label-occupied = %index%
-label-occupied-underline = ${colors.blue}
+label-occupied = %icon%
+label-occupied-foreground = ${colors.lightgray}
 label-occupied-padding = 1
 
-label-urgent = %index%!
+label-urgent = %icon%
+label-urgent-foreground = ${colors.lightgray}
 label-urgent-background = ${colors.red}
 label-urgent-padding = 1
 
-label-empty = %index%
+label-empty = %icon%
 label-empty-foreground = ${colors.lightgray}
 label-empty-padding = 1
-
-[module/i3]
-type = internal/i3
-format = <label-state> <label-mode>
-index-sort = true
-wrapping-scroll = false
-
-; Only show workspaces on the same output as the bar
-;pin-workspaces = true
-
-label-mode-padding = 2
-label-mode-foreground = ${colors.white}
-label-mode-background = ${colors.darkyellow}
-
-; focused = Active workspace on focused monitor
-label-focused = %index%
-label-focused-background = ${colors:black}
-;label-focused-background = ${module/bspwm.label-focused-background}
-label-focused-underline = ${module/bspwm.label-focused-underline}
-label-focused-padding = ${module/bspwm.label-focused-padding}
-
-; unfocused = Inactive workspace on any monitor
-label-unfocused = %index%
-label-unfocused-padding = ${module/bspwm.label-occupied-padding}
-
-; visible = Active workspace on unfocused monitor
-label-visible = %index%
-label-visible-background = ${self.label-focused-background}
-label-visible-underline = ${self.label-focused-underline}
-label-visible-padding = ${self.label-focused-padding}
-
-; urgent = Workspace with urgency hint set
-label-urgent = %index%
-label-urgent-background = ${module/bspwm.label-urgent-background}
-label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 [module/mpd]
 type = internal/mpd
@@ -195,163 +173,71 @@ label-song-ellipsis = true
 
 format-paused-foreground = ${colors.gray}
 
-[module/xbacklight]
-type = internal/xbacklight
-
-format = <label> <bar>
-label = ﯧ
-
-bar-width = 10
-bar-indicator = |
-bar-indicator-foreground = #ff
-bar-indicator-font = 2
-bar-fill = ─
-bar-fill-font = 2
-bar-fill-foreground = #9f78e1
-bar-empty = ─
-bar-empty-font = 2
-bar-empty-foreground = ${colors.gray}
-
-[module/backlight-acpi]
-inherit = module/xbacklight
-type = internal/backlight
-card = intel_backlight
-
 [module/cpu]
 type = internal/cpu
 interval = 2
+label = %percentage%%
 format-prefix = "🌡 "
 format-prefix-foreground = ${colors.gray}
 format-underline = ${colors.red}
-label = %percentage%%
+
+[module/pia]
+type = custom/script
+interval = 5
+exec = piactl get connectionstate
+
+format-prefix="VPN: "
+format-padding = 1
+format-prefix-foreground = ${colors.gray}
+format-underline = ${colors.lightgray}
+
+click-left = /opt/piavpn/bin/pia-client &
 
 [module/memory]
 type = internal/memory
-interval = 2
-format-prefix = "🧠 "
+interval = 5
+label = %{O-4}%percentage_used%%
+format-prefix = "MEM: "
+format-padding = 1
 format-prefix-foreground = ${colors.gray}
 format-underline = ${colors.darkcyan}
-label = %percentage_used%%
 
-[module/wlan]
-type = internal/network
-interface = wlp2s0
-interval = 3.0
-
-format-connected = 直 <label-connected>
-format-connected-underline = ${colors.darkmagenta}
-label-connected = %essid%
-
-;format-disconnected =
-format-disconnected = <label-disconnected>
-format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-label-disconnected = 睊no wifi
-label-disconnected-foreground = ${colors.gray}
-
-; <ramp-signal>
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.gray}
-
-[module/eth]
-type = internal/network
-interface = enp0s25
-interval = 3.0
-
-format-connected-underline = ${colors.darkgreen}
-;format-connected-underline = ${colors.green}
-format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.gray}
-label-connected = %local_ip%
-
-;format-disconnected =
-format-disconnected = <label-disconnected>
-format-disconnected-underline = ${self.format-connected-underline}
-label-disconnected =  %ifname%
-label-disconnected-foreground = ${colors.gray}
+click-left = $TERMINAL -e htop
 
 [module/date]
-type = internal/date
+type = custom/script
 interval = 60
+exec = date +"%Y %b %d (%a) %H:%M"
 
-date = "%Y %b %d (%a)"
-time = "%I:%M%p"
-
-# If you're not living in a country where AM and PM is used you can add -alt to the time above this line and comment it using ;, then you can remove the -alt to the time under this line and uncomment it.
-;time-alt = " at %H:%M"
-;time-alt = %H:%M:%S
-;time-alt = %H:%M:%S
-
-format-prefix = " "
+format-prefix=" "
+format-padding = 1
 format-prefix-foreground = ${colors.gray}
 format-underline = ${colors.blue}
 
-label = %date% %time%
+click-left = (date --iso-8601 | xclip -selection clipboard) && notify-send "  Copied (iso)"
+click-right = (date +"%m/%d/%Y/ %H:%M" | xclip -selection clipboard) && notify-send "  Copied (Project Journal)"
 
 [module/volume]
-type = internal/alsa
+type = internal/pulseaudio
+; format-volume = <ramp-volume>%{O-2} %<label-volume>:3:10:max%
+format-volume = <ramp-volume>%{O-2} <label-volume>
 
-format-volume = <label-volume> <bar-volume>
-label-volume = 
-label-volume-foreground = ${root.foreground}
+; label-volume-minlen = 3 // TODO: this would be neet
+label-muted   =  0%
 
-format-muted-prefix = " "
+ramp-volume-0 = 
+ramp-volume-0-foreground = ${colors.gray}
+ramp-volume-1 = 
+ramp-volume-1-foreground = ${colors.gray}
+ramp-volume-2 = 
+ramp-volume-2-foreground = ${colors.gray}
+
+format-volume-padding = 1
+format-volume-underline = ${colors.darkblue}
+
+format-muted-underline = ${colors.darkblue}
+format-muted-padding = 1
 format-muted-foreground = ${colors.gray}
-label-muted = muted
-
-bar-volume-width = 10
-bar-volume-foreground-0 = ${colors.blue}
-bar-volume-foreground-1 = ${colors.blue}
-bar-volume-foreground-2 = ${colors.green}
-bar-volume-foreground-3 = ${colors.green}
-bar-volume-foreground-4 = ${colors.green}
-bar-volume-foreground-5 = ${colors.yellow}
-bar-volume-foreground-6 = ${colors.red}
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = =
-bar-volume-fill-font = 2
-bar-volume-empty = =
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.gray}
-
-[module/battery]
-type = internal/battery
-battery = BAT0
-adapter = ADP1
-full-at = 98
-
-;format-charging = Charging... <label-charging>
-format-charging = <animation-charging> <label-charging>
-format-charging-underline = ${colors.darkyellow}
-
-;format-discharging = <label-discharging>
-format-discharging = <ramp-capacity> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
-
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.gray}
-format-full-underline = ${self.format-charging-underline}
-
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
-ramp-capacity-4 = 
-ramp-capacity-foreground = ${colors.gray}
-
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-3 = 
-animation-charging-4 = 
-animation-charging-foreground = ${colors.gray}
-animation-charging-framerate = 500
 
 [module/temperature]
 type = internal/temperature
@@ -377,37 +263,34 @@ ramp-foreground = ${colors.gray}
 [module/powermenu]
 type = custom/menu
 
-format-spacing = 1
+format = <label-toggle> %{T3}<menu>%{T-}
 
-label-open = 
+format-spacing = 1
+format-prefix = "  "
+label-open = %{T4}%{T-}
 label-open-foreground = ${colors.darkmagenta}
-label-close =  cancel
+label-close = %{T4}%{T-}
 label-close-foreground = ${colors.darkmagenta}
-label-separator = |
+label-separator = %{T3}|%{T-}
 label-separator-foreground = ${colors.gray}
 
-menu-0-0 = reboot
+menu-0-0 = %{T3}reboot%{T-}
 menu-0-0-exec = menu-open-1
-menu-0-1 = power off
+menu-0-1 = %{T3}power off%{T-}
 menu-0-1-exec = menu-open-2
 
-menu-1-0 = cancel
+menu-1-0 = %{T3}cancel%{T-}
 menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
+menu-1-1 = %{T3}reboot%{T-}
 menu-1-1-exec = sudo reboot
 
-menu-2-0 = power off
+menu-2-0 = %{T3}power off%{T-}
 menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
+menu-2-1 = %{T3}cancel%{T-}
 menu-2-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true
-;compositing-background = xor
-;compositing-background = screen
-;compositing-foreground = source
-;compositing-border = over
 
 [global/wm]
-margin-top = 5
-margin-bottom = 5
+

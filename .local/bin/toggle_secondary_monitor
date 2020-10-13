@@ -1,0 +1,7 @@
+#!/bin/sh
+
+xrandr --listactivemonitors | grep HDMI-0 >/dev/null && xrandr --output HDMI-0 --off || xrandr --output HDMI-0 --right-of DVI-I-1 --auto
+
+killall polybar
+launch_polybar &>/dev/null
+$XDG_CONFIG_HOME/bspwm/bspwmrc

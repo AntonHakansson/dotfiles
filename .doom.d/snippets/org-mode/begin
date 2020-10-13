@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: begin
+# key: begin
+# uuid: begin
+# condition: t
+# --
+\begin{$1}
+$2
+\end{$1}

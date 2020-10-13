@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if pgrep -x polybar >/dev/null; then
+    killall polybar
+    bspc config top_padding 0
+else
+    launch_polybar
+    bspc config top_padding 24
+fi
