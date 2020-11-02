@@ -57,6 +57,8 @@
       :desc "Open like spacemacs" "SPC" #'counsel-M-x)
 (map! "<mouse-8>" #'previous-buffer)
 (map! "<mouse-9>" #'next-buffer)
+;; autocorrect the previous word without leaving insert mode
+(map! :i "C-i" #'flyspell-auto-correct-word)
 
 ;;
 ;; Zig config
@@ -94,6 +96,13 @@
   (use-package org-pdftools
     :hook (org-load . org-pdftools-setup-link))
 
+  (use-package org-download
+    :ensure t
+    :custom
+    (org-download-image-dir "./images/")
+    )
+
+
   ;; Org Xournal
   ;; (load (file-truename (concat dotspacemacs-directory "org-xournal")))
 
@@ -103,12 +112,6 @@
   ;;  )
   (setq org-default-notes-file "~/Documents/org/main.org")
   (org-babel-load-file "~/Documents/org/roam/nutrition.org")
-  (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline "~/Documents/org/main.org" "Tasks")
-           "* TODO %?\n  %i\n  %a")
-          ("j" "Journal" entry (file+datetree "~/Documents/org/main.org")
-           "* %?\nEntered on %U\n  %i\n  %a")))
-
 
   (use-package org-roam
     :ensure t
@@ -143,3 +146,18 @@
     ;;     "rg" 'org-roam-graph))
     )
   )
+
+(defun my/org-download-paste-clipboard (&optional use-default-filename)
+  (interactive "P")
+  (require 'org-download)
+  (let ((file
+         (if (not use-default-filename)
+             (read-string (format "Filename [%s]: " org-download-screenshot-basename)
+                          nil nil org-download-screenshot-basename)
+           nil)))
+    (org-download-clipboard file)))
+
+(map! :map org-mode-map
+        "C-c l a y" #'my/org-download-paste-clipboard
+        "C-M-y" #'my/org-download-paste-clipboard)
+
