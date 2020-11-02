@@ -63,11 +63,10 @@ cmd bulkrename ${{
 # Bindings
 map <c-f> $lf -remote "send $id select '$(fzf)'"
 map J $lf -remote "send $id cd $(cut -d'	' -f2 ${XDG_CONFIG_HOME:-$HOME/.config}/directories | fzf)"
-map gh
-map g top
 map D delete
 map C copyto
 map M moveto
+map S $$SHELL
 map <c-n> push :mkdir<space>
 map <c-r> reload
 map <enter> shell
@@ -86,3 +85,20 @@ map b bulkrename
 map <c-e> down
 map <c-y> up
 map V push :!nvim<space>
+
+map gc. cd ~/.config/
+map gcb $nvim ~/.config/bspwm/bspwmrc
+map gcs $nvim ~/.config/sxhkd/sxhkdrc
+map gcl $nvim ~/.config/lf/lfrc
+
+map gl. cd ~/.local
+map glz cd ~/.local/share/zup/
+
+map go. cd ~/Documents/org/
+map goc cd ~/Documents/org/chalmers
+
+map git cd /storage/git/
+
+map gs. cd /storage/
+map gsd  cd /storage/Downloads/
+map gst  cd /storage/Downloads/torrents
