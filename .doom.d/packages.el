@@ -8,9 +8,12 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
+
 (package! string-inflection)
 
-(package! ranger)
+(package! dired-single)
+(package! all-the-icons-dired)
+
 (package! zig-mode)
 
 (package! auctex)

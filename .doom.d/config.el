@@ -57,8 +57,22 @@
       :desc "Open like spacemacs" "SPC" #'counsel-M-x)
 (map! "<mouse-8>" #'previous-buffer)
 (map! "<mouse-9>" #'next-buffer)
+
+(use-package! dired
+  :ensure nil
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-single-up-directory
+    "l" 'dired-single-find-file))
+
+;; kill dired buffers when traversing
+(use-package! dired-single)
+(use-package! all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+
 ;; autocorrect the previous word without leaving insert mode
 (map! :i "C-i" #'flyspell-auto-correct-word)
+
 
 ;;
 ;; Zig config
@@ -93,10 +107,10 @@
   (add-to-list 'org-file-apps '("\\.svg\\'" . "inkscape %s") t)
 
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
-  (use-package org-pdftools
+  (use-package! org-pdftools
     :hook (org-load . org-pdftools-setup-link))
 
-  (use-package org-download
+  (use-package! org-download
     :ensure t
     :custom
     (org-download-image-dir "./images/")
@@ -112,6 +126,8 @@
   ;;  )
   (setq org-default-notes-file "~/Documents/org/main.org")
   (org-babel-load-file "~/Documents/org/roam/nutrition.org")
+
+  ;; (add-to-list 'org-agenda-files "chalmers/programming_language_technology/main.org")
 
   (use-package org-roam
     :ensure t

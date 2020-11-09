@@ -4,7 +4,7 @@
 export PATH="$PATH:$HOME/.nimble/bin/:/opt/piavpn/bin:/storage/bin/:$(du "$HOME/.local/bin/" | cut -f2 | tr '\n' ':' | sed 's/:*$//')"
 
 # Default programs:
-export EDITOR="emacs --no-x-resources"
+export EDITOR="nvim"
 export TERMINAL="alacritty"
 export BROWSER="brave"
 export READER="zathura"

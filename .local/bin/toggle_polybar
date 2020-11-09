@@ -5,5 +5,5 @@ if pgrep -x polybar >/dev/null; then
     bspc config top_padding 0
 else
     launch_polybar
-    bspc config top_padding 24
+    bspc config top_padding 18
 fi
