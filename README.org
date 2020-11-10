@@ -1,3 +1,442 @@
+#+TITLE: Dotfiles Everywhere
+#+AUTHOR: Anton Håkansson
+#+BABEL: :cache yes
+#+PROPERTY: header-args :mkdirp yes
+
+* Colors
+# Based off: https://raw.githubusercontent.com/bigardone/emacs-doom-theme/master/doom-one-theme.el
+
+#+NAME: colors
+| Name                   | GUI       | TERMINAL  |
+|------------------------+-----------+-----------|
+| bg                     | "#282c34" | nil       |
+| bg-alt                 | "#21242b" | nil       |
+| fg                     | "#bbc2cf" | "#bfbfbf" |
+| fg-alt                 | "#5B6268" | "#2d2d2d" |
+| grey                   | "#3f444a" | "#3f3f3f" |
+| red                    | "#ff6c6b" | "#ff6655" |
+| orange                 | "#da8548" | "#dd8844" |
+| green                  | "#98be65" | "#99bb66" |
+| teal                   | "#4db5bd" | "#44b9b1" |
+| yellow                 | "#ECBE7B" | "#ECBE7B" |
+| blue                   | "#51afef" | "#51afef" |
+| dark-blue              | "#2257A0" | "#2257A0" |
+| magenta                | "#c678dd" | "#c678dd" |
+| violet                 | "#a9a1e1" | "#a9a1e1" |
+| cyan                   | "#46D9FF" | "#46D9FF" |
+| dark-cyan              | "#5699AF" | "#5699AF" |
+| black                  | "#1B2229" | "#000000" |
+| white                  | "#DFDFDF" | "#dfdfdf" |
+| base0                  | "#1B2229" | "#000000" |
+| base1                  | "#1c1f24" | "#1e1e1e" |
+| base2                  | "#202328" | "#2e2e2e" |
+| base3                  | "#23272e" | "#262626" |
+| base4                  | "#3f444a" | "#3f3f3f" |
+| base5                  | "#5B6268" | "#525252" |
+| base6                  | "#73797e" | "#6b6b6b" |
+| base7                  | "#9ca0a4" | "#979797" |
+| base8                  | "#DFDFDF" | "#dfdfdf" |
+| highlight              | "#51afef" | "#51afef" |
+| vertical-bar           | "#191b20" | "#1b1b1b" |
+| selection              | "#2257A0" | "#2257A0" |
+| builtin                | "#c678dd" | "#c678dd" |
+| comments               | "#5B6268" | "#525252" |
+| doc-comments           | "#83898d" | "#7d7d7d" |
+| constants              | "#a9a1e1" | "#a9a1e1" |
+| functions              | "#c678dd" | "#c678dd" |
+| keywords               | "#51afef" | "#51afef" |
+| methods                | "#46D9FF" | "#46D9FF" |
+| operators              | "#51afef" | "#51afef" |
+| type                   | "#ECBE7B" | "#ECBE7B" |
+| strings                | "#98be65" | "#99bb66" |
+| variables              | "#dcaeea" | "#dcaeea" |
+| numbers                | "#da8548" | "#dd8844" |
+| region                 | "#42444a" | "#6c6c6c" |
+| error                  | "#ff6c6b" | "#ff6655" |
+| warning                | "#ECBE7B" | "#ECBE7B" |
+| success                | "#98be65" | "#99bb66" |
+| vc-modified            | "#da8548" | "#dd8844" |
+| vc-added               | "#98be65" | "#99bb66" |
+| vc-deleted             | "#ff6c6b" | "#ff6655" |
+| hidden                 | "#282c34" | "black"   |
+| modeline-fg            | "#bbc2cf" | "#bfbfbf" |
+| modeline-fg-alt        | "#5B6268" | "#525252" |
+| modeline-bg            | "#1c1e24" | "black"   |
+| modeline-bg-l          | "#1d2026" | "black"   |
+| modeline-bg-inactive   | "#1d2026" | nil       |
+| modeline-bg-inactive-l | "#21242b" | "#1e1e1e" |
+
+#+NAME: color
+#+begin_src elisp :var c="bg" lookup-colors=colors
+(map-some (lambda (k v) (if (equal k c) (car v))) lookup-colors)
+#+end_src
+
+#+RESULTS: color
+: #282c34
+
+* Generate Wallpaper
+Run this to generate wallpaper based on our color-scheme
+
+#+begin_src sh :var color=color(c="bg-alt")
+magick -size 1920x1080 canvas:$color ~/.config/wall.png
+setbg
+#+end_src
+
+* Profile
+:PROPERTIES:
+:header-args: :tangle ~/.profile :comments no :cache yes :mkdirp yes
+:END:
+
+Profile file. Runs on login. Environmental variables are set here.
+
+** Path
+#+begin_src sh
+export PATH="$PATH:$HOME/.nimble/bin/:/opt/piavpn/bin:/storage/bin/:$(du "$HOME/.local/bin/" | cut -f2 | tr '\n' ':' | sed 's/:*$//')"
+#+end_src
+
+** Default Programs
+#+begin_src sh
+export EDITOR="nvim"
+export TERMINAL="alacritty"
+export BROWSER="brave"
+export READER="zathura"
+#+end_src
+
+** Move Configs to =~/.config/=
+#+begin_src sh
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+#export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority" # This line will break some DMs.
+export NOTMUCH_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/notmuch-config"
+export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
+export SPACEMACSDIR="${XDG_CONFIG_HOME:-$HOME/.config}/spacemacs"
+export LESSHISTFILE="-"
+export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
+export INPUTRC="${XDG_CONFIG_HOME:-$HOME/.config}/inputrc"
+export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+export ALSA_CONFIG_PATH="$XDG_CONFIG_HOME/alsa/asoundrc"
+#export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+export WINEPREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/wineprefixes/default"
+export KODI_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/kodi"
+export PASSWORD_STORE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/password-store"
+export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
+export ANDROID_SDK_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/android"
+export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+#+end_src
+
+** =Less= Settings
+
+#+begin_src sh
+export LESS=-R
+export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
+export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
+export LESS_TERMCAP_me="$(printf '%b' '[0m')"
+export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
+export LESS_TERMCAP_se="$(printf '%b' '[0m')"
+export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
+export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
+export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
+#+end_src
+
+** Other Program Settings
+#+begin_src sh
+export DICS="/usr/share/stardict/dic/"
+export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"
+export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"
+export QT_QPA_PLATFORMTHEME="gtk2"	# Have QT use gtk2 theme.
+export MOZ_USE_XINPUT2="1"		# Mozilla smooth scrolling/touchpads.
+export _JAVA_AWT_WM_NONREPARENTING=1    # fixes grey screen of intellij / java programs
+#+end_src
+** =LF= Terminal File Browser Icons
+
+This requires [[http://nerdfonts.com/][Nerd Font]].
+
+#+begin_src sh
+export LF_ICONS="\
+tw=:\
+st=:\
+ow=:\
+dt=:\
+di=:\
+fi=:\
+ln=:\
+or=:\
+ex=:\
+*.c=:\
+*.cc=:\
+*.clj=:\
+*.coffee=:\
+*.cpp=:\
+*.css=:\
+*.d=:\
+*.dart=:\
+*.erl=:\
+*.exs=:\
+*.fs=:\
+*.go=:\
+*.h=:\
+*.hh=:\
+*.hpp=:\
+*.hs=:\
+*.html=:\
+*.java=:\
+*.jl=:\
+*.js=:\
+*.json=:\
+*.lua=:\
+*.md=:\
+*.php=:\
+*.pl=:\
+*.pro=:\
+*.py=:\
+*.rb=:\
+*.rs=:\
+*.scala=:\
+*.ts=:\
+*.vim=:\
+*.cmd=:\
+*.ps1=:\
+*.sh=:\
+*.bash=:\
+*.zsh=:\
+*.fish=:\
+*.tar=:\
+*.tgz=:\
+*.arc=:\
+*.arj=:\
+*.taz=:\
+*.lha=:\
+*.lz4=:\
+*.lzh=:\
+*.lzma=:\
+*.tlz=:\
+*.txz=:\
+*.tzo=:\
+*.t7z=:\
+*.zip=:\
+*.z=:\
+*.dz=:\
+*.gz=:\
+*.lrz=:\
+*.lz=:\
+*.lzo=:\
+*.xz=:\
+*.zst=:\
+*.tzst=:\
+*.bz2=:\
+*.bz=:\
+*.tbz=:\
+*.tbz2=:\
+*.tz=:\
+*.deb=:\
+*.rpm=:\
+*.jar=:\
+*.war=:\
+*.ear=:\
+*.sar=:\
+*.rar=:\
+*.alz=:\
+*.ace=:\
+*.zoo=:\
+*.cpio=:\
+*.7z=:\
+*.rz=:\
+*.cab=:\
+*.wim=:\
+*.swm=:\
+*.dwm=:\
+*.esd=:\
+*.jpg=:\
+*.jpeg=:\
+*.mjpg=:\
+*.mjpeg=:\
+*.gif=:\
+*.bmp=:\
+*.pbm=:\
+*.pgm=:\
+*.ppm=:\
+*.tga=:\
+*.xbm=:\
+*.xpm=:\
+*.tif=:\
+*.tiff=:\
+*.png=:\
+*.svg=:\
+*.svgz=:\
+*.mng=:\
+*.pcx=:\
+*.mov=:\
+*.mpg=:\
+*.mpeg=:\
+*.m2v=:\
+*.mkv=:\
+*.webm=:\
+*.ogm=:\
+*.mp4=:\
+*.m4v=:\
+*.mp4v=:\
+*.vob=:\
+*.qt=:\
+*.nuv=:\
+*.wmv=:\
+*.asf=:\
+*.rm=:\
+*.rmvb=:\
+*.flc=:\
+*.avi=:\
+*.fli=:\
+*.flv=:\
+*.gl=:\
+*.dl=:\
+*.xcf=:\
+*.xwd=:\
+*.yuv=:\
+*.cgm=:\
+*.emf=:\
+*.ogv=:\
+*.ogx=:\
+*.aac=:\
+*.au=:\
+*.flac=:\
+*.m4a=:\
+*.mid=:\
+*.midi=:\
+*.mka=:\
+*.mp3=:\
+*.mpc=:\
+*.ogg=:\
+*.ra=:\
+*.wav=:\
+*.oga=:\
+*.opus=:\
+*.spx=:\
+*.xspf=:\
+*.pdf=:\
+*.nix=:\
+"
+#+end_src
+
+** Load Shortcuts
+#+begin_src sh
+[ ! -f ${XDG_CONFIG_HOME:-$HOME/.config}/shortcutrc ] && shortcuts >/dev/null 2>&1 &
+#+end_src
+** tty1
+
+Start graphical server on tty1 if not already running.
+
+#+begin_src sh
+[ "$(tty)" = "/dev/tty1" ] && ! ps -e | grep -qw Xorg && exec startx
+#+end_src
+
+* Git
+** ~/.gitconfig
+#+BEGIN_SRC conf :tangle ~/.gitconfig
+[user]
+	email = anton.hakansson98@gmail.com
+	name = AntonHakansson
+#+END_SRC
+
+* Terminals
+** Alacritty
+#+begin_src yaml :tangle ~/.config/alacritty/alacritty.yml :noweb yes
+colors:
+  primary:
+    background: '<<color(c="bg")>>'
+    foreground: '<<color(c="fg"")>>'
+    dim_foreground: '#a5abb6'
+  cursor:
+    text: '<<color(c="fg")>>'
+    cursor: '<<color(c="blue")>>'
+  vi_mode_cursor:
+    text: '<<color(c="fg")>>'
+    cursor: '<<color(c="blue")>>'
+  selection:
+    text: CellForeground
+    background: '<<color(c="region")>>'
+  search:
+    matches:
+      foreground: CellBackground
+      background: '#88c0d0'
+    bar:
+      background: '#434c5e'
+      foreground: '#d8dee9'
+  normal:
+    black: '<<color(c="black")>>'
+    red: '<<color(c="red")>>'
+    green: '<<color(c="green")>>'
+    yellow: '<<color(c="yellow")>>'
+    blue: '<<color(c="blue")>>'
+    magenta: '<<color(c="magenta")>>'
+    cyan: '<<color(c="cyan")>>'
+    white: '<<color(c="white")>>'
+  bright:
+    black: '<<color(c="black")>>'
+    red: '<<color(c="red")>>'
+    green: '<<color(c="green")>>'
+    yellow: '<<color(c="yellow")>>'
+    blue: '<<color(c="blue")>>'
+    magenta: '<<color(c="magenta")>>'
+    cyan: '<<color(c="cyan")>>'
+    white: '<<color(c="white")>>'
+  dim:
+    black: '<<color(c="black")>>'
+    red: '<<color(c="red")>>'
+    green: '<<color(c="green")>>'
+    yellow: '<<color(c="yellow")>>'
+    blue: '<<color(c="blue")>>'
+    magenta: '<<color(c="magenta")>>'
+    cyan: '<<color(c="cyan")>>'
+    white: '<<color(c="white")>>'
+#+end_src
+
+* BSPWM
+#+NAME: bar-height
+#+begin_src elisp
+18
+#+end_src
+
+#+begin_src sh :tangle ~/.config/bspwm/bspwmrc :noweb yes
+#!/bin/sh
+
+# If refreshing bspwm, remove all previous rules to prevent doubling up.
+bspc rule -r "*"
+
+# Start workspaces on the main monitor.
+if xrandr --listactivemonitors | grep HDMI-0 >/dev/null; then
+	bspc monitor DVI-I-1 -d 1 2 3 4 5 6 7 8
+	bspc monitor HDMI-0 -d 9 10
+	bspc desktop -f 1
+else
+	bspc monitor DVI-I-1 -d 1 2 3 4 5 6 7 8 9 10
+	bspc desktop -f 1
+fi
+
+bspc config border_width 2
+bspc config focused_border_color "<<color(c="blue")>>"
+bspc config window_gap 10
+bspc config top_padding <<bar-height()>>
+bspc config focus_follows_pointer true
+
+bspc rule -a Emacs state=tiled
+bspc rule -a Thunar state=floating
+#+end_src
+
+* Polybar
+:PROPERTIES:
+:header-args: :tangle ~/.config/polybar/config :noweb yes
+:END:
+
+To learn more about how to configure Polybar
+go to https://github.com/jaagr/polybar
+
+The README contains alot of information
+Themes : https://github.com/jaagr/dots/tree/master/.local/etc/themer/themes
+https://github.com/jaagr/polybar/wiki/
+https://github.com/jaagr/polybar/wiki/Configuration
+https://github.com/jaagr/polybar/wiki/Formatting
+
+** Base Settings
+#+begin_src conf
 [global/wm]
 ;https://github.com/jaagr/polybar/wiki/Configuration#global-wm-settings
 margin-top = 0
@@ -24,22 +463,28 @@ format-spacing =
 format-padding =
 format-margin =
 format-offset =
+#+end_src
 
+** Colors
+#+begin_src conf
 [colors]
-background = #282c34
-foreground = #bbc2cf
-alert = #ff6c6b
-magenta = #c678dd
-blue = #51afef
+background = <<color(c="bg")>>
+foreground = <<color(c="fg")>>
+alert = <<color(c="error")>>
+magenta = <<color(c="magenta")>>
+blue = <<color(c="blue")>>
 
-alternate1 = #1B2229
-alternate2 = #3f444a
-
+alternate1 = <<color(c="base0")>>
+alternate2 = <<color(c="base4")>>
+#+end_src
+** Bars
+*** BSPWM
+#+begin_src conf
 [bar/mainbar-bspwm]
 monitor = ${env:MONITOR}
 ;monitor-fallback = HDMI1
 width = 100%
-height = 18
+height = <<bar-height()>>
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 0.0
@@ -95,7 +540,9 @@ tray-background = ${colors.background}
 
 scroll-up = bspwm-desknext
 scroll-down = bspwm-deskprev
-
+#+end_src
+*** I3
+#+begin_src conf
 [bar/mainbar-i3]
 ;https://github.com/jaagr/polybar/wiki/Configuration
 
@@ -184,7 +631,11 @@ double-click-right =
 ; - ns-resize : Up and down arrows, can be used to indicate scrolling
 cursor-click =
 cursor-scroll =
+#+end_src
 
+** Modules
+*** I3
+#+begin_src conf
 [module/i3]
 ;https://github.com/jaagr/polybar/wiki/Module:-i3
 type = internal/i3
@@ -299,7 +750,10 @@ label-urgent-padding = 2
 
 format-foreground = ${colors.foreground}
 format-background = ${colors.background}
+#+end_src
 
+*** BSPWM
+#+begin_src conf
 [module/bspwm]
 type = internal/bspwm
 
@@ -364,7 +818,9 @@ label-private-foreground = ${colors.foreground}
 
 format-foreground = ${colors.foreground}
 format-background = ${colors.background}
-
+#+end_src
+*** Arrows
+#+begin_src conf
 [module/arrow1]
 ; grey to Blue
 type = custom/text
@@ -388,7 +844,9 @@ content = "%{T2} %{T-}"
 content-font = 2
 content-foreground = ${colors.alternate1}
 content-background = ${colors.alternate2}
-
+#+end_src
+*** a-z
+#+begin_src conf
 ################################################################################
 ###############################################################################
 ############                       MODULES A-Z                      ############
@@ -1257,8 +1715,113 @@ label-maxlen = 50
 
 format-prefix = "    "
 ;format-foreground = ${colors.foreground}
-format-foreground = #98be65
+format-foreground = <<color(c="green")>>
 format-background = ${colors.background}
 
 ###############################################################################
 # vim:ft=dosini
+#+end_src
+* Scripts
+** dmenupass
+This script is the =SUDO_ASKPASS= environment variable, meaning that it will be used as a password prompt if needed.
+
+#+begin_src sh :tangle ~/.local/bin/dmenupass :noweb yes
+#!/bin/sh
+
+dmenu -sb "<<color(c="warning")>>" -nf "<<color(c="bg")>>" -nb "<<color(c="bg")>>" -p "$1" <&- && echo
+#+end_src
+
+#+RESULTS:
+
+* dmenu
+#+begin_src c :tangle ~/.local/src/dmenu/config.h :noweb yes
+static int topbar = 1;                      /* -b  option; if 0, dmenu appears at bottom     */
+/* -fn option overrides fonts[0]; default X11 font or font set */
+static const char *fonts[] = {
+	"monospace:size=10",
+	"JoyPixels:pixelsize=10:antialias=true:autohint=true"
+};
+static const unsigned int bgalpha = 0xe0;
+static const unsigned int fgalpha = OPAQUE;
+static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
+static const char *colors[SchemeLast][2] = {
+	/*              fg         bg       */
+	[SchemeNorm] = { "<<color(c="fg")>>", "<<color(c="bg")>>" },
+	[SchemeSel] = { "<<color(c="bg")>>", "<<color(c="highlight")>>" },
+	[SchemeOut] = { "#000000", "#00ffff" },
+};
+static const unsigned int alphas[SchemeLast][2] = {
+	/*		fgalpha		bgalphga	*/
+	[SchemeNorm] = { fgalpha, bgalpha },
+	[SchemeSel] = { fgalpha, bgalpha },
+	[SchemeOut] = { fgalpha, bgalpha },
+};
+
+/* -l option; if nonzero, dmenu uses vertical list with given number of lines */
+static unsigned int lines      = 0;
+
+/*
+ * Characters not considered part of a word while deleting words
+ * for example: " /?\"&[]"
+ */
+static const char worddelimiters[] = " ";
+#+end_src
+
+** download
+#+begin_src sh :dir ~/.local/src/ :results output
+stat dmenu/.git || git clone https://git.suckless.org/dmenu
+#+end_src
+
+** build & install
+
+#+begin_src sh :dir ~/.local/src/dmenu :results output
+make clean
+make all
+sudo make install
+#+end_src
+
+* LARBS
+My dotfiles are the dotfiles deployed by [LARBS](https://larbs.xyz) and as seen on Luke's [my YouTube channel](https://youtube.com/c/lukesmithxyz).
+
+** Message from Luke
+- Very useful scripts are in `~/.local/bin/`
+- Settings for:
+  - vim/nvim (text editor)
+  - zsh (shell)
+  - i3wm/i3-gaps (window manager)
+  - i3blocks (status bar)
+  - sxhkd (general key binder)
+  - ranger (file manager)
+  - lf (file manager)
+  - mpd/ncmpcpp (music)
+  - sxiv (image/gif viewer)
+  - mpv (video player)
+  - calcurse (calendar program)
+  - tmux
+  - other stuff like xdg default programs, inputrc and more, etc.
+- I try to minimize what's directly in `~` so:
+  - All configs that can be in `~/.config/` are.
+  - Some environmental variables have been set in `~/.zprofile` to move configs into `~/.config/`
+- Bookmarks in text files used by various scripts (like `~/.local/bin/shortcuts`)
+  - File bookmarks in `~/.config/files`
+  - Directory bookmarks in `~/.config/directories`
+
+*** Want even more?
+
+My setup is pretty modular nowadays.
+I use several suckless programs that are meant to be configured and compiled by the user and I also have separate repos for some other things.
+Check out their links:
+
+- [dwm](https://github.com/lukesmithxyz/dwm) (the window manager I usually use now which is fully compatible with this repo)
+- [st](https://github.com/lukesmithxyz/st) (the terminal emulator assumed to be used by these dotfiles)
+- [mutt-wizard (`mw`)](https://github.com/lukesmithxyz/mutt-wizard) - (a terminal-based email system that can store your mail offline without effort)
+
+*** Install these dotfiles
+
+Use [LARBS](https://larbs.xyz) to autoinstall everything:
+
+```
+curl -LO larbs.xyz/larbs.sh
+```
+
+or clone the repo files directly to your home directory and install [the prerequisite programs](https://github.com/LukeSmithxyz/LARBS/blob/master/progs.csv) or [those required for the i3 setup](https://github.com/LukeSmithxyz/LARBS/blob/master/legacy.csv).

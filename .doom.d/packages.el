@@ -10,6 +10,8 @@
 ;(package! some-package)
 
 (package! string-inflection)
+(package! json-mode)
+(package! yaml-mode)
 
 (package! dired-single)
 (package! all-the-icons-dired)
