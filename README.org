@@ -395,6 +395,11 @@ colors:
 18
 #+end_src
 
+#+NAME: window-gap
+#+begin_src elisp
+10
+#+end_src
+
 #+begin_src sh :tangle ~/.config/bspwm/bspwmrc :noweb yes
 #!/bin/sh
 
@@ -421,6 +426,157 @@ bspc rule -a Emacs state=tiled
 bspc rule -a Thunar state=floating
 #+end_src
 
+* Keybindings
+:PROPERTIES:
+:header-args: :tangle ~/.config/sxhkd/sxhkdrc :noweb yes
+:END:
+
+** Reload Keybinding
+#+begin_src conf
+super + shift + r
+    pkill -USR1 -x sxhkd; \
+    notify-send "reloaded sxhkd"
+#+end_src
+** Run programs
+#+begin_src conf
+super + Return
+    $TERMINAL
+super + d
+    dmenu_run
+super + r
+    $TERMINAL -e $FILE
+super + e
+    emacsclient -c
+super + shift + e
+    emacs_anywhere
+super + w
+    $BROWSER
+super + s
+    thunar
+super + b
+    toggle_polybar &
+#+end_src
+** Power tools
+#+begin_src conf
+super + shift + x
+    prompt "Shutdown computer?" "sudo -A shutdown -h now"
+super + shift + BackSpace
+    prompt "Reboot computer?" "sudo -A reboot"
+super + shift + Escape
+    prompt 'Leave Xorg?' 'killall Xorg'
+super + x
+    ifinstalled slock && ( slock & xset dpms force off ; mpc pause ; pauseallmpv )
+#+end_src
+** Utility (Screenshot, unicode selector etc.)
+#+begin_src conf
+super + p
+    maimpick
+
+super + grave
+    dmenuunicode
+#+end_src
+** Window Manager (BSPWM)
+#+begin_src conf
+# focus the window in the given direction
+super + {_,shift + }{h,j,k,l}
+    bspc node -{f,s} {west,south,north,east}
+
+# focus workspace or send window to the given desktop
+super + {_,shift + }{1-9,0}
+    bspc {desktop -f,node -d} ^{1-9,10}
+
+# focus previous workspace
+super + {Tab,backslash}
+    bspc desktop last --focus
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+    bspc node -z {left -40 0,bottom 0 40,top 0 -40,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + ctrl + {h,j,k,l}
+    bspc node -z {right -40 0,top 0 40,bottom 0 -40,left 40 0}
+
+# focus or swap the next window
+super + {_,shift + }c
+    bspc node -{f,s} next.local
+
+# toggle floating mode on focused window
+super + shift + space
+    bspc node focused -t \~floating
+
+# close and kill
+super + {_,shift + }q
+    bspc node -{c,k}
+
+# alternate between the tiled and monocle layout
+super + {_,shift + }f
+    bspc {desktop -l next,node -t ~fullscreen}
+#+end_src
+*** Gaps
+#+begin_src conf
+# Toggle gaps
+super + shift + d
+    bspc config window_gap {0,<<window-gap()>>} ; \
+    bspc config top_padding <<bar-height()>>
+
+# Increase/descrease gap size
+super { ,+ shift } + z
+    bspc config window_gap $(($(bspc config window_gap) {+,-} 15)) ;\
+    bspc config top_padding <<bar-height()>>
+
+#+end_src
+*** Monitor
+#+begin_src conf
+super + o
+    prompt "Toggle monitors?" && toggle_secondary_monitor
+#+end_src
+** Special Key Events
+#+begin_src conf
+# Audiokeys
+XF86AudioMute
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+XF86Audio{Raise,Lower}Volume
+    pactl set-sink-volume @DEFAULT_SINK@ {+,-}5%
+XF86Audio{Next,Prev}
+    notify-send "XF86Audio[Next, Prev] event not handled"
+XF86Audio{Pause,Play,Stop}
+    notify-send "XF86Audio[Pause, Play, Stop] event not handled"
+XF86Audio{Rewind,Forward}
+    notify-send "XF86Audio[Rewind, Forward] event not handled"
+
+XF86PowerOff
+    prompt "Shutdown computer?" "sudo -A shutdown -h now"
+XF86Calculator
+    $TERMINAL -e bc
+XF86Sleep
+    prompt 'Hibernate computer?' 'sudo -A zzz'
+XF86WWW
+    $BROWSER
+XF86DOS
+    $TERMINAL
+XF86TaskPane
+    $TERMINAL -e htop
+XF86Mail
+    $TERMINAL -e neomutt
+XF86MyComputer
+    $TERMINAL -e $FILE
+#+end_src
+** Mouse Control
+#+name: mouse-speed
+#+begin_src elisp :tangle nil
+40
+#+end_src
+
+#+begin_src conf
+super + {Left, Down, Up, Right}
+    xdotool mousemove_relative -- { -<<mouse-speed()>> 0, 0 <<mouse-speed()>>, 0 -<<mouse-speed()>>, <<mouse-speed()>> 0 }
+
+super + m
+    xdotool mousedown --clearmodifiers 1
+@super + m
+    xdotool mouseup --clearmodifiers 1
+#+end_src
 * Polybar
 :PROPERTIES:
 :header-args: :tangle ~/.config/polybar/config :noweb yes
@@ -1721,6 +1877,113 @@ format-background = ${colors.background}
 ###############################################################################
 # vim:ft=dosini
 #+end_src
+* LF
+
+#+begin_src conf :tangle ~/.config/lf/lfrc
+# Basic vars
+set shell bash
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 10
+set color256
+set icons
+set period 1
+
+# Vars that depend on environmental variables
+$lf -remote "send $id set previewer ${XDG_CONFIG_HOME:-$HOME/.config}/lf/scope"
+
+# cmds/functions
+cmd open ${{
+    case $(file --mime-type $f -b) in
+	image/vnd.djvu|application/pdf|application/octet-stream) setsid zathura $fx >/dev/null 2>&1 & ;;
+    	text/troff) man ./ $f;;
+        text/*) $EDITOR $fx;;
+	image/x-xcf|image/svg+xml) setsid gimp $f >/dev/null 2>&1 & ;;
+	image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\)\(_large\)*$" | setsid sxiv -aio 2>/dev/null | lf-select & ;;
+	audio/*) mpv $f ;;
+	video/*) setsid mpv $f -quiet >/dev/null 2>&1 & ;;
+	application/pdf) setsid zathura $fx >/dev/null 2>&1 & ;;
+        ,*) for f in $fx; do setsid $OPENER $f >/dev/null 2>&1 & done;;
+    esac
+}}
+
+cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+
+cmd delete ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "delete?[y/N]"
+	read ans
+	[ $ans = "y" ] && rm -rf $fx
+}}
+
+cmd moveto ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	clear; echo "Move to where?"
+	dest="$(cut -d'	' -f2- ${XDG_CONFIG_HOME:-$HOME/.config}/directories | fzf)" &&
+	eval mv -iv $fx $dest &&
+	notify-send "🚚 File(s) moved." "File(s) moved to $dest."
+}}
+
+cmd copyto ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	clear; echo "Copy to where?"
+	dest="$(cut -d'	' -f2- ${XDG_CONFIG_HOME:-$HOME/.config}/directories | fzf)" &&
+	eval cp -ivr $fx $dest &&
+	notify-send "📋 File(s) copied." "File(s) copies to $dest."
+}}
+
+cmd bulkrename ${{
+    vidir
+}}
+
+# Bindings
+map <c-f> $lf -remote "send $id select '$(fzf)'"
+map J $lf -remote "send $id cd $(cut -d'	' -f2 ${XDG_CONFIG_HOME:-$HOME/.config}/directories | fzf)"
+map D delete
+map C copyto
+map M moveto
+map S $$SHELL
+map <c-n> push :mkdir<space>
+map <c-r> reload
+map <enter> shell
+map x $$f
+map X !$f
+map o &mimeopen $f
+map O $mimeopen --ask $f
+
+map A rename # at the very end
+map c push A<c-u> # new rename
+map I push A<c-a> # at the very beginning
+map i push A<a-b><a-b><a-f> # before extention
+map a push A<a-b> # after extention
+map b bulkrename
+
+map <c-e> down
+map <c-y> up
+map V push :!nvim<space>
+
+map gc. cd ~/.config/
+map gcb $nvim ~/.config/bspwm/bspwmrc
+map gcs $nvim ~/.config/sxhkd/sxhkdrc
+map gcl $nvim ~/.config/lf/lfrc
+
+map gl. cd ~/.local
+map glz cd ~/.local/share/zup/
+
+map go. cd ~/Documents/org/
+map goc cd ~/Documents/org/chalmers
+
+map git cd /storage/git/
+
+map gs. cd /storage/
+map gsd  cd /storage/Downloads/
+map gst  cd /storage/Downloads/torrents
+#+end_src
+
 * Scripts
 ** dmenupass
 This script is the =SUDO_ASKPASS= environment variable, meaning that it will be used as a password prompt if needed.

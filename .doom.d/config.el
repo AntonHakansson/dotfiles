@@ -126,8 +126,7 @@
   ;;  )
   (setq org-default-notes-file "~/Documents/org/main.org")
   (org-babel-load-file "~/Documents/org/roam/nutrition.org")
-
-  ;; (add-to-list 'org-agenda-files "chalmers/programming_language_technology/main.org")
+  (org-babel-load-file "~/Documents/org/main.org")
 
   (use-package org-roam
     :ensure t

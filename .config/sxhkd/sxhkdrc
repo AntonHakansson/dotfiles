@@ -1,190 +1,121 @@
-# Basic binds
 super + shift + r
-	pkill -USR1 -x sxhkd; \
-  notify-send "reloaded sxhkd"
+    pkill -USR1 -x sxhkd; \
+    notify-send "reloaded sxhkd"
 
 super + Return
-	$TERMINAL
+    $TERMINAL
 super + d
-	dmenu_run
+    dmenu_run
 super + r
-	$TERMINAL -e $FILE
+    $TERMINAL -e $FILE
 super + e
-    emacsclient -c 
+    emacsclient -c
 super + shift + e
     emacs_anywhere
 super + w
-	$BROWSER
+    $BROWSER
 super + s
-	thunar
+    thunar
+super + b
+    toggle_polybar &
 
-# Et cetera...
-super + grave
-	dmenuunicode
-super + Scroll_Lock
-	killall screenkey || screenkey
-super + Insert
-	showclip
 super + shift + x
-	prompt "Shutdown computer?" "sudo -A shutdown -h now"
+    prompt "Shutdown computer?" "sudo -A shutdown -h now"
 super + shift + BackSpace
-	prompt "Reboot computer?" "sudo -A reboot"
+    prompt "Reboot computer?" "sudo -A reboot"
 super + shift + Escape
-	prompt 'Leave Xorg?' 'killall Xorg'
+    prompt 'Leave Xorg?' 'killall Xorg'
 super + x
-	ifinstalled slock && ( slock & xset dpms force off ; mpc pause ; pauseallmpv )
+    ifinstalled slock && ( slock & xset dpms force off ; mpc pause ; pauseallmpv )
 
-# Screenshot
 super + p
-	maimpick
+    maimpick
 
-XF86Launch1
-	xset dpms force off
-# Audiokeys
-XF86AudioMute
-  pactl set-sink-mute @DEFAULT_SINK@ toggle
-XF86Audio{Raise,Lower}Volume
-  pactl set-sink-volume @DEFAULT_SINK@ {+,-}5%
-XF86Audio{Next,Prev}
-  notify-send "XF86Audio[Next, Prev] event not handled"
-XF86Audio{Pause,Play,Stop}
-  notify-send "XF86Audio[Pause, Play, Stop] event not handled"
-XF86Audio{Rewind,Forward}
-  notify-send "XF86Audio[Rewind, Forward] event not handled"
+super + grave
+    dmenuunicode
 
-XF86PowerOff
-	prompt "Shutdown computer?" "sudo -A shutdown -h now"
-XF86Calculator
-	$TERMINAL -e bc
-XF86Sleep
-	prompt 'Hibernate computer?' 'sudo -A zzz'
-XF86WWW
-	$BROWSER
-XF86DOS
-	$TERMINAL
-XF86TaskPane
-	$TERMINAL -e htop
-XF86Mail
-	$TERMINAL -e neomutt
-XF86MyComputer
-	$TERMINAL -e $FILE /
-
-# Function keys
-super + shift + F1
-# Show readme
-super + F1
-	groff -mom ${XDG_DATA_HOME:-$HOME/.local/share}/larbs/readme.mom -Tpdf | zathura -
-# F2 restarts either dwm or i3 and is bound in each.
-# Change display
-super + F3
-	displayselect
-# Hibernate
-super + F4
-	prompt 'Hibernate computer?' 'sudo -A zzz -Z'
-super + F5 is unbound.
-# Start torrent daemon/open interface
-super + F6
-	torwrap
-# toggle torrent daemon
-super + F7
-	td-toggle
-# Mount a USB drive or Android device
-super + {F9,F10}
-	{dmenumount,dmenuumount}
-
-# close and kill
-super + {_,shift + }q
-	bspc node -{c,k}
-
-# alternate between the tiled and monocle layout
-super + {_,shift + }f
-	bspc {desktop -l next,node -t ~fullscreen}
-
-# rotate current node 90 degrees
-super + y
-	bspc node @focused:/ -R 90
-
-# swap the current node and the biggest local node
-super + space
-	bspc node -s biggest.local || bspc node -s next.local
-
-#
-# state/flags
-#
-
-# set the window state
-#super + {t,shift + t,s}
-#bspc node -t {tiled,pseudo_tiled,floating}
-
-super + shift + space
-	bspc node focused -t \~floating
-
-# focus/swap
-
-# focus the node in the given direction
+# focus the window in the given direction
 super + {_,shift + }{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
+    bspc node -{f,s} {west,south,north,east}
 
-super + {g,semicolon}
-	bspc desktop {prev,next}.occupied --focus
-super + {Prior,Next}
-	bspc desktop {prev,next}.occupied --focus
-super + {Tab,backslash}
-	bspc desktop last --focus
-
-# focus or swap the next node
-super + {_,shift + }c
-	bspc node -{f,s} next.local
-
-# focus the older or newer node in the focus history
-
-# focus or send to the given desktop
+# focus workspace or send window to the given desktop
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} ^{1-9,10}
+    bspc {desktop -f,node -d} ^{1-9,10}
 
-# preselect the direction
-#super + {u,o}
-#bspc node -p {south,east}
+# focus previous workspace
+super + {Tab,backslash}
+    bspc desktop last --focus
 
 # expand a window by moving one of its side outward
 super + alt + {h,j,k,l}
-	bspc node -z {left -40 0,bottom 0 40,top 0 -40,right 20 0}
+    bspc node -z {left -40 0,bottom 0 40,top 0 -40,right 20 0}
 
 # contract a window by moving one of its side inward
 super + alt + ctrl + {h,j,k,l}
-	bspc node -z {right -40 0,top 0 40,bottom 0 -40,left 40 0}
+    bspc node -z {right -40 0,top 0 40,bottom 0 -40,left 40 0}
 
-# cancel the preselection for the focused desktop
-#super + space
-#bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+# focus or swap the next window
+super + {_,shift + }c
+    bspc node -{f,s} next.local
 
-# contract a window by moving one of its side inward
+# toggle floating mode on focused window
+super + shift + space
+    bspc node focused -t \~floating
 
-# move a floating window
-super + {Left,Down,Up,Right}
-	bspc node -v {-20 0,0 20,0 -20,20 0}
+# close and kill
+super + {_,shift + }q
+    bspc node -{c,k}
+
+# alternate between the tiled and monocle layout
+super + {_,shift + }f
+    bspc {desktop -l next,node -t ~fullscreen}
 
 # Toggle gaps
 super + shift + d
-	bspc config window_gap {0,15} ; \
-  bspc config top_padding 24
+    bspc config window_gap {0,10} ; \
+    bspc config top_padding 18
 
 # Increase/descrease gap size
 super { ,+ shift } + z
-	bspc config window_gap $(($(bspc config window_gap) {+,-} 15)) ;\
-  bspc config top_padding 24
-
-super + u
-	cat /tmp/dropdown | xargs -I win bspc node win --flag hidden;bspc node -f win
+    bspc config window_gap $(($(bspc config window_gap) {+,-} 15)) ;\
+    bspc config top_padding 18
 
 super + o
-  prompt "Toggle monitors?" && toggle_secondary_monitor
+    prompt "Toggle monitors?" && toggle_secondary_monitor
 
-# remove and restore polybar
-super + b
-	toggle_polybar &
+# Audiokeys
+XF86AudioMute
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+XF86Audio{Raise,Lower}Volume
+    pactl set-sink-volume @DEFAULT_SINK@ {+,-}5%
+XF86Audio{Next,Prev}
+    notify-send "XF86Audio[Next, Prev] event not handled"
+XF86Audio{Pause,Play,Stop}
+    notify-send "XF86Audio[Pause, Play, Stop] event not handled"
+XF86Audio{Rewind,Forward}
+    notify-send "XF86Audio[Rewind, Forward] event not handled"
 
-super + shift + n
-	bspc node focused -t \~floating ; hover right
-super + shift + b
-	bspc node focused -t \~floating ; hover left
+XF86PowerOff
+    prompt "Shutdown computer?" "sudo -A shutdown -h now"
+XF86Calculator
+    $TERMINAL -e bc
+XF86Sleep
+    prompt 'Hibernate computer?' 'sudo -A zzz'
+XF86WWW
+    $BROWSER
+XF86DOS
+    $TERMINAL
+XF86TaskPane
+    $TERMINAL -e htop
+XF86Mail
+    $TERMINAL -e neomutt
+XF86MyComputer
+    $TERMINAL -e $FILE
+
+super + {Left, Down, Up, Right}
+    xdotool mousemove_relative -- { -40 0, 0 40, 0 -40, 40 0 }
+
+super + m
+    xdotool mousedown --clearmodifiers 1
+@super + m
+    xdotool mouseup --clearmodifiers 1
