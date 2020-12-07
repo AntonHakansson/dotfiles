@@ -74,6 +74,22 @@
 #+RESULTS: color
 : #282c34
 
+#+NAME: lighten
+#+begin_src elisp :var c="bg" lookup-colors=colors :noweb yes
+(doom-lighten <<color>> 0.1)
+#+end_src
+
+#+RESULTS: lighten
+: #3d4148
+
+#+NAME: darken
+#+begin_src elisp :var c="bg" lookup-colors=colors :noweb yes
+(doom-darken <<color>> 0.1)
+#+end_src
+
+#+RESULTS: darken
+: #24272e
+
 * Generate Wallpaper
 Run this to generate wallpaper based on our color-scheme
 
@@ -81,6 +97,8 @@ Run this to generate wallpaper based on our color-scheme
 magick -size 1920x1080 canvas:$color ~/.config/wall.png
 setbg
 #+end_src
+
+#+RESULTS:
 
 * Profile
 :PROPERTIES:
@@ -143,7 +161,8 @@ export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 export DICS="/usr/share/stardict/dic/"
 export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"
 export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"
-export QT_QPA_PLATFORMTHEME="gtk2"	# Have QT use gtk2 theme.
+# export QT_QPA_PLATFORMTHEME="gtk2"	# Have QT use gtk2 theme.
+export QT_QPA_PLATFORMTHEME="qt5ct"	# Have QT use custom theme
 export MOZ_USE_XINPUT2="1"		# Mozilla smooth scrolling/touchpads.
 export _JAVA_AWT_WM_NONREPARENTING=1    # fixes grey screen of intellij / java programs
 #+end_src
@@ -370,23 +389,23 @@ colors:
     cyan: '<<color(c="cyan")>>'
     white: '<<color(c="white")>>'
   bright:
-    black: '<<color(c="black")>>'
-    red: '<<color(c="red")>>'
-    green: '<<color(c="green")>>'
-    yellow: '<<color(c="yellow")>>'
-    blue: '<<color(c="blue")>>'
-    magenta: '<<color(c="magenta")>>'
-    cyan: '<<color(c="cyan")>>'
-    white: '<<color(c="white")>>'
+    black: '<<color(c="base3")>>'
+    red: '<<lighten(c="red")>>'
+    green: '<<lighten(c="green")>>'
+    yellow: '<<lighten(c="yellow")>>'
+    blue: '<<lighten(c="blue")>>'
+    magenta: '<<lighten(c="magenta")>>'
+    cyan: '<<lighten(c="cyan")>>'
+    white: '<<lighten(c="white")>>'
   dim:
-    black: '<<color(c="black")>>'
-    red: '<<color(c="red")>>'
-    green: '<<color(c="green")>>'
-    yellow: '<<color(c="yellow")>>'
-    blue: '<<color(c="blue")>>'
-    magenta: '<<color(c="magenta")>>'
-    cyan: '<<color(c="cyan")>>'
-    white: '<<color(c="white")>>'
+    black: '<<darken(c="black")>>'
+    red: '<<darken(c="red")>>'
+    green: '<<darken(c="green")>>'
+    yellow: '<<darken(c="yellow")>>'
+    blue: '<<darken(c="blue")>>'
+    magenta: '<<darken(c="magenta")>>'
+    cyan: '<<darken(c="cyan")>>'
+    white: '<<darken(c="white")>>'
 #+end_src
 
 * BSPWM
@@ -400,7 +419,7 @@ colors:
 10
 #+end_src
 
-#+begin_src sh :tangle ~/.config/bspwm/bspwmrc :noweb yes
+#+begin_src sh :tangle ~/.config/bspwm/bspwmrc :tangle-mode (identity #o755) :noweb yes
 #!/bin/sh
 
 # If refreshing bspwm, remove all previous rules to prevent doubling up.
@@ -433,45 +452,62 @@ bspc rule -a Thunar state=floating
 
 ** Reload Keybinding
 #+begin_src conf
+# Reloads sxhkd config
 super + shift + r
     pkill -USR1 -x sxhkd; \
     notify-send "reloaded sxhkd"
+
+# Brings up keybinding helper
+super + slash
+    sxhkd-help
 #+end_src
 ** Run programs
 #+begin_src conf
+# Open a terminal
 super + Return
     $TERMINAL
+# Run dmenu
 super + d
     dmenu_run
-super + r
-    $TERMINAL -e $FILE
+# Open emacs
 super + e
-    emacsclient -c
+    emacs
+# Open emacs anywhere (broken)
 super + shift + e
-    emacs_anywhere
+    bspwmfloat emacs_anywhere
+
+# Open up default browser
 super + w
     $BROWSER
+# Open up graphical file browser
 super + s
     thunar
+# Toggle polybar
 super + b
     toggle_polybar &
 #+end_src
 ** Power tools
 #+begin_src conf
+# Shutdown computer prompt
 super + shift + x
     prompt "Shutdown computer?" "sudo -A shutdown -h now"
+# Reboot computer prompt
 super + shift + BackSpace
     prompt "Reboot computer?" "sudo -A reboot"
+# Leave Xorg prompt
 super + shift + Escape
     prompt 'Leave Xorg?' 'killall Xorg'
+# Lock computer
 super + x
     ifinstalled slock && ( slock & xset dpms force off ; mpc pause ; pauseallmpv )
 #+end_src
 ** Utility (Screenshot, unicode selector etc.)
 #+begin_src conf
+# Screenshot
 super + p
     maimpick
 
+# Copy Unicode character
 super + grave
     dmenuunicode
 #+end_src
@@ -512,6 +548,18 @@ super + {_,shift + }q
 # alternate between the tiled and monocle layout
 super + {_,shift + }f
     bspc {desktop -l next,node -t ~fullscreen}
+
+# swap the current node and the biggest local node
+super + space
+    bspc node -s biggest.local || bspc node -s next.local
+
+# rotate current node 90 degrees
+super + y
+    bspc node @focused:/ -R 90
+
+# tabbing functionality
+super + t ; {h,j,k,l,d}
+    sxhkd-tabbed {west, south, north, east, detach}
 #+end_src
 *** Gaps
 #+begin_src conf
@@ -569,14 +617,17 @@ XF86MyComputer
 #+end_src
 
 #+begin_src conf
+# Move mouse
 super + {Left, Down, Up, Right}
     xdotool mousemove_relative -- { -<<mouse-speed()>> 0, 0 <<mouse-speed()>>, 0 -<<mouse-speed()>>, <<mouse-speed()>> 0 }
 
-super + m
-    xdotool mousedown --clearmodifiers 1
-@super + m
-    xdotool mouseup --clearmodifiers 1
+# Press mouse
+super + {_, shift} + m
+    xdotool mousedown --clearmodifiers {1, 3}
+@super+ {_, shift} + m
+    xdotool mouseup --clearmodifiers {1, 3}
 #+end_src
+
 * Polybar
 :PROPERTIES:
 :header-args: :tangle ~/.config/polybar/config :noweb yes
@@ -1984,17 +2035,130 @@ map gsd  cd /storage/Downloads/
 map gst  cd /storage/Downloads/torrents
 #+end_src
 
+* ncspot
+#+begin_src conf :tangle ~/.config/ncspot/config.toml
+[keybindings]
+"Ctrl+d" = "move down 5"
+"Ctrl+u" = "move up 5"
+"d" = "move down 5"
+"u" = "move up 5"
+"D" = "delete"
+"w" = "play"
+"L" = "open selected"
+"H" = "back"
+
+[theme]
+background = "black"
+primary = "light white"
+secondary = "light black"
+title = "green"
+playing = "green"
+playing_selected = "light green"
+playing_bg = "black"
+highlight = "light white"
+highlight_bg = "#484848"
+error = "light white"
+error_bg = "red"
+statusbar = "black"
+statusbar_progress = "green"
+statusbar_bg = "green"
+cmdline = "light white"
+cmdline_bg = "black"
+search_match = "light red"
+#+end_src
 * Scripts
 ** dmenupass
 This script is the =SUDO_ASKPASS= environment variable, meaning that it will be used as a password prompt if needed.
 
-#+begin_src sh :tangle ~/.local/bin/dmenupass :noweb yes
+#+begin_src sh :tangle ~/.local/bin/dmenupass :tangle-mode (identity #o755) :noweb yes
 #!/bin/sh
 
 dmenu -sb "<<color(c="warning")>>" -nf "<<color(c="bg")>>" -nb "<<color(c="bg")>>" -p "$1" <&- && echo
 #+end_src
 
 #+RESULTS:
+
+** Sxhkd Keybindings Helper
+#+begin_src sh :tangle ~/.local/bin/sxhkd-help :tangle-mode (identity #o755) :noweb yes
+#!/bin/bash
+
+awk '/^[a-z]/ && last {print "",$0,"\t",last,""} {last=""} /^#/{last=$0}' ~/.config/sxhkd/sxhkdrc |
+    column -t -s $'\t' |
+    dmenu -l 50 -i -p "Keybindings:"
+#+end_src
+
+#+RESULTS:
+
+** Sxhkd tabbed
+#+begin_src sh :tangle ~/.local/bin/sxhkd-tabbed :tangle-mode (identity #o755) :noweb yes
+#!/bin/sh
+## alltab-bspwm.sh brings tabbing functionality to bspwm.
+## It relies on tabbed, xdotool, and xwininfo.
+
+currentWID=$(bspc query -N -n focused)
+case $1 in
+    east|north|south|west)  targetWID=$(bspc query -N -n $1) || exit 1
+                            if bspc query -T -n focused | grep -q tabbed ; then
+                                if bspc query -T -n $1 | grep -q tabbed ; then
+                                    if [ $(xwininfo -id $currentWID -children | wc -l) -eq 9 ] ; then
+                                        xdotool windowreparent $(xwininfo -id $currentWID -children | awk 'NR==8 {print $1}') $(xwininfo -root | awk '/Window id:/ {print $4}')
+                                    fi
+                                    xdotool windowreparent $(xwininfo -id $currentWID -children | awk 'NR==7 {print $1}') $targetWID
+                                else
+                                    bspc config -n $targetWID border_width 0
+                                    xdotool windowreparent $targetWID $currentWID
+                                fi
+                            elif bspc query -T -n $1 | grep -q tabbed ; then
+                                bspc config -n $currentWID border_width 0
+                                xdotool windowreparent $currentWID $targetWID
+                            else
+                                tabbedWID=$(tabbed -c -d | tail -n 1)
+                                bspc config -n $currentWID border_width 0
+                                bspc config -n $targetWID border_width 0
+                                xdotool windowreparent $currentWID $tabbedWID
+                                xdotool windowreparent $targetWID $tabbedWID
+                            fi ;;
+    detach)    if bspc query -T -n focused | grep -q tabbed ; then
+                   rootWID=$(xwininfo -root | awk '/Window id:/ {print $4}')
+                   if [ $(xwininfo -id $currentWID -children | wc -l) -eq 9 ] ; then
+                       xdotool windowreparent $(xwininfo -id $currentWID -children | awk 'NR==8 {print $1}') $rootWID
+                   fi
+                   xdotool windowreparent $(xwininfo -id $currentWID -children | awk 'NR==7 {print $1}') $rootWID
+               fi ;;
+    *)    echo "Usage: ./alltab-bspwm.sh [east|north|south|west|detach]"
+          echo "You probably want to add something like this to your sxhkdrc file:"
+          echo "# Tabbing functionality for bspwm"
+          echo "super + t; {h,j,k,l,d}"
+          echo "    /path/to/alltab-bspwm.sh {west,south,north,east,detach}" ;;
+esac
+#+end_src
+** Swallow
+#+begin_src sh :tangle ~/.local/bin/swallow :tangle-mode (identity #o755) :noweb yes
+#!/bin/sh
+
+$("$@") > /dev/null 2>&1 &
+sleep 0.5
+bspc node -s last.local
+bspc node -f last.local
+id=$(xdo id)
+xdo hide
+wait
+xdo show "$id"
+#+end_src
+
+** Open window in floating
+Open a command in float mode.
+
+#+begin_src sh :tangle ~/.local/bin/bspwmfloat :tangle-mode (identity #o755) :noweb yes
+#!/bin/bash
+bspc rule -a \* -o state=floating && $@
+#+end_src
+
+*** Example Usage
+#+begin_src sh
+bspwmfloat alacritty -e ncspot
+#+end_src
+
 
 * dmenu
 #+begin_src c :tangle ~/.local/src/dmenu/config.h :noweb yes

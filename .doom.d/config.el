@@ -58,12 +58,22 @@
 (map! "<mouse-8>" #'previous-buffer)
 (map! "<mouse-9>" #'next-buffer)
 
+
+(defun dired-xdg-open ()
+  (interactive)
+  (let* ((file (dired-get-filename nil t)))
+    (call-process "xdg-open" nil 0 nil file))
+  )
+
 (use-package! dired
-  :ensure nil
   :config
   (evil-collection-define-key 'normal 'dired-mode-map
     "h" 'dired-single-up-directory
-    "l" 'dired-single-find-file))
+    "l" 'dired-single-find-file
+    ; "S" (cmd! ((start-process-shell-command "$TERMINAL" nil nil)))
+    )
+  (define-key dired-mode-map (kbd "C-c C-o") 'dired-xdg-open)
+  )
 
 ;; kill dired buffers when traversing
 (use-package! dired-single)
@@ -73,6 +83,7 @@
 ;; autocorrect the previous word without leaving insert mode
 (map! :i "C-i" #'flyspell-auto-correct-word)
 
+(setq ispell-personal-dictionary nil)
 
 ;;
 ;; Zig config
@@ -102,6 +113,11 @@
      )
    )
 
+  (setq org-latex-pdf-process
+  '("%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+    "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+    "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
   (add-to-list 'org-file-apps '("\\.gp5\\'" . "tuxguitar %s") t)
   (add-to-list 'org-file-apps '("\\.png\\'" . "sxiv %s") t)
   (add-to-list 'org-file-apps '("\\.svg\\'" . "inkscape %s") t)
@@ -111,7 +127,6 @@
     :hook (org-load . org-pdftools-setup-link))
 
   (use-package! org-download
-    :ensure t
     :custom
     (org-download-image-dir "./images/")
     )
@@ -129,7 +144,6 @@
   (org-babel-load-file "~/Documents/org/main.org")
 
   (use-package org-roam
-    :ensure t
     :hook
     (after-init . org-roam-mode)
     :custom
@@ -170,9 +184,25 @@
              (read-string (format "Filename [%s]: " org-download-screenshot-basename)
                           nil nil org-download-screenshot-basename)
            nil)))
-    (org-download-clipboard file)))
+    (org-download-clipboard file))
+  )
 
 (map! :map org-mode-map
-        "C-c l a y" #'my/org-download-paste-clipboard
-        "C-M-y" #'my/org-download-paste-clipboard)
+      "C-c d p" #'my/org-download-paste-clipboard
+      "C-c d d" #'org-download-delete)
 
+(defun my/inkscape-create (&optional use-default-filename)
+  (interactive "P")
+  (require 'org-download)
+  (let*((basename (if (not use-default-filename) (read-string (format "Filename [%s]: " "figure.svg") nil nil "figure.svg") nil))
+        (dir (org-download--dir))
+        (filepath (concat dir "/" (org-download-file-format-default basename))))
+      (make-directory dir t)
+      (when (not (file-exists-p filepath)) (start-process-shell-command "Inkscape" nil (format "inkscape -o %s" filepath))) ; create empty svg file
+      (start-process-shell-command "Inkscape" nil (format "inkscape %s" filepath)) ; open svg file
+      (org-download-insert-link basename filepath)
+    )
+  )
+
+(map! :map org-mode-map
+        "C-c d i" #'my/inkscape-create)

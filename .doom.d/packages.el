@@ -18,6 +18,8 @@
 
 (package! zig-mode)
 
+(package! haskell-mode)
+
 (package! auctex)
 (package! cdlatex)
 (package! org-roam)

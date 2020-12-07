@@ -37,7 +37,8 @@ export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 export DICS="/usr/share/stardict/dic/"
 export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"
 export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"
-export QT_QPA_PLATFORMTHEME="gtk2"	# Have QT use gtk2 theme.
+# export QT_QPA_PLATFORMTHEME="gtk2"	# Have QT use gtk2 theme.
+export QT_QPA_PLATFORMTHEME="qt5ct"	# Have QT use custom theme
 export MOZ_USE_XINPUT2="1"		# Mozilla smooth scrolling/touchpads.
 export _JAVA_AWT_WM_NONREPARENTING=1    # fixes grey screen of intellij / java programs
 
