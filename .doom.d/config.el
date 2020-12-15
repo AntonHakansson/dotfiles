@@ -59,26 +59,54 @@
 (map! "<mouse-9>" #'next-buffer)
 
 
+;;
+;; Dired
+;;
 (defun dired-xdg-open ()
   (interactive)
   (let* ((file (dired-get-filename nil t)))
     (call-process "xdg-open" nil 0 nil file))
   )
 
-(use-package! dired
-  :config
-  (evil-collection-define-key 'normal 'dired-mode-map
-    "h" 'dired-single-up-directory
-    "l" 'dired-single-find-file
-    ; "S" (cmd! ((start-process-shell-command "$TERMINAL" nil nil)))
-    )
-  (define-key dired-mode-map (kbd "C-c C-o") 'dired-xdg-open)
-  )
+(defun my-dired-init ()
+  "Bunch of stuff to run for dired, either immediately or when it's
+   loaded."
+  ;; <add other stuff here>
+  (define-key dired-mode-map [remap dired-find-file]
+    'dired-single-buffer)
+  (define-key dired-mode-map [remap dired-mouse-find-file-other-window]
+    'dired-single-buffer-mouse)
+  (define-key dired-mode-map [remap dired-up-directory]
+    'dired-single-up-directory))
 
-;; kill dired buffers when traversing
-(use-package! dired-single)
+(require 'dired-single)
+
+;; if dired's already loaded, then the keymap will be bound
+(if (boundp 'dired-mode-map)
+    ;; we're good to go; just add our bindings
+    (my-dired-init)
+  ;; it's not loaded yet, so add our bindings to the load-hook
+  (add-hook 'dired-load-hook 'my-dired-init))
+
 (use-package! all-the-icons-dired
   :hook (dired-mode . all-the-icons-dired-mode))
+
+(evil-define-key 'normal dired-mode-map
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-find-file
+  (kbd "C-c C-o") 'dired-xdg-open
+)
+
+(map! :leader
+      :desc "Dired"
+      "d d" #'dired
+      :desc "Dired jump to current"
+      "d j" #'dired-jump)
+
+
+;;
+;;
+;;
 
 ;; autocorrect the previous word without leaving insert mode
 (map! :i "C-i" #'flyspell-auto-correct-word)
@@ -88,7 +116,10 @@
 ;;
 ;; Zig config
 ;;
-(use-package! zig-mode)
+(use-package! zig-mode
+  :custom
+  (zig-format-on-save nil)
+  )
 (require 'lsp)
 (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
 (lsp-register-client
@@ -100,7 +131,7 @@
 
 ;; org-mode
 (add-hook 'org-mode-hook 'org-fragtog-mode)
-(with-eval-after-load 'org
+(after! 'org
   (setq org-confirm-babel-evaluate nil)
   (org-babel-do-load-languages
    'org-babel-load-languages

@@ -2159,7 +2159,6 @@ bspc rule -a \* -o state=floating && $@
 bspwmfloat alacritty -e ncspot
 #+end_src
 
-
 * dmenu
 #+begin_src c :tangle ~/.local/src/dmenu/config.h :noweb yes
 static int topbar = 1;                      /* -b  option; if 0, dmenu appears at bottom     */
