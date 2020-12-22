@@ -9,7 +9,7 @@ if xrandr --listactivemonitors | grep HDMI-0 >/dev/null; then
 	bspc monitor HDMI-0 -d 9 10
 	bspc desktop -f 1
 else
-	bspc monitor DVI-I-1 -d 1 2 3 4 5 6 7 8 9 10
+	bspc monitor -d 1 2 3 4 5 6 7 8 9 10
 	bspc desktop -f 1
 fi
 
