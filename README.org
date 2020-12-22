@@ -422,6 +422,8 @@ colors:
 #+begin_src sh :tangle ~/.config/bspwm/bspwmrc :tangle-mode (identity #o755) :noweb yes
 #!/bin/sh
 
+pgrep -x sxhkd > /dev/null || sxhkd &
+
 # If refreshing bspwm, remove all previous rules to prevent doubling up.
 bspc rule -r "*"
 
@@ -431,7 +433,7 @@ if xrandr --listactivemonitors | grep HDMI-0 >/dev/null; then
 	bspc monitor HDMI-0 -d 9 10
 	bspc desktop -f 1
 else
-	bspc monitor DVI-I-1 -d 1 2 3 4 5 6 7 8 9 10
+	bspc monitor -d 1 2 3 4 5 6 7 8 9 10
 	bspc desktop -f 1
 fi
 
@@ -1539,10 +1541,10 @@ format-online-background = ${colors.background}
 [module/networkspeedup]
 ;https://github.com/jaagr/polybar/wiki/Module:-network
 type = internal/network
-;interface = wlp3s0
+interface = wlp3s0
 ;interface = enp14s0
 ;interface = enp0s31f6
-interface = enp3s0
+;interface = enp3s0
 label-connected = "%upspeed:7%"
 format-connected = <label-connected>
 format-connected-prefix = " "
@@ -1555,10 +1557,10 @@ format-connected-background = ${colors.alternate1}
 [module/networkspeeddown]
 ;https://github.com/jaagr/polybar/wiki/Module:-network
 type = internal/network
-;interface = wlp3s0
+interface = wlp3s0
 ;interface = enp14s0
 ;interface = enp0s31f6
-interface = enp3s0
+;interface = enp3s0
 label-connected = "%downspeed:7%"
 format-connected = <label-connected>
 format-connected-prefix = "  "
