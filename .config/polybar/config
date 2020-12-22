@@ -371,7 +371,7 @@ type = custom/text
 content = "%{T2} %{T-}"
 content-font = 2
 content-foreground = ${colors.alternate1}
-content-background = ${colors.background
+content-background = ${colors.background}
 
 [module/arrow2]
 ; grey to Blue

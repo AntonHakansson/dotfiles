@@ -131,8 +131,13 @@
 
 ;; org-mode
 (add-hook 'org-mode-hook 'org-fragtog-mode)
-(after! 'org
-  (setq org-confirm-babel-evaluate nil)
+(after! org
+  (setq org-startup-folded 'fold
+        org-hide-emphasis-markers t
+        org-latex-pdf-process '("%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+                                "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
+                                "%latex -shell-escape -interaction nonstopmode -output-directory %o %f")
+        org-confirm-babel-evaluate nil)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
@@ -143,11 +148,6 @@
      (haskell . t)
      )
    )
-
-  (setq org-latex-pdf-process
-  '("%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
-    "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"
-    "%latex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
   (add-to-list 'org-file-apps '("\\.gp5\\'" . "tuxguitar %s") t)
   (add-to-list 'org-file-apps '("\\.png\\'" . "sxiv %s") t)
@@ -163,16 +163,9 @@
     )
 
 
-  ;; Org Xournal
-  ;; (load (file-truename (concat dotspacemacs-directory "org-xournal")))
-
-  ;;(spacemacs/set-leader-keys-for-major-mode 'org-mode
-  ;;  "M-o" 'org-xournal-edit-xournal
-  ;;  "M-e" 'org-xournal-img-from-xopp
-  ;;  )
-  (setq org-default-notes-file "~/Documents/org/main.org")
-  (org-babel-load-file "~/Documents/org/roam/nutrition.org")
-  (org-babel-load-file "~/Documents/org/main.org")
+  ;; (setq org-default-notes-file "~/Documents/org/main.org")
+  ;; (org-babel-load-file "~/Documents/org/roam/nutrition.org")
+  ;; (org-babel-load-file "~/Documents/org/main.org")
 
   (use-package org-roam
     :hook
