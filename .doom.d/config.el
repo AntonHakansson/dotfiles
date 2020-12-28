@@ -129,7 +129,9 @@
     :server-id 'zls))
 (add-hook 'zig-mode-hook 'lsp)
 
+;;
 ;; org-mode
+;;
 (add-hook 'org-mode-hook 'org-fragtog-mode)
 (after! org
   (setq org-startup-folded 'fold
@@ -162,6 +164,14 @@
     (org-download-image-dir "./images/")
     )
 
+  ;; Import ignore-headlines to allow a headline (but not its children) to
+  ;; be ignored. Any headline tagged with the 'ignore' tag will be
+  ;; ignored (i.e. will not be included in the export), but any child
+  ;; headlines will not be ignored (unless explicitly tagged to be
+  ;; ignored), and will instead have their levels promoted by one.
+  (use-package! ox-extra
+    :config
+    (ox-extras-activate '(latex-header-blocks ignore-headlines)))
 
   ;; (setq org-default-notes-file "~/Documents/org/main.org")
   ;; (org-babel-load-file "~/Documents/org/roam/nutrition.org")
