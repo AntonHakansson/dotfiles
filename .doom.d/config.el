@@ -58,6 +58,11 @@
 (map! "<mouse-8>" #'previous-buffer)
 (map! "<mouse-9>" #'next-buffer)
 
+;; Spaces over tabs
+;; (setq c-basic-indent 4)
+;; (setq c-default-style "linux")
+(setq tab-width 4)
+(setq-default indent-tabs-mode nil)
 
 ;;
 ;; Dired
@@ -172,7 +177,26 @@
   (use-package! ox-extra
     :config
     (ox-extras-activate '(latex-header-blocks ignore-headlines)))
+    (add-to-list 'org-latex-classes
+                    '("ieee"
 
+                    "\\documentclass[conference]{IEEEtran}
+%\\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\\usepackage{amsmath,amssymb,amsfonts}
+\\usepackage{algorithmic}
+\\usepackage{graphicx}
+\\usepackage{textcomp}
+\\usepackage{xcolor}
+\\def\\BibTeX{{\\rm B\\kern-.05em{\sc i\\kern-.025em b}\\kern-.08em
+T\\kern-.1667em\\lower.7ex\\hbox{E}\\kern-.125emX}}"
+
+
+                    ("\\section{%s}" . "\\section*{%s}")
+                    ("\\subsection{%s}" . "\\subsection*{%s}")
+                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
   ;; (setq org-default-notes-file "~/Documents/org/main.org")
   ;; (org-babel-load-file "~/Documents/org/roam/nutrition.org")
   ;; (org-babel-load-file "~/Documents/org/main.org")
@@ -190,6 +214,7 @@
             (("C-c n i" . org-roam-insert))
             (("C-c n I" . org-roam-insert-immediate))
            )
+
     ;; :init
     ;; (progn
     ;;   (spacemacs/declare-prefix "ar" "org-roam")
