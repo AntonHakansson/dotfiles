@@ -10,22 +10,32 @@
 ;(package! some-package)
 
 (package! string-inflection)
-(package! json-mode)
-(package! yaml-mode)
 
 (package! dired-single)
-(package! all-the-icons-dired)
 
 (package! zig-mode)
 
 (package! haskell-mode)
 
-(package! auctex)
-(package! cdlatex)
 (package! org-roam)
 (package! org-fragtog)
-(package! org-pdftools)
+(package! org-latex-impatient)
+(package! org-special-block-extras)
+(package! org-pretty-tags)
+;; (package! org-pdftools)
 (package! org-download)
+(package! org-web-tools)
+;; Edit org-mode documents in a magit-like behaviour
+;; (package! org-menu :recipe (:host github :repo "sheijk/org-menu" :files ("org-menu.el")))
+
+(package! bnfc)
+
+;; The very large files mode loads large files in chunks, allowing one to open ridiculously large files.
+;; (package! vlf :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))
+;;   :pin "cc02f2533782d6b9b628cec7e2dcf25b2d05a27c" :disable t)
+;; To make VLF available without delaying startup, we’ll just load it in quiet moments.
+;; (use-package! vlf-setup
+;;   :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
