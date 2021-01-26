@@ -184,11 +184,15 @@
           ("https://www.reddit.com/r/DoomEmacs/.rss" emacs doom)
           ("https://www.reddit.com/r/orgmode/.rss" emacs orgmode)
 
+          ("https://lukesmith.xyz/rss.xml" linux luke)
+          ("https://notrelated.xyz/rss" linux luke podcast)
+          ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA" linux luke yt)
+
           ("https://rss.app/feeds/d1bG4OcegRj2fuZh.xml" casey handmade)
           ("https://rss.app/feeds/uVMj7YQeBCa2fLsz.xml" blow handmade))
 
 
-        elfeed-search-filter "@4-months-ago +unread"))
+        elfeed-search-filter "@4-months-ago +unread -nutrition"))
 
 
   ;; Load elfeed-org
