@@ -4,6 +4,13 @@
 ;; sync' after modifying this file!
 
 
+(define-advice define-obsolete-function-alias (:filter-args (ll) fix-obsolete)
+  (let ((obsolete-name (pop ll))
+        (current-name (pop ll))
+        (when (if ll (pop ll) "1"))
+        (docstring (if ll (pop ll) nil)))
+    (list obsolete-name current-name when docstring)))
+
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Anton Hakansson"
@@ -70,7 +77,8 @@
 
 (setq yas-triggers-in-field t)
 
-(setq doom-variable-pitch-font (font-spec :family "Overpass" :size 24))
+(setq doom-variable-pitch-font (font-spec :family "ubuntu"))
+;;(setq doom-variable-pitch-font (font-spec :family "Overpass" :size 13))
 (custom-set-faces!
   '(outline-1 :weight extra-bold :height 1.25)
   '(outline-2 :weight bold :height 1.15)
@@ -83,22 +91,41 @@
 
 (use-package! helpful)
 
-
 ;; company
+(use-package! company-tabnine
+  :when (featurep! :completion company)
+  :config
+  )
+
 (after! company
-  (setq company-idle-delay 0.0
-        company-minimum-prefix-length 2)
-  (setq company-show-numbers t)
-  (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
+  (setq company-idle-delay 0.15
+        company-minimum-prefix-length 2
+        company-show-numbers t
+        )
+  ;; (add-hook 'evil-normal-state-entry-hook #'company-abort) ;; make aborting less annoying.
+  )
+
+;; First try to indent the current line, and if the line
+;; was already indented, then try `completion-at-point'
+(setq tab-always-indent 'complete)
 
 (set-company-backend!
-  '(text-mode
-    markdown-mode
-    gfm-mode)
-  '(:seperate
-    company-ispell
+  '(org-mode)
+  '(
+    company-math-symbols-unicode
     company-files
-    company-yasnippet))
+    company-yasnippet
+    ))
+
+;; TO DOWNLOAD THE DICTIONARY:
+;; cd /tmp
+;; curl -o "aspell6-en-custom.tar.bz2" 'http://app.aspell.net/create?max_size=80&spelling=GBs&spelling=AU&max_variant=0&diacritic=keep&special=hacker&special=roman-numerals&encoding=utf-8&format=inline&download=aspell'
+;; tar -xjf "aspell6-en-custom.tar.bz2"
+;;
+;; cd aspell6-en-custom
+;; ./configure && make && sudo make install
+(setq ispell-dictionary "en-custom")
+
 ;;
 ;; Dired
 ;;
@@ -147,8 +174,9 @@
 
 ;; autocorrect the previous word without leaving insert mode
 (map! :i "C-i" #'flyspell-auto-correct-word)
-
-(setq ispell-personal-dictionary nil)
+(after! flyspell
+  (setq ispell-local-dictionary "english")
+  )
 
 ;;
 ;; Zig config
@@ -168,31 +196,88 @@
 
 (after! elfeed
   (setq elfeed-feeds
-        '(("http://rss.slashdot.org/Slashdot/slashdot" news slashdot)
-          ("https://www.reddit.com/r/news/.rss" news reddit)
-          ("https://www.technologyreview.com/feed/" news MIT)
+        '(("http://rss.slashdot.org/Slashdot/slashdot" news tech slashdot)
+          ("https://www.technologyreview.com/feed/" news tech MIT)
+          ("https://reddit.0qz.fun/r/news.json" news reddit)
+          ("https://www.svt.se/nyheter/rss.xml" news swe svt)
+          ("https://api.sr.se/api/rss/channel/104?format=1" news swe radio)
 
+          ("https://usesthis.com/feed.atom" tech)
           ("https://xkcd.com/rss.xml" comic)
 
-          ("https://www.reddit.com/r/GregDoucette.rss" nutrition greg)
-          ("https://www.reddit.com/r/vegan/.rss" nutrition vegan)
-          ("https://www.reddit.com/r/AntiVegan/.rss" nutrition anti-vegan)
-          ("https://www.reddit.com/r/Volumeeating/.rss" nutrition volume)
+          ("https://moreplatesmoredates.com/feed/" health derek)
+
+          ("https://reddit.0qz.fun/r/GregDoucette.json" nutrition greg)
+          ("https://reddit.0qz.fun/r/vegan.json" nutrition vegan)
+          ("https://reddit.0qz.fun/r/AntiVegan.json" nutrition anti-vegan)
+          ("https://reddit.0qz.fun/r/Volumeeating.json" nutrition volume)
 
           ("https://planet.emacslife.com/atom.xml" emacs community)
-          ("https://www.reddit.com/r/emacs/.rss" emacs reddit)
-          ("https://www.reddit.com/r/DoomEmacs/.rss" emacs doom)
-          ("https://www.reddit.com/r/orgmode/.rss" emacs orgmode)
+          ("https://reddit.0qz.fun/r/emacs.json" emacs reddit)
+          ("https://sachachua.com/blog/category/emacs/feed/" emacs blog)
+          ("https://reddit.0qz.fun/r/DoomEmacs.json" emacs doom)
+          ("https://reddit.0qz.fun/r/orgmode.json" emacs orgmode)
+          ("https://helpdeskheadesk.net/index.xml" emacs blog linux)
+          ("https://blog.ashfaqfarooqui.me/index.xml" emacs orgmode blog chalmers-guy)
 
-          ("https://lukesmith.xyz/rss.xml" linux luke)
-          ("https://notrelated.xyz/rss" linux luke podcast)
-          ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA" linux luke yt)
+          ("https://castel.dev/rss.xml" linux blog) ; lecture note setup
 
-          ("https://rss.app/feeds/d1bG4OcegRj2fuZh.xml" casey handmade)
-          ("https://rss.app/feeds/uVMj7YQeBCa2fLsz.xml" blow handmade))
+          ("https://lukesmith.xyz/rss.xml" linux lukesmith)
+          ("https://notrelated.xyz/rss" linux lukesmith podcast)
+          ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA" linux lukesmith yt)
 
+          ("https://handmade.network/podcast/podcast.xml" dev handmade podcast)
+          ("https://rssbridge.pofilo.fr/?action=display&bridge=Twitter&context=By+username&u=cmuratori&format=Atom" dev game handmade casey)
+          ("https://rssbridge.pofilo.fr/?action=display&bridge=Twitter&context=By+username&u=Jonathan_Blow&format=Atom" dev game handmade jonathan blow)
+          ("https://ourmachinery.com/index.xml" dev game)
+          ("https://kill-the-newsletter.com/feeds/j0mm7ibixsb7o20q.xml" dev nullprogram)
+
+          ("https://kill-the-newsletter.com/feeds/j0mm7ibixsb7o20q.xml" dev 4coder)
+
+          ("https://andrewkelley.me/rss.xml" dev zig andrew)
+          ("https://kill-the-newsletter.com/feeds/v71vn4ghp8q4cy4j.xml" dev zig showtime)
+
+          ("https://hackaday.com/blog/feed/" hackaday)
+          ;; ("https://rssbridge.hakanssn.com/?action=display&bridge=GithubTrending&context=By+language&language=&date_range=today&format=Atom" github trending tech)
+          )
 
         elfeed-search-filter "@4-months-ago +unread -nutrition"))
+
+(map! :map elfeed-search-mode-map
+      :after elfeed-search
+      [remap kill-this-buffer] "q"
+      [remap kill-buffer] "q"
+      :n doom-leader-key nil
+      :n "q" #'+rss/quit
+      :n "e" #'elfeed-update
+      :n "r" #'elfeed-search-untag-all-unread
+      :n "u" #'elfeed-search-tag-all-unread
+      :n "s" #'elfeed-search-live-filter
+      :n "RET" #'elfeed-search-show-entry
+      :n "p" #'elfeed-show-pdf
+      :n "+" #'elfeed-search-tag-all
+      :n "-" #'elfeed-search-untag-all
+      :n "S" #'elfeed-search-set-filter
+      :n "b" #'elfeed-search-browse-url
+      :n "y" #'elfeed-search-yank)
+(map! :map elfeed-show-mode-map
+      :after elfeed-show
+      [remap kill-this-buffer] "q"
+      [remap kill-buffer] "q"
+      :n doom-leader-key nil
+      :nm "q" #'+rss/delete-pane
+      :nm "o" #'ace-link-elfeed
+      :nm "RET" #'org-ref-elfeed-add
+      :nm "n" #'elfeed-show-next
+      :nm "N" #'elfeed-show-prev
+      :nm "p" #'elfeed-show-pdf
+      :nm "+" #'elfeed-show-tag
+      :nm "-" #'elfeed-show-untag
+      :nm "s" #'elfeed-show-new-live-search
+      :nm "y" #'elfeed-show-yank)
+
+(add-hook! 'elfeed-show-mode-hook 'mixed-pitch-mode 'writeroom-mode)
+(add-hook! 'elfeed-search-mode-hook 'writeroom-mode)
 
 
   ;; Load elfeed-org
@@ -210,8 +295,11 @@
 ;;
 ;; org-mode
 ;;
-; (add-hook! 'org-mode-hook #'mixed-pitch-mode)
+
+(add-hook! 'org-mode-hook #'writeroom-mode)
 (add-hook! 'org-mode-hook #'+org-pretty-mode)
+(map! :map org-mode-map
+      :n "SPC m l a" #'counsel-org-link)
 (after! org
   (map!
    :after evil-org
@@ -234,23 +322,6 @@
         org-catch-invisible-edits 'smart ; try not to accidently do weird stuff in invisible regions
         org-todo-keywords (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
                                   (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
-        ;; org-todo-keyword-faces
-        ;;                 (quote (("TODO" :foreground "red" :weight bold)
-        ;;                         ("NEXT" :foreground "blue" :weight bold)
-        ;;                         ("DONE" :foreground "forest green" :weight bold)
-        ;;                         ("WAITING" :foreground "orange" :weight bold)
-        ;;                         ("HOLD" :foreground "magenta" :weight bold)
-        ;;                         ("CANCELLED" :foreground "forest green" :weight bold)
-        ;;                         ("MEETING" :foreground "forest green" :weight bold)
-        ;;                         ("PHONE" :foreground "forest green" :weight bold)))
-        ;; org-todo-state-tags-triggers
-        ;;                 (quote (("CANCELLED" ("CANCELLED" . t))
-        ;;                         ("WAITING" ("WAITING" . t))
-        ;;                         ("HOLD" ("WAITING") ("HOLD" . t))
-        ;;                         (done ("WAITING") ("HOLD"))
-        ;;                         ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-        ;;                         ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-        ;;                         ("DONE" ("WAITING") ("CANCELLED") ("HOLD"))))
         org-confirm-babel-evaluate nil)
   (org-babel-do-load-languages 'org-babel-load-languages
                                '((emacs-lisp . t)
@@ -273,21 +344,22 @@
   (add-to-list 'org-file-apps '("\\.gp5\\'" . "tuxguitar %s") t)
   (add-to-list 'org-file-apps '("\\.png\\'" . "sxiv %s") t)
   (add-to-list 'org-file-apps '("\\.svg\\'" . "write_stylus %s") t)
+  (add-to-list 'org-file-apps '("\\.pdf\\'" . "zathura %s") t)
 
   (add-hook 'org-mode-hook 'org-fragtog-mode)
+  (add-hook 'org-mode-hook 'org-latex-preview)
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
-  (add-hook 'org-mode-hook 'turn-on-flyspell)
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
-
   ;; (use-package! org-pdftools
   ;;   :hook (org-load . org-pdftools-setup-link))
 
   (use-package! org-download
     :custom
     (org-download-image-dir "images/")
-    (org-download-link-format (format "[[file:%s%%s]]" org-download-image-dir))
+    (org-download-link-format (format "[[file:%s%%s]]\n" org-download-image-dir))
     (org-download-method 'directory)
     (org-download-image-org-width 400)
+    (org-download-heading-lvl nil)
     )
 
   (use-package! org-fragtog
@@ -371,24 +443,6 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
         '("latexmk -%latex -shell-escape -interaction=nonstopmode -f -pdf -output-directory=%o %f"))
   )
 
-;; :init
-;; (progn
-;;   (spacemacs/declare-prefix "ar" "org-roam")
-;;   (spacemacs/set-leader-keys
-;;     "arl" 'org-roam
-;;     "art" 'org-roam-dailies-today
-;;     "arf" 'org-roam-find-file
-;;     "arg" 'org-roam-graph)
-
-;;   (spacemacs/declare-prefix-for-mode 'org-mode "mr" "org-roam")
-;;   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-;;     "rl" 'org-roam
-;;     "rt" 'org-roam-dailies-today
-;;     "rb" 'org-roam-switch-to-buffer
-;;     "rf" 'org-roam-find-file
-;;     "ri" 'org-roam-insert
-;;     "rg" 'org-roam-graph))
-
 (use-package! org-special-block-extras
   :hook (org-mode . org-special-block-extras-mode)
   ;; :custom
@@ -399,15 +453,8 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
   ;; ‘org-special-block-extras--defblock’
     (org-special-block-extras-short-names))
 
-(use-package! org-latex-impatient
-  :defer t
-  :hook (org-mode . org-latex-impatient-mode)
-  :init
-  (setq
-   org-latex-impatient-tex2svg-bin "~/node_modules/mathjax-node-cli/bin/tex2svg"
-   org-latex-impatient-delay 0
-   org-latex-impatient-scale 2.0
-   ))
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode))
 
 (defun my/org-download-paste-clipboard (&optional use-default-filename)
   (interactive "P")
@@ -480,9 +527,9 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
      ;; no idea why \Phi isnt on 'F' in first place, \phi is on 'f'.
      (?F    ("\\Phi"))
      ;; now just conveniance
-     (?v    ("\\lor" "\\vdash"))
-     (?V    ("" "\\vDash"))
-     (?.    ("\\cdot" "\\dots"))
+     (?v    ("\\lor"   "\\vdash"))
+     (?V    (""        "\\vDash"))
+     (?.    ("\\cdot"  "\\dots"))
      (?:    ("\\vdots" "\\ddots"))
      (?*    ("\\times" "\\star" "\\ast")))
    cdlatex-math-modify-alist

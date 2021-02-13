@@ -4,7 +4,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values
-   '((eval org-sbe "local-abbrev")
+   '((eval org-sbe "local-code-block-color")
+     (eval visual-line-mode t)
+     (eval setq org-highlight-latex-and-related
+           '(latex))
+     (eval org-sbe "local-table-helpers")
+     (eval org-sbe "local-abbrev")
      (eval org-sbe "local-fancy-article")
      (eval org-sbe "local-ox-extra")
      (eval org-sbe "local-setup")
@@ -25,3 +30,4 @@
  '(outline-6 ((t (:weight semi-bold :height 1.03))))
  '(outline-8 ((t (:weight semi-bold))))
  '(outline-9 ((t (:weight semi-bold)))))
+(put 'customize-group 'disabled nil)

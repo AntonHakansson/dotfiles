@@ -50,11 +50,11 @@
     show_indicators = yes
     icon_position = left
     max_icon_size = 40
-    #icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/:/usr/share/icons/Adwaita/256x256/status/
+    icon_path = /usr/share/icons/Papirus/16x16/status/:/usr/share/icons/Papirus/16x16/devices/:/usr/share/icons/Adwaita/256x256/status/
     sticky_history = yes
     history_length = 20
     dmenu = /usr/bin/dmenu -p dunst:
-    browser = /usr/bin/firefox -new-tab
+    browser = /usr/bin/brave
 
     # Always run rule-defined scripts, even if the notification is suppressed
     always_run_script = true
@@ -150,3 +150,6 @@
 #    urgency = normal
 #
 # vim: ft=cfg
+[braverewards]
+    appname = "Brave"
+    urgency = low

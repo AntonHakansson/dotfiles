@@ -98,6 +98,10 @@ super + y
 # tabbing functionality
 super + t ; {h,j,k,l,d}
     sxhkd-tabbed {west, south, north, east, detach}
+    
+# toggle sticky on focused window
+super + shift + s
+      bspc node -g sticky
 
 # Toggle gaps
 super + shift + d

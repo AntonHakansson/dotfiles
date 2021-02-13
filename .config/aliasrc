@@ -8,7 +8,7 @@ alias \
 	bat="cat /sys/class/power_supply/BAT?/capacity" \
 	cp="cp -iv" \
 	mv="mv -iv" \
-	rm="rm -v" \
+	rm="trash -v" \
 	mkd="mkdir -pv" \
 	yt="youtube-dl --add-metadata -i" \
 	yta="yt -x -f bestaudio/best" \

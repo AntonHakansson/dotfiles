@@ -13,18 +13,20 @@
 
 (package! dired-single)
 
+ ;; all-language autocompleter. It uses machine learning to provide responsive, reliable, and relevant suggestions.
+(package! company-tabnine)
+
 (package! zig-mode)
 
 (package! haskell-mode)
 
-(package! org-roam)
 (package! org-fragtog)
-(package! org-latex-impatient)
+(package! org-appear :recipe (:host github :repo "awth13/org-appear" :files ("*.el")))
 (package! org-special-block-extras)
-(package! org-pretty-tags)
 ;; (package! org-pdftools)
 (package! org-download)
 (package! org-web-tools)
+(package! graphviz-dot-mode)
 ;; Edit org-mode documents in a magit-like behaviour
 ;; (package! org-menu :recipe (:host github :repo "sheijk/org-menu" :files ("org-menu.el")))
 
