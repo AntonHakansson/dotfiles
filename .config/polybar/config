@@ -874,10 +874,10 @@ format-online-background = ${colors.background}
 [module/networkspeedup]
 ;https://github.com/jaagr/polybar/wiki/Module:-network
 type = internal/network
-interface = wlp3s0
+;interface = wlp3s0
 ;interface = enp14s0
 ;interface = enp0s31f6
-;interface = enp3s0
+interface = enp3s0
 label-connected = "%upspeed:7%"
 format-connected = <label-connected>
 format-connected-prefix = " "
@@ -890,10 +890,10 @@ format-connected-background = ${colors.alternate1}
 [module/networkspeeddown]
 ;https://github.com/jaagr/polybar/wiki/Module:-network
 type = internal/network
-interface = wlp3s0
+;interface = wlp3s0
 ;interface = enp14s0
 ;interface = enp0s31f6
-;interface = enp3s0
+interface = enp3s0
 label-connected = "%downspeed:7%"
 format-connected = <label-connected>
 format-connected-prefix = "  "
