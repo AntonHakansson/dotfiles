@@ -337,7 +337,7 @@
                                  (haskell . t)))
 
 
-  (custom-set-faces! '(org-ellipsis :foreground "0xFFFFFF"))
+  (custom-set-faces! '(org-ellipsis :foreground "#5B6268"))
   (custom-set-faces! '(org-document-title :height 1.2))
   (setq org-agenda-deadline-faces
         '((1.001 . error)
