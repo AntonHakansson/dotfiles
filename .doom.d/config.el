@@ -212,7 +212,7 @@
           ("https://reddit.0qz.fun/r/vegan.json" nutrition vegan)
           ("https://reddit.0qz.fun/r/AntiVegan.json" nutrition anti-vegan)
           ("https://reddit.0qz.fun/r/Volumeeating.json" nutrition volume)
-          /
+
           ("https://planet.emacslife.com/atom.xml" emacs community)
           ("https://reddit.0qz.fun/r/emacs.json" emacs reddit)
           ("https://sachachua.com/blog/category/emacs/feed/" emacs blog)
@@ -321,6 +321,7 @@
   (setq org-startup-folded 'fold
         org-hide-emphasis-markers t
         org-catch-invisible-edits 'smart ; try not to accidently do weird stuff in invisible regions
+        org-ellipsis " ⮷"
         org-todo-keywords (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
                                   (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
         org-confirm-babel-evaluate nil)
@@ -335,6 +336,8 @@
                                  (latex . t)
                                  (haskell . t)))
 
+
+  (custom-set-faces! '(org-ellipsis :foreground "0xFFFFFF"))
   (custom-set-faces! '(org-document-title :height 1.2))
   (setq org-agenda-deadline-faces
         '((1.001 . error)
