@@ -206,12 +206,13 @@
           ("https://xkcd.com/rss.xml" comic)
 
           ("https://moreplatesmoredates.com/feed/" health derek)
+          ("https://kill-the-newsletter.com/feeds/kb84eb1tf6a3kta7.xml" health derek)
 
           ("https://reddit.0qz.fun/r/GregDoucette.json" nutrition greg)
           ("https://reddit.0qz.fun/r/vegan.json" nutrition vegan)
           ("https://reddit.0qz.fun/r/AntiVegan.json" nutrition anti-vegan)
           ("https://reddit.0qz.fun/r/Volumeeating.json" nutrition volume)
-
+          /
           ("https://planet.emacslife.com/atom.xml" emacs community)
           ("https://reddit.0qz.fun/r/emacs.json" emacs reddit)
           ("https://sachachua.com/blog/category/emacs/feed/" emacs blog)

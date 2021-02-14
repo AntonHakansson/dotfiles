@@ -31,6 +31,7 @@
 ;; (package! org-menu :recipe (:host github :repo "sheijk/org-menu" :files ("org-menu.el")))
 
 (package! bnfc)
+(package! elpher)
 
 ;; The very large files mode loads large files in chunks, allowing one to open ridiculously large files.
 ;; (package! vlf :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))
