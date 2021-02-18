@@ -230,7 +230,7 @@
           ("https://helpdeskheadesk.net/index.xml" emacs blog linux)
           ("https://blog.ashfaqfarooqui.me/index.xml" emacs orgmode blog chalmers-guy)
 
-          ("https://castel.dev/rss.xml" linux blog) ; lecture note setup
+          ("https://castel.dev/rss.xml" linux blog note-taking) ; lecture note setup
 
           ("https://lukesmith.xyz/rss.xml" linux lukesmith)
           ("https://notrelated.xyz/rss" linux lukesmith podcast)
