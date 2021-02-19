@@ -332,7 +332,7 @@
   (setq org-startup-folded 'fold
         org-hide-emphasis-markers t
         org-catch-invisible-edits 'smart ; try not to accidently do weird stuff in invisible regions
-        org-ellipsis " ⮷"
+        org-ellipsis "   ⮷"
         org-todo-keywords (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
                                   (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
         org-confirm-babel-evaluate nil)
