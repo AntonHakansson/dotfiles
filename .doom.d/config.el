@@ -236,6 +236,8 @@
           ("https://notrelated.xyz/rss" linux lukesmith podcast)
           ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA" linux lukesmith yt)
 
+          ("https://kill-the-newsletter.com/feeds/5ba3cqgwcewiowyu.xml" software research andy)
+
           ("https://handmade.network/podcast/podcast.xml" dev handmade podcast)
           ("https://rssbridge.pofilo.fr/?action=display&bridge=Twitter&context=By+username&u=cmuratori&format=Atom" dev game handmade casey)
           ("https://rssbridge.pofilo.fr/?action=display&bridge=Twitter&context=By+username&u=Jonathan_Blow&format=Atom" dev game handmade jonathan blow)
