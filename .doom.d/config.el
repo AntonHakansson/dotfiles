@@ -308,6 +308,8 @@
 ;; org-mode
 ;;
 
+(load! "local/xournalpp")
+
 (add-hook! 'org-mode-hook #'writeroom-mode)
 (add-hook! 'org-mode-hook #'+org-pretty-mode)
 (map! :map org-mode-map
