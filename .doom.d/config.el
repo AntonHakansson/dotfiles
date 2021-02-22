@@ -320,6 +320,7 @@
    "C-c d p" #'my/org-download-paste-clipboard
    "C-c d d" #'org-download-delete
    "C-c d i" #'my/inkscape-create
+   "C-c d s" #'my/write-stylus-create
    ;; outline navigation
    "C-l" (cmd! (if (outline-invisible-p (line-end-position)) (+org/open-fold) (org-next-visible-heading 1)))
    "C-h" (cmd! (if (not (outline-invisible-p (line-end-position))) (+org/close-fold) (org-up-heading-safe)))
