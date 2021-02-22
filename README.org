@@ -118,6 +118,7 @@ export EDITOR="nvim"
 export TERMINAL="alacritty"
 export BROWSER="brave"
 export READER="zathura"
+export MANPAGER="nvim -c 'set ft=man' -"
 #+end_src
 
 ** Move Configs to =~/.config/=
