@@ -308,7 +308,7 @@
 ;; org-mode
 ;;
 
-(load! "local/xournalpp")
+(load! "local/org-xournal")
 
 (add-hook! 'org-mode-hook #'writeroom-mode)
 (add-hook! 'org-mode-hook #'+org-pretty-mode)
