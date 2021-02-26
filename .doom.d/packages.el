@@ -11,6 +11,7 @@
 
 (package! string-inflection)
 
+(package! golden-ratio)
 (package! dired-single)
 
  ;; all-language autocompleter. It uses machine learning to provide responsive, reliable, and relevant suggestions.
