@@ -312,6 +312,7 @@
 
 (add-hook! 'org-mode-hook #'writeroom-mode)
 (add-hook! 'org-mode-hook #'+org-pretty-mode)
+(add-hook! 'org-mode-hook #'valign-mode)
 (map! :map org-mode-map
       :n "SPC m l a" #'counsel-org-link)
 (after! org

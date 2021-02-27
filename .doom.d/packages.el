@@ -23,6 +23,7 @@
 
 (package! org-fragtog)
 (package! org-appear :recipe (:host github :repo "awth13/org-appear" :files ("*.el")))
+(package! org-valign :recipe (:host github :repo "casouri/valign" :files ("*.el")))
 (package! org-special-block-extras)
 ;; (package! org-pdftools)
 (package! org-download)
