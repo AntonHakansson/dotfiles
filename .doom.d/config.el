@@ -313,7 +313,7 @@
 (add-hook! 'org-mode-hook #'writeroom-mode)
 (add-hook! 'org-mode-hook #'+org-pretty-mode)
 (map! :map org-mode-map
-      :n "SPC m l a" #'counsel-org-link)
+      :n "SPC m l /" #'counsel-org-link)
 (after! org
   (map!
    :after evil-org
