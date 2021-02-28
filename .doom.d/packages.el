@@ -11,8 +11,9 @@
 
 (package! string-inflection)
 
-(package! golden-ratio)
 (package! dired-single)
+(package! golden-ratio)
+(package! academic-phrases)
 
  ;; all-language autocompleter. It uses machine learning to provide responsive, reliable, and relevant suggestions.
 (package! company-tabnine)

@@ -2,6 +2,5 @@
 # name: inline math
 # key: m
 # condition: t
-# expand-env: ((yas-after-exit-snippet-hook (lambda () (evil-insert-state))))
 # --
 \\( `%`$0 \\)
