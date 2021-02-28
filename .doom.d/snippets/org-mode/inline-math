@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: inline math
 # key: m
-# condition: t
+# condition: (not (texmathp))
 # --
-\\( `%`$1 \\)
+\\( `%`$1 \\)$0
