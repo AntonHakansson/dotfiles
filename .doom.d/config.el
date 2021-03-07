@@ -203,6 +203,9 @@
     :server-id 'zls))
 (add-hook 'zig-mode-hook 'lsp)
 
+;;
+;; Elfeed config
+;;
 (after! elfeed
   (setq elfeed-feeds
         '(("http://rss.slashdot.org/Slashdot/slashdot" news tech slashdot)
@@ -309,6 +312,7 @@
 ;;
 
 (load! "local/org-xournal")
+(load! "local/org-symbolab-search")
 
 (add-hook! 'org-mode-hook #'writeroom-mode)
 (add-hook! 'org-mode-hook #'+org-pretty-mode)
