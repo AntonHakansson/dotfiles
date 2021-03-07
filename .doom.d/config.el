@@ -314,6 +314,11 @@
 (add-hook! 'org-mode-hook #'+org-pretty-mode)
 (map! :map org-mode-map
       :n "SPC m l /" #'counsel-org-link)
+(map! :map org-mode-map
+  :n "C-h" #'org-evil-navigation-up
+  :n "C-l" #'org-evil-navigation-down
+  :n "C-j" #'org-evil-navigation-next
+  :n "C-k" #'org-evil-navigation-prev)
 (after! org
   (map!
    :after evil-org
@@ -323,11 +328,6 @@
    "C-c d d" #'org-download-delete
    "C-c d i" #'my/inkscape-create
    "C-c d s" #'my/write-stylus-create
-   ;; outline navigation
-   "C-l" (cmd! (if (outline-invisible-p (line-end-position)) (+org/open-fold) (org-next-visible-heading 1)))
-   "C-h" (cmd! (if (not (outline-invisible-p (line-end-position))) (+org/close-fold) (org-up-heading-safe)))
-   "C-j" (cmd! (org-next-visible-heading))
-   "C-k" (cmd! (org-previous-visible-heading))
    ;; math
    :i "C-m" (cmd! ()))
 
