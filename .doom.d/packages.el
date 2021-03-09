@@ -15,8 +15,10 @@
 (package! golden-ratio)
 (package! academic-phrases)
 
- ;; all-language autocompleter. It uses machine learning to provide responsive, reliable, and relevant suggestions.
-(package! company-tabnine)
+(package! elpher)
+
+;; all-language autocompleter. It uses machine learning to provide responsive, reliable, and relevant suggestions.
+;;(package! company-tabnine)
 
 (package! zig-mode)
 
@@ -33,12 +35,15 @@
 (package! org-download)
 (package! org-web-tools)
 (package! org-fc :recipe (:host github :repo "l3kn/org-fc" :files (:defaults "awk" "demo.org")))
-(package! graphviz-dot-mode)
 ;; Edit org-mode documents in a magit-like behaviour
 ;; (package! org-menu :recipe (:host github :repo "sheijk/org-menu" :files ("org-menu.el")))
 
-(package! bnfc)
-(package! elpher)
+(package! calctex :recipe (:host github :repo "johnbcoughlin/calctex"
+                           :files ("*.el" "calctex/*.el" "calctex-contrib/*.el" "org-calctex/*.el" "vendor"))
+  :pin "7fa2673c64e259e04aef684ccf09ef85570c388b")
+
+(package! graphviz-dot-mode)
+
 
 ;; The very large files mode loads large files in chunks, allowing one to open ridiculously large files.
 ;; (package! vlf :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))

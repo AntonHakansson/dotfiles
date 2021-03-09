@@ -107,7 +107,7 @@
   )
 
 (after! company
-  (setq company-idle-delay 0.15
+  (setq company-idle-delay 0.5
         company-minimum-prefix-length 2
         company-show-numbers t
         )
@@ -119,11 +119,17 @@
 (setq tab-always-indent 'complete)
 
 (set-company-backend!
+  '(text-mode markdown-mode gfm-mode)
+  '(:seperate
+    company-ispell
+    company-files
+    company-yasnippet
+    ))
+
+(set-company-backend!
   '(org-mode)
   '(
     company-math-symbols-unicode
-    company-files
-    company-yasnippet
     ))
 
 ;; TO DOWNLOAD THE DICTIONARY:
@@ -323,18 +329,13 @@
   :n "C-l" #'org-evil-navigation-down
   :n "C-j" #'org-evil-navigation-next
   :n "C-k" #'org-evil-navigation-prev)
+(map! :map org-mode-map
+  :n "C-c d p" #'my/org-download-paste-clipboard
+  :n "C-c d d" #'org-download-delete
+  :n "C-c d i" #'my/inkscape-create
+  :n "C-c d s" #'my/write-stylus-create
+  )
 (after! org
-  (map!
-   :after evil-org
-   :map evil-org-mode-map
-   ;; custom
-   "C-c d p" #'my/org-download-paste-clipboard
-   "C-c d d" #'org-download-delete
-   "C-c d i" #'my/inkscape-create
-   "C-c d s" #'my/write-stylus-create
-   ;; math
-   :i "C-m" (cmd! ()))
-
   (setq org-startup-folded 'fold
         org-hide-emphasis-markers t
         org-catch-invisible-edits 'smart ; try not to accidently do weird stuff in invisible regions
@@ -446,13 +447,9 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 
 (use-package! org-special-block-extras
   :hook (org-mode . org-special-block-extras-mode)
-  ;; :custom
-    ;; (org-special-block-extras-fancy-links
-    ;; nil "Disable this feature.")
   :config
-  ;; Use short names like ‘defblock’ instead of the fully qualified name
-  ;; ‘org-special-block-extras--defblock’
-    (org-special-block-extras-short-names))
+    (org-special-block-extras-short-names)
+    )
 
 (use-package! org-fragtog
     :hook (org-mode . org-fragtog-mode)
@@ -471,6 +468,55 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
     (org-download-image-org-width 400)
     (org-download-heading-lvl nil)
 )
+
+(setq calc-angle-mode 'rad  ; radians are rad
+      calc-symbolic-mode t) ; keeps expressions like \sqrt{2} irrational for as long as possible
+;;
+;; [[file:~/.config/doom/config.org::*Embedded calc][Embedded calc:2]]
+(map! :map calc-mode-map
+      :after calc
+      :localleader
+      :desc "Embedded calc (toggle)" "e" #'calc-embedded)
+(map! :map org-mode-map
+      :after org
+      :localleader
+      :desc "Embedded calc (toggle)" "E" #'calc-embedded)
+(map! :map latex-mode-map
+      :after latex
+      :localleader
+      :desc "Embedded calc (toggle)" "e" #'calc-embedded)
+
+(defvar calc-embedded-trail-window nil)
+(defvar calc-embedded-calculator-window nil)
+
+(defadvice! calc-embedded-with-side-pannel (&rest _)
+  :after #'calc-do-embedded
+  (when calc-embedded-trail-window
+    (ignore-errors
+      (delete-window calc-embedded-trail-window))
+    (setq calc-embedded-trail-window nil))
+  (when calc-embedded-calculator-window
+    (ignore-errors
+      (delete-window calc-embedded-calculator-window))
+    (setq calc-embedded-calculator-window nil))
+  (when (and calc-embedded-info
+             (> (* (window-width) (window-height)) 1200))
+    (let ((main-window (selected-window))
+          (vertical-p (> (window-width) 80)))
+      (select-window
+       (setq calc-embedded-trail-window
+             (if vertical-p
+                 (split-window-horizontally (- (max 30 (/ (window-width) 3))))
+               (split-window-vertically (- (max 8 (/ (window-height) 4)))))))
+      (switch-to-buffer "*Calc Trail*")
+      (select-window
+       (setq calc-embedded-calculator-window
+             (if vertical-p
+                 (split-window-vertically -6)
+               (split-window-horizontally (- (/ (window-width) 2))))))
+      (switch-to-buffer "*Calculator*")
+      (select-window main-window))))
+;; Embedded calc:2 ends here
 
 (defun my/org-download-paste-clipboard (&optional use-default-filename)
   (interactive "P")
@@ -559,6 +605,18 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
           :i ";" #'cdlatex-math-symbol)
   )
 
+
+(use-package! graphviz-dot-mode
+  :commands graphviz-dot-mode
+  :mode ("\\.dot\\'" "\\.gz\\'")
+  :init
+  (after! org
+    (setcdr (assoc "dot" org-src-lang-modes)
+            'graphviz-dot)))
+
+(use-package! company-graphviz-dot
+  :after graphviz-dot-mode)
+
 (after! tex
   (map!
     :map LaTeX-mode-map
@@ -567,10 +625,3 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 
   (add-to-list 'TeX-view-program-list '("Evince" "evince %o"))
   (add-to-list 'TeX-view-program-selection '(output-pdf "Evince")))
-
-(use-package! graphviz-dot-mode
-  :commands graphviz-dot-mode
-  :mode ("\\.dot\\'" "\\.gz\\'"))
-
-(use-package! company-graphviz-dot
-  :after graphviz-dot-mode)
