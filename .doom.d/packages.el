@@ -32,7 +32,6 @@
 ;; (package! org-pdftools)
 (package! org-download)
 (package! org-web-tools)
-(package! org-fc) ;; spaced-repetition system for Emacs' org-mode.
 (package! org-fc :recipe (:host github :repo "l3kn/org-fc" :files (:defaults "awk" "demo.org")))
 (package! graphviz-dot-mode)
 ;; Edit org-mode documents in a magit-like behaviour

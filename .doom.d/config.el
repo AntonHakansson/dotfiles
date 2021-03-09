@@ -335,13 +335,14 @@
    ;; math
    :i "C-m" (cmd! ()))
 
-
   (setq org-startup-folded 'fold
         org-hide-emphasis-markers t
         org-catch-invisible-edits 'smart ; try not to accidently do weird stuff in invisible regions
+        org-log-done 'time
         org-ellipsis "   ⮷"
         org-todo-keywords (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
                                   (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
+        org-pretty-entities-include-sub-superscripts nil
         org-confirm-babel-evaluate nil)
   (org-babel-do-load-languages 'org-babel-load-languages
                                '((emacs-lisp . t)
@@ -366,29 +367,10 @@
   (add-to-list 'org-file-apps '("\\.gp5\\'" . "tuxguitar %s") t)
   (add-to-list 'org-file-apps '("\\.png\\'" . "sxiv %s") t)
   (add-to-list 'org-file-apps '("\\.svg\\'" . "write_stylus %s") t)
-  (add-to-list 'org-file-apps '("\\.pdf\\'" . "zathura %s") t)
 
-  (add-hook 'org-mode-hook 'org-fragtog-mode)
   (add-hook 'org-mode-hook 'org-latex-preview)
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
-  ;; (use-package! org-pdftools
-  ;;   :hook (org-load . org-pdftools-setup-link))
-
-  (use-package! org-download
-    :custom
-    (org-download-image-dir "images/")
-    (org-download-link-format (format "[[file:%s%%s]]\n" org-download-image-dir))
-    (org-download-method 'directory)
-    (org-download-image-org-width 400)
-    (org-download-heading-lvl nil)
-    )
-
-  (use-package! org-fragtog
-    :hook ((org-mode LaTeX-mode) . org-fragtog-mode))
-
-  ;; (use-package! org-menu
-  ;;   :config (map! :map org-mode-map "C-c m" 'org-menu))
 
   ;; Import ignore-headlines to allow a headline (but not its children) to
   ;; be ignored. Any headline tagged with the 'ignore' tag will be
@@ -418,9 +400,6 @@ T\\kern-.1667em\\lower.7ex\\hbox{E}\\kern-.125emX}}"
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  ;; (setq org-default-notes-file "~/Documents/org/main.org")
-  ;; (org-babel-load-file "~/Documents/org/roam/nutrition.org")
-  ;; (org-babel-load-file "~/Documents/org/main.org")
 
   ;; Make those fragments look good
   (setq org-highlight-latex-and-related '(native script entities))
@@ -475,8 +454,23 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
   ;; ‘org-special-block-extras--defblock’
     (org-special-block-extras-short-names))
 
+(use-package! org-fragtog
+    :hook (org-mode . org-fragtog-mode)
+    )
+
 (use-package! org-appear
-  :hook (org-mode . org-appear-mode))
+  :hook (org-mode . org-appear-mode)
+  )
+
+(use-package! org-download
+  :hook (org-mode . org-appear-mode)
+  :custom
+    (org-download-image-dir "images/")
+    (org-download-link-format (format "[[file:%s%%s]]\n" org-download-image-dir))
+    (org-download-method 'directory)
+    (org-download-image-org-width 400)
+    (org-download-heading-lvl nil)
+)
 
 (defun my/org-download-paste-clipboard (&optional use-default-filename)
   (interactive "P")
