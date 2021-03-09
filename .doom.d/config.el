@@ -453,7 +453,7 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
   )
 
 (use-package! org-download
-  :hook (org-mode . org-appear-mode)
+  :hook (org-mode . org-download-mode)
   :custom
     (org-download-image-dir "images/")
     (org-download-link-format (format "[[file:%s%%s]]\n" org-download-image-dir))
