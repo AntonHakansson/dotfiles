@@ -317,6 +317,8 @@
 (add-hook! 'org-mode-hook #'+org-pretty-mode)
 (map! :map org-mode-map
       :n "SPC m l /" #'counsel-org-link)
+(after! counsel
+  (setq counsel-outline-display-style 'title))
 (map! :map org-mode-map
   :n "C-h" #'org-evil-navigation-up
   :n "C-l" #'org-evil-navigation-down
@@ -453,14 +455,15 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
   )
 
 (use-package! org-download
-  :hook (org-mode . org-download-mode)
-  :custom
-    (org-download-image-dir "images/")
-    (org-download-link-format (format "[[file:%s%%s]]\n" org-download-image-dir))
-    (org-download-method 'directory)
-    (org-download-image-org-width 400)
-    (org-download-heading-lvl nil)
+  :hook (org-mode . org-download-enable)
 )
+(after! org
+    (setq org-download-method 'directory)
+    (setq org-download-image-dir "images/")
+    (setq org-download-link-format (format "[[file:%s%%s]]\n" org-download-image-dir))
+    (setq org-download-image-org-width 400)
+    (setq org-download-heading-lvl nil)
+  )
 
 (setq calc-angle-mode 'rad  ; radians are rad
       calc-symbolic-mode t) ; keeps expressions like \sqrt{2} irrational for as long as possible
@@ -513,8 +516,8 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 
 (use-package! calctex
   :commands calctex-mode
-  :init
-  (add-hook 'calc-mode-hook #'calctex-mode)
+  ;; :init
+  ;; (add-hook 'calc-mode-hook #'calctex-mode)
   :config
   (setq calctex-additional-latex-packages "
 \\usepackage[usenames]{color}
