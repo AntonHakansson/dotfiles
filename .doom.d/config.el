@@ -98,14 +98,7 @@
   '(outline-8 :weight semi-bold)
   '(outline-9 :weight semi-bold))
 
-(use-package! helpful)
-
 ;; company
-(use-package! company-tabnine
-  :when (featurep! :completion company)
-  :config
-  )
-
 (after! company
   (setq company-idle-delay 0.5
         company-minimum-prefix-length 2
