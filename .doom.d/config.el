@@ -456,14 +456,13 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 
 (use-package! org-download
   :hook (org-mode . org-download-enable)
+  :config
+    (setq org-download-method 'directory
+          org-download-image-dir "images/"
+          org-download-link-format (format "[[file:%s%%s]]\n" org-download-image-dir)
+          org-download-image-org-width 400
+          org-download-heading-lvl nil)
 )
-(after! org
-    (setq org-download-method 'directory)
-    (setq org-download-image-dir "images/")
-    (setq org-download-link-format (format "[[file:%s%%s]]\n" org-download-image-dir))
-    (setq org-download-image-org-width 400)
-    (setq org-download-heading-lvl nil)
-  )
 
 (setq calc-angle-mode 'rad  ; radians are rad
       calc-symbolic-mode t) ; keeps expressions like \sqrt{2} irrational for as long as possible
