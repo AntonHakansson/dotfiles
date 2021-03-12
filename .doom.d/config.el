@@ -127,12 +127,14 @@
 
 ;; TO DOWNLOAD THE DICTIONARY:
 ;; cd /tmp
-;; curl -o "aspell6-en-custom.tar.bz2" 'http://app.aspell.net/create?max_size=80&spelling=GBs&spelling=AU&max_variant=0&diacritic=keep&special=hacker&special=roman-numerals&encoding=utf-8&format=inline&download=aspell'
+;;
+;; curl -o "aspell6-en-custom.tar.bz2" 'http://app.aspell.net/create?max_size=80&spelling=US&max_variant=1&diacritic=keep&special=hacker&special=roman-numerals&encoding=utf-8&format=inline&download=aspell'
 ;; tar -xjf "aspell6-en-custom.tar.bz2"
 ;;
 ;; cd aspell6-en-custom
 ;; ./configure && make && sudo make install
 (setq ispell-dictionary "en-custom")
+(setq ispell-personal-dictionary (expand-file-name ".ispell_personal" doom-private-dir))
 
 ;;
 ;; Dired
@@ -181,10 +183,10 @@
 ;;
 
 ;; autocorrect the previous word without leaving insert mode
-(map! :i "C-i" #'flyspell-auto-correct-word)
-(after! flyspell
-  (setq ispell-local-dictionary "english")
-  )
+;; (map! :i "C-i" #'flyspell-auto-correct-word)
+;; (after! flyspell
+;;   (setq ispell-local-dictionary "english")
+;;   )
 
 ;;
 ;; Zig config
