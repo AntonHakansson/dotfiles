@@ -467,6 +467,7 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 )
 
 (after! org
+  (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
   (setq org-format-latex-options
         (plist-put org-format-latex-options :background "Transparent"))
   )
