@@ -1,6 +1,6 @@
-# -*- mode: snippet -*-
+# -*- mode: snippet; require-final-newline: nil  -*-
 # name: inline math
 # key: m
 # condition: (not (texmathp))
 # --
-\\( `%`$1 \\)$0
+\\( $1 \\)$0
