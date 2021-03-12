@@ -45,6 +45,7 @@
 
 (package! graphviz-dot-mode)
 
+(package! evil-motion-trainer :recipe (:host github :repo "martinbaillie/evil-motion-trainer" :files ("*.el")))
 
 ;; The very large files mode loads large files in chunks, allowing one to open ridiculously large files.
 ;; (package! vlf :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))

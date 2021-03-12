@@ -659,3 +659,9 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 
   (add-to-list 'TeX-view-program-list '("Evince" "evince %o"))
   (add-to-list 'TeX-view-program-selection '(output-pdf "Evince")))
+
+;; motion trainer
+(use-package! evil-motion-trainer
+  :init (global-evil-motion-trainer-mode 1)
+  :config (setq evil-motion-trainer-threshold 5)
+  )
