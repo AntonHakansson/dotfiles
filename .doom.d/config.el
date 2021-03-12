@@ -466,6 +466,12 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
           org-download-heading-lvl nil)
 )
 
+(after! org
+  (setq org-format-latex-options
+        (plist-put org-format-latex-options :background "Transparent"))
+  )
+
+
 (setq calc-angle-mode 'rad  ; radians are rad
       calc-symbolic-mode t) ; keeps expressions like \sqrt{2} irrational for as long as possible
 ;;
@@ -662,6 +668,6 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 
 ;; motion trainer
 (use-package! evil-motion-trainer
-  :init (global-evil-motion-trainer-mode 1)
+  ;; :init (global-evil-motion-trainer-mode 1)
   :config (setq evil-motion-trainer-threshold 5)
   )
