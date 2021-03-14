@@ -368,7 +368,7 @@
 
   (add-hook 'org-mode-hook 'org-latex-preview)
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
-  (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+  ;; (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
 
   ;; Import ignore-headlines to allow a headline (but not its children) to
   ;; be ignored. Any headline tagged with the 'ignore' tag will be
