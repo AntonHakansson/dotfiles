@@ -364,7 +364,8 @@
 
   (add-to-list 'org-file-apps '("\\.gp5\\'" . "tuxguitar %s") t)
   (add-to-list 'org-file-apps '("\\.png\\'" . "sxiv %s") t)
-  (add-to-list 'org-file-apps '("\\.svg\\'" . "write_stylus %s") t)
+  ;; (add-to-list 'org-file-apps '("\\.svg\\'" . "write_stylus %s") t)
+  ;; (add-to-list 'org-file-apps '("\\.svg\\'" . "inkscape %s") t)
 
   (add-hook 'org-mode-hook 'org-latex-preview)
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
