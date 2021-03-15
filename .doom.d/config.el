@@ -609,9 +609,22 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
         (org-download-image-org-width 400))
       (make-directory dir t)
       (when (not (file-exists-p filepath)) (copy-file "~/.doom.d/drawio_template.svg" filepath)) ; create empty svg file
-      (start-process-shell-command "drawio" nil (format "write_stylus %s" filepath)) ; open svg file
+      (start-process-shell-command "drawio" nil (format "drawio %s" filepath)) ; open svg file
       (org-download-insert-link basename filepath)
     )
+  )
+
+(defun my/drawio-edit ()
+  (interactive)
+  (let ((context (org-element-context)))
+    (if (not (eq (car-safe context) 'link))
+        (user-error "Not on a link")
+      (start-process-shell-command
+       "drawio"
+       "drawio"
+       (format "drawio %s"
+               (shell-quote-wildcard-pattern
+                (url-unhex-string (plist-get (cadr context) :path)))))))
   )
 
 (defun my/org-syntax-convert-case-to-lower ()
