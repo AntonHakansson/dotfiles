@@ -600,6 +600,19 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
     )
   )
 
+(defun my/drawio-create (&optional use-default-filename)
+  (interactive "P")
+  (require 'org-download)
+  (let*((basename (if (not use-default-filename) (read-string (format "Filename [%s]: " "figure.svg") nil nil "figure.svg") nil))
+        (dir (org-download--dir))
+        (filepath (concat dir "/" (org-download-file-format-default basename)))
+        (org-download-image-org-width 400))
+      (make-directory dir t)
+      (when (not (file-exists-p filepath)) (copy-file "~/.doom.d/drawio_template.svg" filepath)) ; create empty svg file
+      (start-process-shell-command "drawio" nil (format "write_stylus %s" filepath)) ; open svg file
+      (org-download-insert-link basename filepath)
+    )
+  )
 
 (defun my/org-syntax-convert-case-to-lower ()
   "Convert all #+KEYWORDS to #+keywords."
