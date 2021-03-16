@@ -86,6 +86,7 @@
 
 (setq yas-triggers-in-field t)
 
+(setq +zen-text-scale 0.6)
 (setq doom-variable-pitch-font (font-spec :family "ubuntu"))
 ;;(setq doom-variable-pitch-font (font-spec :family "Overpass" :size 13))
 (custom-set-faces!
@@ -296,17 +297,10 @@
 (add-hook! 'elfeed-search-mode-hook 'writeroom-mode)
 
 
-  ;; Load elfeed-org
-  ;; (require 'elfeed-org)
-  ;; Initialize elfeed-org
-  ;; This hooks up elfeed-org to read the configuration when elfeed
-  ;; is started with =M-x elfeed=
-  ;; (elfeed-org)
 (setq TeX-save-query nil
       TeX-show-compilation t
       TeX-command-extra-options "-shell-escape")
 
-(setq +zen-text-scale 0.6)
 
 ;;
 ;; org-mode
@@ -332,6 +326,7 @@
   :n "C-c d i" #'my/inkscape-create
   :n "C-c d s" #'my/write-stylus-create
   )
+
 (after! org
   (setq org-startup-folded 'fold
         org-hide-emphasis-markers t
@@ -699,3 +694,73 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
   ;; :init (global-evil-motion-trainer-mode 1)
   :config (setq evil-motion-trainer-threshold 5)
   )
+(defvar org-prettify-inline-results t
+  "Whether to use (ab)use prettify-symbols-mode on {{{results(...)}}}.")
+
+
+
+;;
+;; Fontifying inline src blocks
+;;
+(defun org-fontify-inline-src-blocks (limit)
+  "Try to apply `org-fontify-inline-src-blocks-1'."
+  (condition-case nil
+      (org-fontify-inline-src-blocks-1 limit)
+    (error (message "Org mode fontification error in %S at %d"
+                    (current-buffer)
+                    (line-number-at-pos)))))
+
+(defun org-fontify-inline-src-blocks-1 (limit)
+  "Fontify inline src_LANG blocks, from  `point' up to LIMIT."
+  (let ((case-fold-search t))
+    (when (re-search-forward "\\_<src_\\([^ \t\n[{]+\\)[{[]?" limit t) ; stolen from `org-element-inline-src-block-parser'
+      (let ((beg (match-beginning 0))
+            pt
+            (lang-beg (match-beginning 1))
+            (lang-end (match-end 1)))
+        (remove-text-properties beg lang-end '(face nil))
+        (font-lock-append-text-property lang-beg lang-end 'face 'org-meta-line)
+        (font-lock-append-text-property beg lang-end 'face 'org-block-begin-line)
+        (setq pt (goto-char lang-end))
+        (when (org-element--parse-paired-brackets ?\[)
+          (remove-text-properties pt (point) '(face nil))
+          (font-lock-append-text-property pt (point) 'face 'org-block-begin-line)
+          (setq pt (point)))
+        (when (org-element--parse-paired-brackets ?\{)
+          (remove-text-properties pt (point) '(face nil))
+          (font-lock-append-text-property pt (1+ pt) 'face 'org-block-begin-line)
+          (unless (= (1+ pt) (1- (point)))
+            (if org-src-fontify-natively
+                (org-src-font-lock-fontify-block (buffer-substring-no-properties lang-beg lang-end) (1+ pt) (1- (point)))
+              (font-lock-append-text-property (1+ pt) (1- (point)) 'face 'org-block)))
+          (font-lock-append-text-property (1- (point)) (point) 'face 'org-block-begin-line)
+          (setq pt (point)))
+        (when (re-search-forward "\\= {{{results(" limit t)
+          (font-lock-append-text-property pt (1+ pt) 'face 'org-block)
+          (goto-char pt))))
+    (when (and org-prettify-inline-results (re-search-forward "{{{results(\\(.+?\\))}}}" limit t))
+      (remove-list-of-text-properties (match-beginning 0) (point)
+                                      '(composition
+                                        prettify-symbols-start
+                                        prettify-symbols-end))
+      (font-lock-append-text-property (match-beginning 0) (match-end 0) 'face 'org-block)
+      (let ((start (match-beginning 0)) (end (match-beginning 1)))
+        (with-silent-modifications
+          (compose-region start end "⟨")
+          (add-text-properties start end `(prettify-symbols-start ,start prettify-symbols-end ,end))))
+      (let ((start (match-end 1)) (end (point)))
+        (with-silent-modifications
+          (compose-region start end "⟩")
+          (add-text-properties start end `(prettify-symbols-start ,start prettify-symbols-end ,end)))))))
+
+(defun org-fontify-inline-src-blocks-enable ()
+  "Add inline src fontification to font-lock in Org.
+Must be run as part of `org-font-lock-set-keywords-hook'."
+  (setq org-font-lock-extra-keywords
+        (append org-font-lock-extra-keywords '((org-fontify-inline-src-blocks)))))
+
+(add-hook 'org-font-lock-set-keywords-hook #'org-fontify-inline-src-blocks-enable)
+
+;;
+;;
+;;
