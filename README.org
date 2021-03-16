@@ -382,7 +382,7 @@ super + d
     dmenu_run
 # Open emacs
 super + e
-    emacs
+    emacsclient --create-frame --alternate-editor="emacs" --no-wait
 # Open emacs anywhere (broken)
 super + shift + e
     bspwmfloat emacs_anywhere
@@ -2215,7 +2215,7 @@ sudo make install
 #+end_src
 * Daemons
 ** Emacs
-#+begin_src systemd
+#+begin_src systemd :tangle ~/.config/systemd/user/emacs.service :mkdirp yes
 [Unit]
 Description=Emacs server daemon
 Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/

@@ -40,11 +40,8 @@ cmd moveto ${{
 	clear; tput cup $(($(tput lines)/3)); tput bold
 	set -f
 	clear; echo "Move to where?"
-	echo "$fx"
-	stat "$fx"
-	# dest="$(cut -f2- ${XDG_CONFIG_HOME:-$HOME/.config}/directories | fzf)" &&
-	dest="$(find -maxdepth 3 -type d  | fzf)" &&
-	mv -iv "$fx" "$dest" &&
+	dest="$(cut -d'	' -f2- ${XDG_CONFIG_HOME:-$HOME/.config}/directories | fzf)" &&
+	eval mv -iv $fx $dest &&
 	notify-send "🚚 File(s) moved." "File(s) moved to $dest."
 }}
 
