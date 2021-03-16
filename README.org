@@ -356,98 +356,6 @@ Start graphical server on tty1 if not already running.
 	name = AntonHakansson
 #+END_SRC
 
-* Terminals
-** Alacritty
-#+begin_src yaml :tangle ~/.config/alacritty/alacritty.yml :noweb yes
-colors:
-  primary:
-    background: '<<color(c="bg")>>'
-    foreground: '<<color(c="fg"")>>'
-    dim_foreground: '#a5abb6'
-  cursor:
-    text: '<<color(c="fg")>>'
-    cursor: '<<color(c="blue")>>'
-  vi_mode_cursor:
-    text: '<<color(c="fg")>>'
-    cursor: '<<color(c="blue")>>'
-  selection:
-    text: CellForeground
-    background: '<<color(c="region")>>'
-  search:
-    matches:
-      foreground: CellBackground
-      background: '#88c0d0'
-    bar:
-      background: '#434c5e'
-      foreground: '#d8dee9'
-  normal:
-    black: '<<color(c="black")>>'
-    red: '<<color(c="red")>>'
-    green: '<<color(c="green")>>'
-    yellow: '<<color(c="yellow")>>'
-    blue: '<<color(c="blue")>>'
-    magenta: '<<color(c="magenta")>>'
-    cyan: '<<color(c="cyan")>>'
-    white: '<<color(c="white")>>'
-  bright:
-    black: '<<color(c="base3")>>'
-    red: '<<lighten(c="red")>>'
-    green: '<<lighten(c="green")>>'
-    yellow: '<<lighten(c="yellow")>>'
-    blue: '<<lighten(c="blue")>>'
-    magenta: '<<lighten(c="magenta")>>'
-    cyan: '<<lighten(c="cyan")>>'
-    white: '<<lighten(c="white")>>'
-  dim:
-    black: '<<darken(c="black")>>'
-    red: '<<darken(c="red")>>'
-    green: '<<darken(c="green")>>'
-    yellow: '<<darken(c="yellow")>>'
-    blue: '<<darken(c="blue")>>'
-    magenta: '<<darken(c="magenta")>>'
-    cyan: '<<darken(c="cyan")>>'
-    white: '<<darken(c="white")>>'
-#+end_src
-
-* BSPWM
-#+NAME: bar-height
-#+begin_src elisp
-18
-#+end_src
-
-#+NAME: window-gap
-#+begin_src elisp
-10
-#+end_src
-
-#+begin_src sh :tangle ~/.config/bspwm/bspwmrc :tangle-mode (identity #o755) :noweb yes
-#!/bin/sh
-
-pgrep -x sxhkd > /dev/null || sxhkd &
-
-# If refreshing bspwm, remove all previous rules to prevent doubling up.
-bspc rule -r "*"
-
-# Start workspaces on the main monitor.
-if xrandr --listactivemonitors | grep HDMI-0 >/dev/null; then
-	bspc monitor DVI-I-1 -d 1 2 3 4 5 6 7 8
-	bspc monitor HDMI-0 -d 9 10
-	bspc desktop -f 1
-else
-	bspc monitor -d 1 2 3 4 5 6 7 8 9 10
-	bspc desktop -f 1
-fi
-
-bspc config border_width 2
-bspc config focused_border_color "<<color(c="blue")>>"
-bspc config window_gap 10
-bspc config top_padding <<bar-height()>>
-bspc config focus_follows_pointer true
-
-bspc rule -a Emacs state=tiled
-bspc rule -a Thunar state=floating
-#+end_src
-
 * Keybindings
 :PROPERTIES:
 :header-args: :tangle ~/.config/sxhkd/sxhkdrc :noweb yes
@@ -563,7 +471,7 @@ super + y
 # tabbing functionality
 super + t ; {h,j,k,l,d}
     sxhkd-tabbed {west, south, north, east, detach}
-    
+
 # toggle sticky on focused window
 super + shift + s
       bspc node -g sticky
@@ -633,6 +541,44 @@ super + {_, shift} + m
     xdotool mousedown --clearmodifiers {1, 3}
 @super+ {_, shift} + m
     xdotool mouseup --clearmodifiers {1, 3}
+#+end_src
+* BSPWM
+#+NAME: bar-height
+#+begin_src elisp
+18
+#+end_src
+
+#+NAME: window-gap
+#+begin_src elisp
+10
+#+end_src
+
+#+begin_src sh :tangle ~/.config/bspwm/bspwmrc :tangle-mode (identity #o755) :noweb yes
+#!/bin/sh
+
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+# If refreshing bspwm, remove all previous rules to prevent doubling up.
+bspc rule -r "*"
+
+# Start workspaces on the main monitor.
+if xrandr --listactivemonitors | grep HDMI-0 >/dev/null; then
+	bspc monitor DVI-I-1 -d 1 2 3 4 5 6 7 8
+	bspc monitor HDMI-0 -d 9 10
+	bspc desktop -f 1
+else
+	bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+	bspc desktop -f 1
+fi
+
+bspc config border_width 2
+bspc config focused_border_color "<<color(c="blue")>>"
+bspc config window_gap 10
+bspc config top_padding <<bar-height()>>
+bspc config focus_follows_pointer true
+
+bspc rule -a Emacs state=tiled
+bspc rule -a Thunar state=floating
 #+end_src
 
 * Polybar
@@ -2042,37 +1988,6 @@ map gsd  cd /storage/Downloads/
 map gst  cd /storage/Downloads/torrents
 #+end_src
 
-* ncspot
-#+begin_src conf :tangle ~/.config/ncspot/config.toml
-[keybindings]
-"Ctrl+d" = "move down 5"
-"Ctrl+u" = "move up 5"
-"d" = "move down 5"
-"u" = "move up 5"
-"D" = "delete"
-"w" = "play"
-"L" = "open selected"
-"H" = "back"
-
-[theme]
-background = "black"
-primary = "light white"
-secondary = "light black"
-title = "green"
-playing = "green"
-playing_selected = "light green"
-playing_bg = "black"
-highlight = "light white"
-highlight_bg = "#484848"
-error = "light white"
-error_bg = "red"
-statusbar = "black"
-statusbar_progress = "green"
-statusbar_bg = "green"
-cmdline = "light white"
-cmdline_bg = "black"
-search_match = "light red"
-#+end_src
 * Scripts
 ** dmenupass
 This script is the =SUDO_ASKPASS= environment variable, meaning that it will be used as a password prompt if needed.
@@ -2166,7 +2081,93 @@ bspc rule -a \* -o state=floating && $@
 bspwmfloat alacritty -e ncspot
 #+end_src
 
-* dmenu
+* User Applications
+** Terminals
+*** Alacritty
+#+begin_src yaml :tangle ~/.config/alacritty/alacritty.yml :noweb yes
+colors:
+  primary:
+    background: '<<color(c="bg")>>'
+    foreground: '<<color(c="fg"")>>'
+    dim_foreground: '#a5abb6'
+  cursor:
+    text: '<<color(c="fg")>>'
+    cursor: '<<color(c="blue")>>'
+  vi_mode_cursor:
+    text: '<<color(c="fg")>>'
+    cursor: '<<color(c="blue")>>'
+  selection:
+    text: CellForeground
+    background: '<<color(c="region")>>'
+  search:
+    matches:
+      foreground: CellBackground
+      background: '#88c0d0'
+    bar:
+      background: '#434c5e'
+      foreground: '#d8dee9'
+  normal:
+    black: '<<color(c="black")>>'
+    red: '<<color(c="red")>>'
+    green: '<<color(c="green")>>'
+    yellow: '<<color(c="yellow")>>'
+    blue: '<<color(c="blue")>>'
+    magenta: '<<color(c="magenta")>>'
+    cyan: '<<color(c="cyan")>>'
+    white: '<<color(c="white")>>'
+  bright:
+    black: '<<color(c="base3")>>'
+    red: '<<lighten(c="red")>>'
+    green: '<<lighten(c="green")>>'
+    yellow: '<<lighten(c="yellow")>>'
+    blue: '<<lighten(c="blue")>>'
+    magenta: '<<lighten(c="magenta")>>'
+    cyan: '<<lighten(c="cyan")>>'
+    white: '<<lighten(c="white")>>'
+  dim:
+    black: '<<darken(c="black")>>'
+    red: '<<darken(c="red")>>'
+    green: '<<darken(c="green")>>'
+    yellow: '<<darken(c="yellow")>>'
+    blue: '<<darken(c="blue")>>'
+    magenta: '<<darken(c="magenta")>>'
+    cyan: '<<darken(c="cyan")>>'
+    white: '<<darken(c="white")>>'
+#+end_src
+** ncspot
+Terminal Spotify client.
+
+#+begin_src conf :tangle ~/.config/ncspot/config.toml
+[keybindings]
+"Ctrl+d" = "move down 5"
+"Ctrl+u" = "move up 5"
+"d" = "move down 5"
+"u" = "move up 5"
+"D" = "delete"
+"w" = "play"
+"L" = "open selected"
+"H" = "back"
+
+[theme]
+background = "black"
+primary = "light white"
+secondary = "light black"
+title = "green"
+playing = "green"
+playing_selected = "light green"
+playing_bg = "black"
+highlight = "light white"
+highlight_bg = "#484848"
+error = "light white"
+error_bg = "red"
+statusbar = "black"
+statusbar_progress = "green"
+statusbar_bg = "green"
+cmdline = "light white"
+cmdline_bg = "black"
+search_match = "light red"
+#+end_src
+** dmenu
 #+begin_src c :tangle ~/.local/src/dmenu/config.h :noweb yes
 static int topbar = 1;                      /* -b  option; if 0, dmenu appears at bottom     */
 /* -fn option overrides fonts[0]; default X11 font or font set */
@@ -2200,17 +2201,39 @@ static unsigned int lines      = 0;
 static const char worddelimiters[] = " ";
 #+end_src
 
-** download
+*** download
 #+begin_src sh :dir ~/.local/src/ :results output
 stat dmenu/.git || git clone https://git.suckless.org/dmenu
 #+end_src
 
-** build & install
+*** build & install
 
 #+begin_src sh :dir ~/.local/src/dmenu :results output
 make clean
 make all
 sudo make install
+#+end_src
+* Daemons
+** Emacs
+#+begin_src systemd
+[Unit]
+Description=Emacs server daemon
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=forking
+ExecStart=sh -c 'emacs --daemon && emacsclient -c --eval "(delete-frame)"'
+ExecStop=/usr/bin/emacsclient --no-wait --eval "(progn (setq kill-emacs-hook nil) (kill emacs))"
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+#+end_src
+
+which is then enabled by
+
+#+begin_src
+systemctl --user enable emacs.service
 #+end_src
 
 * LARBS
