@@ -3,4 +3,4 @@
 # key: m
 # condition: (not (texmathp))
 # --
-\\( $1 \\)$0
+\\( `%`$1 \\)

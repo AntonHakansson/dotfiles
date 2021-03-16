@@ -2,6 +2,5 @@
 # name: display math
 # key: M
 # condition: t
-# expand-env: ((yas-after-exit-snippet-hook (lambda () (evil-insert-state) (insert "\n  \n") (left-char))))
 # --
-\\[`%`$0\\]
+\\[ `%`$0 \\]
