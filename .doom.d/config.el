@@ -441,12 +441,12 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 (use-package! org-special-block-extras
   :hook (org-mode . org-special-block-extras-mode)
   :config
-    (org-special-block-extras-short-names)
-    )
+  (org-special-block-extras-short-names)
+  )
 
 (use-package! org-fragtog
-    :hook (org-mode . org-fragtog-mode)
-    )
+  :hook (org-mode . org-fragtog-mode)
+  )
 
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
@@ -455,11 +455,11 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 (use-package! org-download
   :hook (org-mode . org-download-enable)
   :config
-    (setq org-download-method 'directory
-          org-download-image-dir "images/"
-          org-download-link-format (format "[[file:%s%%s]]\n" org-download-image-dir)
-          org-download-image-org-width 400
-          org-download-heading-lvl nil)
+  (setq org-download-method 'directory
+        org-download-image-dir "images/"
+        org-download-link-format (format "[[file:%s%%s]]\n" org-download-image-dir)
+        org-download-image-org-width 400
+        org-download-heading-lvl nil)
 )
 
 (after! org
@@ -700,7 +700,7 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 
 
 ;;
-;; Fontifying inline src blocks
+;; Fontifying inline src blocks in org
 ;;
 (defun org-fontify-inline-src-blocks (limit)
   "Try to apply `org-fontify-inline-src-blocks-1'."
