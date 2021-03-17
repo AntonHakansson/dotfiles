@@ -208,57 +208,57 @@
 ;;
 ;; Elfeed config
 ;;
-(after! elfeed
-  (setq elfeed-feeds
-        '(("http://rss.slashdot.org/Slashdot/slashdot" news tech slashdot)
-          ("https://www.technologyreview.com/feed/" news tech MIT)
-          ("https://reddit.0qz.fun/r/news.json" reddit news)
-          ("https://www.svt.se/nyheter/rss.xml" news swe svt)
-          ("https://api.sr.se/api/rss/channel/104?format=1" news swe radio)
+;; (after! elfeed
+;;   (setq elfeed-feeds
+;;         '(("http://rss.slashdot.org/Slashdot/slashdot" news tech slashdot)
+;;           ("https://www.technologyreview.com/feed/" news tech MIT)
+;;           ("https://reddit.0qz.fun/r/news.json" reddit news)
+;;           ("https://www.svt.se/nyheter/rss.xml" news swe svt)
+;;           ("https://api.sr.se/api/rss/channel/104?format=1" news swe radio)
 
-          ("https://usesthis.com/feed.atom" tech)
-          ("https://xkcd.com/rss.xml" comic)
+;;           ("https://usesthis.com/feed.atom" tech)
+;;           ("https://xkcd.com/rss.xml" comic)
 
-          ("https://moreplatesmoredates.com/feed/" health derek)
-          ("https://kill-the-newsletter.com/feeds/kb84eb1tf6a3kta7.xml" health derek)
+;;           ("https://moreplatesmoredates.com/feed/" health derek)
+;;           ("https://kill-the-newsletter.com/feeds/kb84eb1tf6a3kta7.xml" health derek)
 
-          ("https://reddit.0qz.fun/r/GregDoucette.json" reddit nutrition greg)
-          ("https://reddit.0qz.fun/r/vegan.json" reddit nutrition vegan)
-          ("https://reddit.0qz.fun/r/AntiVegan.json" reddit nutrition anti-vegan)
-          ("https://reddit.0qz.fun/r/Volumeeating.json" reddit nutrition volume)
+;;           ("https://reddit.0qz.fun/r/GregDoucette.json" reddit nutrition greg)
+;;           ("https://reddit.0qz.fun/r/vegan.json" reddit nutrition vegan)
+;;           ("https://reddit.0qz.fun/r/AntiVegan.json" reddit nutrition anti-vegan)
+;;           ("https://reddit.0qz.fun/r/Volumeeating.json" reddit nutrition volume)
 
-          ("https://planet.emacslife.com/atom.xml" emacs community)
-          ("https://reddit.0qz.fun/r/emacs.json" emacs reddit)
-          ("https://sachachua.com/blog/category/emacs/feed/" emacs blog)
-          ("https://reddit.0qz.fun/r/DoomEmacs.json" reddit emacs doom)
-          ("https://reddit.0qz.fun/r/orgmode.json" reddit emacs orgmode)
-          ("https://helpdeskheadesk.net/index.xml" emacs blog linux)
-          ("https://blog.ashfaqfarooqui.me/index.xml" emacs orgmode blog chalmers-guy)
+;;           ("https://planet.emacslife.com/atom.xml" emacs community)
+;;           ("https://reddit.0qz.fun/r/emacs.json" emacs reddit)
+;;           ("https://sachachua.com/blog/category/emacs/feed/" emacs blog)
+;;           ("https://reddit.0qz.fun/r/DoomEmacs.json" reddit emacs doom)
+;;           ("https://reddit.0qz.fun/r/orgmode.json" reddit emacs orgmode)
+;;           ("https://helpdeskheadesk.net/index.xml" emacs blog linux)
+;;           ("https://blog.ashfaqfarooqui.me/index.xml" emacs orgmode blog chalmers-guy)
 
-          ("https://castel.dev/rss.xml" linux blog note-taking) ; lecture note setup
+;;           ("https://castel.dev/rss.xml" linux blog note-taking) ; lecture note setup
 
-          ("https://lukesmith.xyz/rss.xml" linux lukesmith)
-          ("https://notrelated.xyz/rss" linux lukesmith podcast)
-          ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA" linux lukesmith yt)
+;;           ("https://lukesmith.xyz/rss.xml" linux lukesmith)
+;;           ("https://notrelated.xyz/rss" linux lukesmith podcast)
+;;           ("https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA" linux lukesmith yt)
 
-          ("https://kill-the-newsletter.com/feeds/5ba3cqgwcewiowyu.xml" software research andy)
+;;           ("https://kill-the-newsletter.com/feeds/5ba3cqgwcewiowyu.xml" software research andy)
 
-          ("https://handmade.network/podcast/podcast.xml" dev handmade podcast)
-          ("https://rssbridge.pofilo.fr/?action=display&bridge=Twitter&context=By+username&u=cmuratori&format=Atom" dev game handmade casey)
-          ("https://rssbridge.pofilo.fr/?action=display&bridge=Twitter&context=By+username&u=Jonathan_Blow&format=Atom" dev game handmade jonathan blow)
-          ("https://ourmachinery.com/index.xml" dev game)
-          ("https://kill-the-newsletter.com/feeds/j0mm7ibixsb7o20q.xml" dev nullprogram)
+;;           ("https://handmade.network/podcast/podcast.xml" dev handmade podcast)
+;;           ("https://rssbridge.pofilo.fr/?action=display&bridge=Twitter&context=By+username&u=cmuratori&format=Atom" dev game handmade casey)
+;;           ("https://rssbridge.pofilo.fr/?action=display&bridge=Twitter&context=By+username&u=Jonathan_Blow&format=Atom" dev game handmade jonathan blow)
+;;           ("https://ourmachinery.com/index.xml" dev game)
+;;           ("https://kill-the-newsletter.com/feeds/j0mm7ibixsb7o20q.xml" dev nullprogram)
 
-          ("https://kill-the-newsletter.com/feeds/j0mm7ibixsb7o20q.xml" dev 4coder)
+;;           ("https://kill-the-newsletter.com/feeds/j0mm7ibixsb7o20q.xml" dev 4coder)
 
-          ("https://andrewkelley.me/rss.xml" dev zig andrew)
-          ("https://kill-the-newsletter.com/feeds/v71vn4ghp8q4cy4j.xml" dev zig showtime)
+;;           ("https://andrewkelley.me/rss.xml" dev zig andrew)
+;;           ("https://kill-the-newsletter.com/feeds/v71vn4ghp8q4cy4j.xml" dev zig showtime)
 
-          ("https://hackaday.com/blog/feed/" hackaday)
-          ;; ("https://rssbridge.hakanssn.com/?action=display&bridge=GithubTrending&context=By+language&language=&date_range=today&format=Atom" github trending tech)
-          ))
-  (setq elfeed-search-filter "@4-months-ago +unread -nutrition")
-  )
+;;           ("https://hackaday.com/blog/feed/" hackaday)
+;;           ;; ("https://rssbridge.hakanssn.com/?action=display&bridge=GithubTrending&context=By+language&language=&date_range=today&format=Atom" github trending tech)
+;;           ))
+;;   (setq elfeed-search-filter "@4-months-ago +unread -nutrition")
+;;   )
 
 (map! :map elfeed-search-mode-map
       :after elfeed-search
