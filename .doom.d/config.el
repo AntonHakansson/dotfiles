@@ -539,10 +539,10 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
         calctex-additional-latex-macros
         (concat calctex-additional-latex-macros
                 "\n\\let\\evalto\\Rightarrow"))
-  (defadvice! no-messaging-a (orig-fn &rest args)
-    :around #'calctex-default-dispatching-render-process
-    (let ((inhibit-message t) message-log-max)
-      (apply orig-fn args)))
+  ;; (defadvice! no-messaging-a (orig-fn &rest args)
+  ;;   :around #'calctex-default-dispatching-render-process
+  ;;   (let ((inhibit-message t) message-log-max)
+  ;;     (apply orig-fn args)))
   ;; Fix hardcoded dvichop path (whyyyyyyy)
   (let ((vendor-folder (concat (file-truename doom-local-dir)
                                "straight/"
