@@ -26,7 +26,7 @@
 
 (unpin! org-mode)
 (package! org-fragtog)
-(package! org-appear :recipe (:host github :repo "awth13/org-appear" :files ("*.el")))
+(package! org-appear)
 (package! org-valign :recipe (:host github :repo "casouri/valign" :files ("*.el")))
 (package! org-special-block-extras)
 (package! org-evil-navigation
@@ -45,7 +45,7 @@
 
 (package! graphviz-dot-mode)
 
-(package! evil-motion-trainer :recipe (:host github :repo "martinbaillie/evil-motion-trainer" :files ("*.el")))
+(package! lsp-grammarly)
 
 ;; The very large files mode loads large files in chunks, allowing one to open ridiculously large files.
 ;; (package! vlf :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))
