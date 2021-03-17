@@ -523,24 +523,25 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
   ;; :init
   ;; (add-hook 'calc-mode-hook #'calctex-mode)
   :config
-;; calctex-additional-latex-packages "
-;; \\usepackage[usenames]{color}
-;; \\usepackage{xcolor}
-;; \\usepackage{soul}
-;; \\usepackage{adjustbox}
-;; \\usepackage{amsmath}
-;; \\usepackage{amssymb}
-;; \\usepackage{siunitx}
-;; \\usepackage{cancel}
-;; \\usepackage{mathtools}
-;; \\usepackage{mathalpha}
-;; \\usepackage{xparse}
-;; \\usepackage{arevmath}"
+  (setq calctex-additional-latex-packages "
+\\usepackage[usenames]{color}
+\\usepackage{xcolor}
+\\usepackage{soul}
+\\usepackage{adjustbox}
+\\usepackage{amsmath}
+\\usepackage{amssymb}
+\\usepackage{siunitx}
+\\usepackage{cancel}
+\\usepackage{mathtools}
+\\usepackage{mathalpha}
+\\usepackage{xparse}
+\\usepackage{arevmath}")
   (setq calctex-additional-latex-macros (concat calctex-additional-latex-macros "\n\\let\\evalto\\Rightarrow"))
   ;; (defadvice! no-messaging-a (orig-fn &rest args)
   ;;   :around #'calctex-default-dispatching-render-process
   ;;   (let ((inhibit-message t) message-log-max)
   ;;     (apply orig-fn args)))
+
   ;; Fix hardcoded dvichop path (whyyyyyyy)
   (let ((vendor-folder (concat (file-truename doom-local-dir)
                                "straight/"
@@ -548,10 +549,10 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
                                "/calctex/vendor/")))
     (setq calctex-dvichop-sty (concat vendor-folder "texd/dvichop")
           calctex-dvichop-bin (concat vendor-folder "texd/dvichop")))
-  ;; (unless (file-exists-p calctex-dvichop-bin)
-  ;;   (message "CalcTeX: Building dvichop binary")
-  ;;   (let ((default-directory (file-name-directory calctex-dvichop-bin)))
-  ;;     (call-process "make" nil nil nil)))
+  (unless (file-exists-p calctex-dvichop-bin)
+    (message "CalcTeX: Building dvichop binary")
+    (let ((default-directory (file-name-directory calctex-dvichop-bin)))
+      (call-process "make" nil nil nil)))
   )
 
 (defun my/org-download-paste-clipboard (&optional use-default-filename)
