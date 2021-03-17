@@ -212,7 +212,7 @@
   (setq elfeed-feeds
         '(("http://rss.slashdot.org/Slashdot/slashdot" news tech slashdot)
           ("https://www.technologyreview.com/feed/" news tech MIT)
-          ("https://reddit.0qz.fun/r/news.json" news reddit)
+          ("https://reddit.0qz.fun/r/news.json" reddit news)
           ("https://www.svt.se/nyheter/rss.xml" news swe svt)
           ("https://api.sr.se/api/rss/channel/104?format=1" news swe radio)
 
@@ -222,16 +222,16 @@
           ("https://moreplatesmoredates.com/feed/" health derek)
           ("https://kill-the-newsletter.com/feeds/kb84eb1tf6a3kta7.xml" health derek)
 
-          ("https://reddit.0qz.fun/r/GregDoucette.json" nutrition greg)
-          ("https://reddit.0qz.fun/r/vegan.json" nutrition vegan)
-          ("https://reddit.0qz.fun/r/AntiVegan.json" nutrition anti-vegan)
-          ("https://reddit.0qz.fun/r/Volumeeating.json" nutrition volume)
+          ("https://reddit.0qz.fun/r/GregDoucette.json" reddit nutrition greg)
+          ("https://reddit.0qz.fun/r/vegan.json" reddit nutrition vegan)
+          ("https://reddit.0qz.fun/r/AntiVegan.json" reddit nutrition anti-vegan)
+          ("https://reddit.0qz.fun/r/Volumeeating.json" reddit nutrition volume)
 
           ("https://planet.emacslife.com/atom.xml" emacs community)
           ("https://reddit.0qz.fun/r/emacs.json" emacs reddit)
           ("https://sachachua.com/blog/category/emacs/feed/" emacs blog)
-          ("https://reddit.0qz.fun/r/DoomEmacs.json" emacs doom)
-          ("https://reddit.0qz.fun/r/orgmode.json" emacs orgmode)
+          ("https://reddit.0qz.fun/r/DoomEmacs.json" reddit emacs doom)
+          ("https://reddit.0qz.fun/r/orgmode.json" reddit emacs orgmode)
           ("https://helpdeskheadesk.net/index.xml" emacs blog linux)
           ("https://blog.ashfaqfarooqui.me/index.xml" emacs orgmode blog chalmers-guy)
 
@@ -256,9 +256,9 @@
 
           ("https://hackaday.com/blog/feed/" hackaday)
           ;; ("https://rssbridge.hakanssn.com/?action=display&bridge=GithubTrending&context=By+language&language=&date_range=today&format=Atom" github trending tech)
-          )
-
-        elfeed-search-filter "@4-months-ago +unread -nutrition"))
+          ))
+  (setq elfeed-search-filter "@4-months-ago +unread -nutrition")
+  )
 
 (map! :map elfeed-search-mode-map
       :after elfeed-search
