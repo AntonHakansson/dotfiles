@@ -537,6 +537,9 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 \\usepackage{xparse}
 \\usepackage{arevmath}")
   (setq calctex-additional-latex-macros (concat calctex-additional-latex-macros "\n\\let\\evalto\\Rightarrow"))
+  ;; Let's not crash, but use slower latexpdf
+  (setq calctex-dvichop-sty nil
+        calctex-dvichop-bin nil)
   ;; (defadvice! no-messaging-a (orig-fn &rest args)
   ;;   :around #'calctex-default-dispatching-render-process
   ;;   (let ((inhibit-message t) message-log-max)
