@@ -606,7 +606,7 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
         (filepath (concat dir "/" (org-download-file-format-default basename)))
         (org-download-image-org-width 400))
       (make-directory dir t)
-      (when (not (file-exists-p filepath)) (copy-file "~/.doom.d/drawio_template.svg" filepath)) ; create empty svg file
+      (when (not (file-exists-p filepath)) (copy-file "~/.config/doom/drawio_template.svg" filepath)) ; create empty svg file
       (start-process-shell-command "drawio" nil (format "drawio %s" filepath)) ; open svg file
       (org-download-insert-link basename filepath)
     )
