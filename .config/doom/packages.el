@@ -10,22 +10,13 @@
 ;(package! some-package)
 
 (package! string-inflection)
-
-(package! dired-single)
-(package! golden-ratio)
 (package! academic-phrases)
 
-(package! keytar)
-(package! lsp-grammarly)
+(package! dired-single)
 
 (package! elpher)
 
-;; all-language autocompleter. It uses machine learning to provide responsive, reliable, and relevant suggestions.
-;;(package! company-tabnine)
-
 (package! zig-mode)
-
-(package! haskell-mode)
 
 (unpin! org-mode)
 (package! org-fragtog)
@@ -43,8 +34,7 @@
 ;; (package! org-menu :recipe (:host github :repo "sheijk/org-menu" :files ("org-menu.el")))
 
 (package! calctex :recipe (:host github :repo "johnbcoughlin/calctex"
-                           :files ("*.el" "calctex/*.el" "calctex-contrib/*.el" "org-calctex/*.el" "vendor"))
-  :pin "7fa2673c64e259e04aef684ccf09ef85570c388b")
+                           :files ("*.el" "calctex/*.el" "calctex-contrib/*.el" "org-calctex/*.el" "vendor")))
 
 (package! graphviz-dot-mode)
 
