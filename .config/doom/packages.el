@@ -15,6 +15,9 @@
 (package! golden-ratio)
 (package! academic-phrases)
 
+(package! keytar)
+(package! lsp-grammarly)
+
 (package! elpher)
 
 ;; all-language autocompleter. It uses machine learning to provide responsive, reliable, and relevant suggestions.
