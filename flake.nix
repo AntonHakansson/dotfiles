@@ -77,9 +77,9 @@
       };
       defaultTemplate = self.templates.minimal;
 
-      defaultApp."${system}" = {
-        type = "app";
-        program = ./bin/hey;
-      };
+      # defaultApp."${system}" = {
+      #   type = "app";
+      #   program = ./bin/hey;
+      # };
     };
 }
