@@ -3,10 +3,10 @@
 with lib;
 with lib.my;
 {
-	import =
-		# I use home-manager to deploy files to $HOME
-		[ inputs.home-manager.nixosModules.home-manager ]
-    # personal modules
+  imports =
+    # I use home-manager to deploy files to $HOME; little else
+    [ inputs.home-manager.nixosModules.home-manager ]
+    # All my personal modules
     ++ (mapModulesRec' (toString ./modules) import);
 
   # Common config for all nixos machines; and to ensure the flake operates
@@ -16,7 +16,6 @@ with lib.my;
 
   # Configure nix and nixpkgs
   environment.variables.NIXPKGS_ALLOW_UNFREE = "1";
-
   nix =
     let filteredInputs = filterAttrs (n: _: n != "self") inputs;
         nixPathInputs  = mapAttrsToList (n: v: "${n}=${v}") filteredInputs;
@@ -38,31 +37,33 @@ with lib.my;
       autoOptimiseStore = true;
     };
   system.configurationRevision = with inputs; mkIf (self ? rev) self.rev;
-  system.stateVersion = "20.09"; # Did you read the comment?
+  system.stateVersion = "21.05";
+
 
   ## Some reasonable, global defaults
   # This is here to appease 'nix flake check' for generic hosts with no
   # hardware-configuration.nix or fileSystem config.
   fileSystems."/".device = mkDefault "/dev/disk/by-label/nixos";
 
-	# Use the latest kernel
- 	boot = {
-		kernelPackages = mkDefault pkgs.linuxPackages_5_10;
-		loader = {
-			efi.canTouchEfiVariables = mkDefault true;
-			systemd-boot.configurationLimit = 10;
-			systemd-boot.enable = mkDefault true;
-		};
-	};
+  # Use the latest kernel
+  boot = {
+    kernelPackages = mkDefault pkgs.linuxPackages_5_10;
+    loader = {
+      efi.canTouchEfiVariables = mkDefault true;
+      systemd-boot.configurationLimit = 10;
+      systemd-boot.enable = mkDefault true;
+    };
+  };
 
-	environment.systemPackages = with pkgs; [
-		bind
-		cached-nix-shell
-		coreutils
-		git
-		vim
-		wget
-		gnumake
-		unzip
-	];
+  # Just the bear necessities...
+  environment.systemPackages = with pkgs; [
+    bind
+    cached-nix-shell
+    coreutils
+    git
+    vim
+    wget
+    gnumake
+    unzip
+  ];
 }

@@ -17,8 +17,6 @@
       nixpkgs-unstable.url = "nixpkgs/master";    # for packages on the edge
       home-manager.url = "github:rycee/home-manager/master";
       home-manager.inputs.nixpkgs.follows = "nixpkgs";
-      agenix.url = "github:ryantm/agenix";
-      agenix.inputs.nixpkgs.follows = "nixpkgs";
 
       # Extras
       emacs-overlay.url  = "github:nix-community/emacs-overlay";
@@ -65,17 +63,17 @@
       devShell."${system}" =
         import ./shell.nix { inherit pkgs; };
 
-      templates = {
-        full = {
-          path = ./.;
-          description = "A grossly incandescent nixos config";
-        };
-        minimal = {
-          path = ./templates/minimal;
-          description = "A grossly incandescent and minimal nixos config";
-        };
-      };
-      defaultTemplate = self.templates.minimal;
+      # templates = {
+      #   full = {
+      #     path = ./.;
+      #     description = "A grossly incandescent nixos config";
+      #   };
+      #   minimal = {
+      #     path = ./templates/minimal;
+      #     description = "A grossly incandescent and minimal nixos config";
+      #   };
+      # };
+      # defaultTemplate = self.templates.minimal;
 
       # defaultApp."${system}" = {
       #   type = "app";

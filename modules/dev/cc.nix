@@ -1,6 +1,6 @@
 # C & C++
 
-{ config, options, pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
 with lib;
 with lib.my;

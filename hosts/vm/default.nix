@@ -18,33 +18,33 @@
       browsers = {
         default = "brave";
         brave.enable = true;
-        # firefox.enable = true;
+        firefox.enable = true;
         # qutebrowser.enable = true;
       };
-      gaming = {
+      # gaming = {
         # steam.enable = true;
         # emulators.enable = true;
         # emulators.psx.enable = true;
-      };
-      media = {
+      # };
+      # media = {
         # daw.enable = true;
         # documents.enable = true;
         # graphics.enable = true;
         # mpv.enable = true;
         # recording.enable = true;
         # spotify.enable = true;
-      };
+      # };
       term = {
-        # default = "xst";
+        default = "xst";
         # st.enable = true;
       };
-      vm = {
-        # qemu.enable = true;
-      };
+      # vm = {
+      #   # qemu.enable = true;
+      # };
     };
     editors = {
       default = "nvim";
-      emacs.enable = true;
+      # emacs.enable = true;
       vim.enable = true;
     };
     shell = {

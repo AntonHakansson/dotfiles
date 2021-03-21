@@ -4,7 +4,7 @@
 # me. The Py2->3 transition make trainwrecks jealous. But SciPy, NumPy, iPython
 # and Jupyter can have my babies. Every single one.
 
-{ config, options, pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
 with lib;
 with lib.my;

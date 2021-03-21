@@ -1,0 +1,10 @@
+# Building
+
+#+begin_src sh
+nix flake update
+nix flake check
+nix build .#nixosConfigurations.vm.config.system.build.toplevel
+#+end_src
+
+Note that =system.build.toplevel= is an internal NixOS option that evaluates to the "system" derivation that commands like =nixos-rebuild=, =nixos-install= and =nixos-container= build and activates.
+The symlink =/run/current-system/= points to the output of this derivation.
