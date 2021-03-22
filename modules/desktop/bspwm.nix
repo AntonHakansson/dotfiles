@@ -23,6 +23,7 @@ in {
         pulseSupport = true;
         nlSupport = true;
       })
+      unclutter
     ];
 
     services = {
@@ -46,6 +47,15 @@ in {
       serviceConfig.Restart = "always";
       serviceConfig.RestartSec = 2;
       serviceConfig.ExecStart = "${pkgs.dunst}/bin/dunst";
+    };
+
+    systemd.user.services."unclutter" = {
+      enable = true;
+      description = "hide cursor after X seonds idle";
+      wantedBy = [ "default.target" ];
+      serviceConfig.Restart = "always";
+      serviceConfig.RestartSec = 2;
+      serviceConfig.ExecStart = "${pkgs.unclutter}/bin/unclutter";
     };
 
     # link recursively so other modules can link files in their folders
