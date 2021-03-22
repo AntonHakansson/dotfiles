@@ -11,15 +11,18 @@ super + slash
 super + Return
     alacritty || notify-send "Could not open alacritty!" -u critical
 
-# Run dmenu
+# Run rofi
 super + d
     $DOTFILES_BIN/rofi/appmenu
+super + Tab
+	$DOTFILES_BIN/rofi/windowmenu
 # Open emacs
 super + e
     emacsclient --create-frame --alternate-editor="emacs" --no-wait
 # Open emacs anywhere (broken)
 super + shift + e
-    bspwmfloat emacs_anywhere
+    emacsclient --eval "(emacs-everywhere)"
+
 
 # Open up default browser
 super + w
@@ -46,7 +49,10 @@ super + x
 
 # Screenshot
 super + p
-    maimpick
+    scrcap
+super + shift + p
+    scrrec -s ~/recordings/$(date +%F-%T).mp4
+
 
 # Copy Unicode character
 super + grave
@@ -58,7 +64,7 @@ super + {_,shift + }{h,j,k,l}
 
 # focus workspace or send window to the given desktop
 super + {_,shift + }{1-9,0}
-    bspc {desktop -f,node -d} ^{1-9,10}
+    bspc {desktop -f,node -d} {1-9,10}
 
 # focus previous workspace
 super + {Tab,backslash}

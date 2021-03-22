@@ -38,6 +38,7 @@ wm-restack = bspwm
 # REQUIRED to move the window with hideit.sh
 override-redirect = true
 fixed-center = true
+bottom = false
 
 background = ${colors.bg}
 foreground = ${colors.fg}

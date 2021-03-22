@@ -36,7 +36,7 @@
       # };
       term = {
         default = "alacritty";
-	alacritty.enable = true;
+        alacritty.enable = true;
       };
       # vm = {
       #   # qemu.enable = true;
@@ -46,13 +46,14 @@
       default = "nvim";
       # emacs.enable = true;
       vim.enable = true;
+      vscode.enable = true;
     };
     shell = {
       # adl.enable = true;
-      # bitwarden.enable = true;
+      bitwarden.enable = true;
       # direnv.enable = true;
       git.enable    = true;
-      # gnupg.enable  = true;
+      gnupg.enable  = true;
       # tmux.enable   = true;
       zsh.enable    = true;
     };
