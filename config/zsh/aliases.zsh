@@ -21,6 +21,8 @@ alias gurl='curl --compressed'
 alias shutdown='sudo shutdown'
 alias reboot='sudo reboot'
 
+alias cfg="cd $HOME/.config/dotfiles"
+
 # An rsync that respects gitignore
 rcp() {
   # -a = -rlptgoD
