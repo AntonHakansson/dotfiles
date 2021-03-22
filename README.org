@@ -8,3 +8,12 @@ nix build .#nixosConfigurations.vm.config.system.build.toplevel
 
 Note that =system.build.toplevel= is an internal NixOS option that evaluates to the "system" derivation that commands like =nixos-rebuild=, =nixos-install= and =nixos-container= build and activates.
 The symlink =/run/current-system/= points to the output of this derivation.
+
+# Installing
+
+From the the dotfiles root directory run
+
+#+begin_src sh
+nixos-rebuild boot --flake .#<host>
+reboot
+#+end_src

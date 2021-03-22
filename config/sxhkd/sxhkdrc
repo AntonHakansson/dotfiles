@@ -9,10 +9,11 @@ super + slash
 
 # Open a terminal
 super + Return
-    $TERMINAL
+    alacritty || notify-send "Could not open alacritty!" -u critical
+
 # Run dmenu
 super + d
-    dmenu_run
+    $DOTFILES_BIN/rofi/appmenu
 # Open emacs
 super + e
     emacsclient --create-frame --alternate-editor="emacs" --no-wait
@@ -101,7 +102,7 @@ super + t ; {h,j,k,l,d}
 
 # toggle sticky on focused window
 super + shift + s
-      bspc node -g sticky
+    bspc node -g sticky
 
 # Toggle gaps
 super + shift + d
@@ -144,13 +145,3 @@ XF86Mail
     $TERMINAL -e neomutt
 XF86MyComputer
     $TERMINAL -e $FILE
-
-# Move mouse
-super + {Left, Down, Up, Right}
-    xdotool mousemove_relative -- { -40 0, 0 40, 0 -40, 40 0 }
-
-# Press mouse
-super + {_, shift} + m
-    xdotool mousedown --clearmodifiers {1, 3}
-@super+ {_, shift} + m
-    xdotool mouseup --clearmodifiers {1, 3}
