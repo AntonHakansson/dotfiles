@@ -47,7 +47,6 @@ with lib.my;
         home = "/home/${name}";
         group = "users";
         uid = 1000;
-        initialPassword = "nixos";
       };
 
     # Install user packages to /etc/profiles instead. Necessary for
