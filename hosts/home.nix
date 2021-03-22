@@ -10,4 +10,5 @@ with lib;
     latitude = 59.20;
     longitude = 18.03;
   } else {});
+  services.xserver.xkbVariant = "us,altgr-intl";
 }
