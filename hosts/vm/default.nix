@@ -49,9 +49,8 @@
       vscode.enable = true;
     };
     shell = {
-      # adl.enable = true;
       bitwarden.enable = true;
-      # direnv.enable = true;
+      direnv.enable = true;
       git.enable    = true;
       gnupg.enable  = true;
       # tmux.enable   = true;
