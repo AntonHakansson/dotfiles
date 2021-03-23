@@ -42,6 +42,9 @@
       #   # qemu.enable = true;
       # };
     };
+    dev = {
+      zig.enable = true;
+    };
     editors = {
       default = "nvim";
       # emacs.enable = true;
