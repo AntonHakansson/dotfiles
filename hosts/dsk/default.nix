@@ -89,13 +89,15 @@
       HorizSync       30.0 - 160.0
       VertRefresh     56.0 - 144.0
       Option         "DPMS"
+      Option         "Primary" "true"
     '';
     screenSection = ''
-      Option         "Stereo" "0"
-      Option         "metamodes" "DVI-I-1: 1920x1080_144 +0+225 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}, HDMI-0: nvidia-auto-select +1920+0 {rotation=right, ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
+      Option         "metamodes" "DVI-I-1: 1920x1080_144 +0+225, HDMI-0: nvidia-auto-select +1920+0 {rotation=right}"
       Option         "SLI" "Off"
       Option         "MultiGPU" "Off"
       Option         "BaseMosaic" "off"
+      Option "Stereo" "0"
+      Option "nvidiaXineramaInfoOrder" "DFP-0"
     '';
   };
 }
