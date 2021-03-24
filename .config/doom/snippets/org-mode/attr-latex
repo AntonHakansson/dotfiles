@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: latex attribute
-# key: al
-# contributor: John Kitchin <jkitchin@andrew.cmu.edu>
-# condition: (looking-back "^al" 3)
-# --
-#+attr_latex: ${1::width 0.8\textwidth}$0
-

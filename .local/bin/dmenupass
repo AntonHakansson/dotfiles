@@ -1,3 +1,0 @@
-#!/bin/sh
-
-dmenu -sb "#ECBE7B" -nf "#282c34" -nb "#282c34" -p "$1" <&- && echo
