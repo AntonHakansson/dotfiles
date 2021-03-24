@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: display math
+# key: M
+# condition: t
+# --
+\\[ `%`$0 \\]
