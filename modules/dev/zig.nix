@@ -1,6 +1,6 @@
 # zig
 
-{ config, options, lib, pkgs, ... }:
+{ config, options, lib, pkgs, inputs, ... }:
 
 with lib;
 with lib.my;
@@ -11,6 +11,7 @@ in {
   };
 
   config = mkIf cfg.enable {
+
     user.packages = with pkgs; [
       zig
     ];

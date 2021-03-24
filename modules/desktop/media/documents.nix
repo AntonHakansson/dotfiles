@@ -12,8 +12,8 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      # calibre
       zathura
+      # calibre
     ];
   };
 
