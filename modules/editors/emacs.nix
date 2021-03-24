@@ -44,6 +44,7 @@ in {
       editorconfig-core-c # per-project style config
       # :tools lookup & :lang org +roam
       sqlite
+      emacsPackages.emacsql-sqlite3
       # :lang cc
       ccls
       # :lang javascript
@@ -56,6 +57,9 @@ in {
     ];
 
     env.PATH = [ "$XDG_CONFIG_HOME/emacs/bin" ];
+    environment.variables.EMACSDIR = "$XDG_CONFIG_HOME/emacs";
+    environment.variables.DOOMDIR = "$XDG_CONFIG_HOME/doom";
+    environment.variables.DOOMLOCALDIR = "$XDG_CONFIG_HOME/doom/local";
 
     modules.shell.zsh.rcFiles = [ "${configDir}/emacs/aliases.zsh" ];
 
