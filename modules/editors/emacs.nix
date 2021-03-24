@@ -44,7 +44,6 @@ in {
       editorconfig-core-c # per-project style config
       # :tools lookup & :lang org +roam
       sqlite
-      emacsPackages.emacsql-sqlite3
       # :lang cc
       ccls
       # :lang javascript
