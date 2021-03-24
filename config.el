@@ -36,7 +36,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Documents/org/")
+(setq org-directory "~//org/")
 (after! org-agenda
   (setq org-agenda-files
         (apply 'append
@@ -44,7 +44,7 @@
                 (lambda (directory)
                   (directory-files-recursively
                    directory org-agenda-file-regexp))
-                '("~/Documents/org/"))))
+                '("~/org/"))))
   )
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -692,11 +692,6 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
   (add-to-list 'TeX-view-program-list '("Evince" "evince %o"))
   (add-to-list 'TeX-view-program-selection '(output-pdf "Evince")))
 
-;; motion trainer
-(use-package! evil-motion-trainer
-  ;; :init (global-evil-motion-trainer-mode 1)
-  :config (setq evil-motion-trainer-threshold 5)
-  )
 (defvar org-prettify-inline-results t
   "Whether to use (ab)use prettify-symbols-mode on {{{results(...)}}}.")
 
