@@ -26,14 +26,14 @@
         # emulators.enable = true;
         # emulators.psx.enable = true;
       # };
-      # media = {
+      media = {
         # daw.enable = true;
-        # documents.enable = true;
+        documents.enable = true;
         # graphics.enable = true;
         # mpv.enable = true;
         # recording.enable = true;
         # spotify.enable = true;
-      # };
+      };
       term = {
         default = "alacritty";
         alacritty.enable = true;
