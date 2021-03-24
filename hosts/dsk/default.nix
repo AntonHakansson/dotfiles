@@ -65,6 +65,7 @@
     hardware = {
       audio.enable = true;
       nvidia.enable = true;
+      annepro.enable = true;
     };
     theme.active = "doom-one";
   };
