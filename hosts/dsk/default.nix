@@ -10,7 +10,7 @@
     desktop = {
       bspwm.enable = true;
       apps = {
-        # discord.enable = true;
+        discord.enable = true;
         rofi.enable = true;
         # godot.enable = true;
         # signal.enable = true;
@@ -21,11 +21,9 @@
         firefox.enable = true;
         # qutebrowser.enable = true;
       };
-      # gaming = {
-        # steam.enable = true;
-        # emulators.enable = true;
-        # emulators.psx.enable = true;
-      # };
+      gaming = {
+        steam.enable = true;
+      };
       media = {
         # daw.enable = true;
         documents.enable = true;
