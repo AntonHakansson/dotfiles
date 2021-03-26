@@ -59,6 +59,8 @@
     };
     services = {
       ssh.enable = true;
+      transmission.enable = true;
+      bitwarden.enable = true;
     };
     hardware = {
       audio.enable = true;
@@ -98,5 +100,9 @@
       Option "Stereo" "0"
       Option "nvidiaXineramaInfoOrder" "DFP-0"
     '';
+  };
+  # start with "systemctl start openvpn-homeVPN.service"
+  services.openvpn.servers = {
+    homeVPN = { config = '' config /root/nixos/openvpn/homeVPN.conf ''; };
   };
 }

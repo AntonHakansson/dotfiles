@@ -28,5 +28,8 @@ in {
     };
 
     user.extraGroups = [ "transmission" ];
+    environment.shellAliases = {
+      tsm = "transmission-remote";
+    };
   };
 }
