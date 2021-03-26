@@ -10,7 +10,8 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      # obinskit marked unsafe for time being, maybe switch to QMK?
+      # obinskit depend on electron which is marked insecure
+      # unstable.obinskit
     ];
   };
 }
