@@ -6,7 +6,7 @@ MONITOR=${MONITOR:-${MONITORS[0]}}
 
 # 5 workspaces for primary monitor, 2 for secondary monitor
 bspc monitor $MONITOR -d {1,2,3,4,5}
-[ $(echo "$MONITORS" | wc -l) -ge 2 ] && bspc monitor $(echo "$MONITORS" | cut -d$'\n' -f2) -d {9,10}
+[[ $(echo $MONITORS | cut -d' ' -f2) ]] && bspc monitor $(echo "$MONITORS" | cut -d' ' -f2) -d {9,10}
 
 bspc config remove_disabled_monitors true
 bspc config remove_unplugged_monitors true
