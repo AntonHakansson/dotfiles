@@ -19,7 +19,7 @@ in {
     user.packages = with pkgs; [
       ## Emacs itself
       binutils       # native-comp needs 'as', provided by this
-      emacsPgtkGcc   # 28 + pgtk + native-comp
+      ((emacsPackagesNgGen emacsPgtkGcc).emacsWithPackages (epkgs: [ epkgs.vterm ]))
 
       ## Doom dependencies
       git
@@ -36,7 +36,7 @@ in {
       ## Module dependencies
       # :checkers spell
       (aspellWithDicts (ds: with ds; [
-        en en-computers en-science
+        en en-computers en-science sv
       ]))
       # :checkers grammar
       languagetool
@@ -44,6 +44,12 @@ in {
       editorconfig-core-c # per-project style config
       # :tools lookup & :lang org +roam
       sqlite
+
+      # :lang nix
+      nixfmt
+      # lang sh
+      shellcheck
+      shfmt
       # :lang cc
       ccls
       # :lang javascript
@@ -53,6 +59,12 @@ in {
       # :lang rust
       rustfmt
       unstable.rust-analyzer
+      # lang markdown
+      pandoc
+      # lang python
+      python39
+      # lang org
+      graphviz
     ];
 
     env.PATH = [ "$XDG_CONFIG_HOME/emacs/bin" ];
