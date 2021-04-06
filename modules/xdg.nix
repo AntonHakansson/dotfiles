@@ -32,6 +32,8 @@
       INPUTRC         = "$XDG_CONFIG_HOME/readline/inputrc";
       LESSHISTFILE    = "$XDG_CACHE_HOME/lesshst";
       WGETRC          = "$XDG_CONFIG_HOME/wgetrc";
+      WINEPREFIX      = "$XDG_DATA_HOME/wineprefixes/default";
+      CARGO_HOME      = "$XDG_DATA_HOME/cargo";
 
       # Tools I don't use
       # SUBVERSION_HOME = "$XDG_CONFIG_HOME/subversion";

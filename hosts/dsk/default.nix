@@ -47,7 +47,7 @@
       default = "nvim";
       emacs.enable = true;
       vim.enable = true;
-      # vscode.enable = true;
+      vscode.enable = true;
     };
     shell = {
       bitwarden.enable = true;
@@ -97,8 +97,8 @@
       Option         "SLI" "Off"
       Option         "MultiGPU" "Off"
       Option         "BaseMosaic" "off"
-      Option "Stereo" "0"
-      Option "nvidiaXineramaInfoOrder" "DFP-0"
+      Option         "Stereo" "0"
+      Option         "nvidiaXineramaInfoOrder" "DFP-0"
     '';
   };
   # start with "systemctl start openvpn-homeVPN.service"
