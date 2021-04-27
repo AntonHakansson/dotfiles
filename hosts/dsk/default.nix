@@ -1,9 +1,5 @@
-{ pkgs, config, lib, ... }:
-{
-  imports = [
-    ../home.nix
-    ./hardware-configuration.nix
-  ];
+{ pkgs, config, lib, ... }: {
+  imports = [ ../home.nix ./hardware-configuration.nix ];
 
   ## Modules
   modules = {
@@ -19,9 +15,7 @@
         brave.enable = true;
         firefox.enable = true;
       };
-      gaming = {
-        steam.enable = true;
-      };
+      gaming = { steam.enable = true; };
       media = {
         # daw.enable = true;
         documents.enable = true;
@@ -34,9 +28,7 @@
         default = "alacritty";
         alacritty.enable = true;
       };
-      vm = {
-        virtualbox.enable = true;
-      };
+      vm = { virtualbox.enable = true; };
     };
     dev = {
       zig.enable = true;
@@ -52,10 +44,10 @@
     shell = {
       bitwarden.enable = true;
       direnv.enable = true;
-      git.enable    = true;
-      gnupg.enable  = true;
+      git.enable = true;
+      gnupg.enable = true;
       # tmux.enable   = true;
-      zsh.enable    = true;
+      zsh.enable = true;
     };
     services = {
       ssh.enable = true;
@@ -107,6 +99,6 @@
   };
   # start with "systemctl start openvpn-homeVPN.service"
   services.openvpn.servers = {
-    homeVPN = { config = '' config /root/nixos/openvpn/homeVPN.conf ''; };
+    homeVPN = { config = "config /root/nixos/openvpn/homeVPN.conf "; };
   };
 }
