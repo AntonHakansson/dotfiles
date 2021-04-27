@@ -24,7 +24,7 @@ in {
 
     loginWallpaper = mkOpt (either path null)
       (if cfg.wallpaper != null
-       then toFilteredImage cfg.wallpaper "-gaussian-blur 0x2 -modulate 70 -level 5%"
+       then toFilteredImage cfg.wallpaper "-gaussian-blur 0x2"
        else null);
 
     gtk = {
