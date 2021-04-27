@@ -130,8 +130,7 @@ format-prefix-foreground = ${colors.accent}
 [module/fs]
 type = internal/fs
 mount-0 = /
-mount-1 = /mnt/projects  ; for desktops
-mount-2 = /home          ; for laptop
+mount-1 = /home
 interval = 30
 
 ; Available tags:

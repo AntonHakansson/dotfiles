@@ -12,14 +12,12 @@
       apps = {
         discord.enable = true;
         rofi.enable = true;
-        # godot.enable = true;
-        # signal.enable = true;
+        unity3d.enable = true;
       };
       browsers = {
         default = "brave";
         brave.enable = true;
         firefox.enable = true;
-        # qutebrowser.enable = true;
       };
       gaming = {
         steam.enable = true;
@@ -27,7 +25,7 @@
       media = {
         # daw.enable = true;
         documents.enable = true;
-        # graphics.enable = true;
+        graphics.enable = true;
         mpv.enable = true;
         recording.enable = true;
         spotify.enable = true;
@@ -36,12 +34,14 @@
         default = "alacritty";
         alacritty.enable = true;
       };
-      # vm = {
-      #   # qemu.enable = true;
-      # };
+      vm = {
+        virtualbox.enable = true;
+      };
     };
     dev = {
       zig.enable = true;
+      cc.enable = true;
+      python.enable = true;
     };
     editors = {
       default = "nvim";
@@ -66,6 +66,10 @@
       audio.enable = true;
       nvidia.enable = true;
       annepro.enable = true;
+      bluetooth.enable = true;
+      wacom.enable = true;
+      sensors.enable = true;
+      v4l2loopback.enable = true;
     };
     theme.active = "doom-one";
   };

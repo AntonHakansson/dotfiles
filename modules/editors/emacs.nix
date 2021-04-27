@@ -62,7 +62,11 @@ in {
       # lang markdown
       pandoc
       # lang python
-      python39
+      (python39.withPackages (ps: with ps; [
+        ipykernel jupyterlab
+        matplotlib numpy pandas seaborn
+        networkx
+      ]))
       # lang org
       graphviz
     ];
