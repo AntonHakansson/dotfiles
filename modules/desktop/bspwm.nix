@@ -51,7 +51,7 @@ in {
 
     systemd.user.services."unclutter" = {
       enable = true;
-      description = "hide cursor after X seonds idle";
+      description = "hide cursor after X seconds idle";
       wantedBy = [ "default.target" ];
       serviceConfig.Restart = "always";
       serviceConfig.RestartSec = 2;
