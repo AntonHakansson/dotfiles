@@ -1,19 +1,21 @@
-# modules/desktop/media/docs.nix
-
 { options, config, lib, pkgs, ... }:
 
 with lib;
 with lib.my;
-let cfg = config.modules.desktop.media.documents;
+let
+  cfg = config.modules.desktop.media.documents;
+  configDir = config.dotfiles.configDir;
 in {
   options.modules.desktop.media.documents = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [
-      zathura
-      # calibre
-    ];
-  };
+    user.packages = with pkgs; [ zathura ];
 
-  # TODO zathura config
+    home.configFile = {
+      "zathura" = {
+        source = "${configDir}/zathura";
+        recursive = true;
+      };
+    };
+  };
 }
