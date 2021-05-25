@@ -51,6 +51,13 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type `relative)
 
+;; Easier to match with a bspwm rule:
+;;   bspc rule -a 'Emacs:emacs-everywhere' state=floating sticky=on
+(setq emacs-everywhere-frame-name-format "emacs-anywhere")
+
+;; Switch to the new window after splitting
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -87,7 +94,8 @@
 (setq yas-triggers-in-field t)
 
 (setq +zen-text-scale 0.6)
-(setq doom-variable-pitch-font (font-spec :family "ubuntu"))
+;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
+;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 ;;(setq doom-variable-pitch-font (font-spec :family "Overpass" :size 13))
 (custom-set-faces!
   '(outline-1 :weight extra-bold :height 1.25)
@@ -190,6 +198,16 @@
 ;;   )
 
 ;;
+;; CC config
+;;
+(setq lsp-clients-clangd-args '("-j=3"
+                                "--background-index"
+                                "--clang-tidy"
+                                "--completion-style=detailed"
+                                "--header-insertion=never"))
+(after! lsp-clangd (set-lsp-priority! 'clangd 2))
+
+;;
 ;; Zig config
 ;;
 (use-package! zig-mode
@@ -200,7 +218,7 @@
 (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
 (lsp-register-client
   (make-lsp-client
-    :new-connection (lsp-stdio-connection "/storage/git/zls/zig-cache/bin/zls")
+    :new-connection (lsp-stdio-connection "zls")
     :major-modes '(zig-mode)
     :server-id 'zls))
 (add-hook 'zig-mode-hook 'lsp)
