@@ -9,6 +9,7 @@ bspc monitor $(echo $MONITORS | cut -d' ' -f2) -d {9,10}
 
 bspc config remove_disabled_monitors true
 bspc config remove_unplugged_monitors true
+# FIXME: This causes screen sharing to capture mouse clicks
 bspc config focus_follows_pointer true
 
 # Rules

@@ -14,6 +14,7 @@ in {
         vscodeExtensions = with vscode-extensions; [
           bbenoist.Nix
           vscodevim.vim
+          ms-vsliveshare.vsliveshare
         ];
       })
     ];
