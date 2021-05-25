@@ -28,7 +28,7 @@ accent = #604c7e
 
 [global/wm]
 margin-top = 0
-margin-bottom = 34
+margin-bottom = 0
 
 [bar/main]
 monitor = ${env:MONITOR}
@@ -42,10 +42,10 @@ fixed-center = true
 background = ${colors.bg}
 foreground = ${colors.fg}
 
-width = 100%
-height = 34
-offset-x = 0
-offset-y = 0
+width = 100%:-20 ; 10 padding on left, right side
+height = 24
+offset-x = 10
+offset-y = 4
 bottom = false
 
 overline-size = 0
@@ -66,10 +66,9 @@ font-0 = "Fira Code:pixelsize=9;2"
 font-1 = "Wuncon Siji:pixelsize=12;2"
 font-2 = "Siji:pixelsize=10;2"
 
-; modules-left = volume pad cpu memory pad pkg mail
-modules-left = pulseaudio pad cpu memory pad fs
-modules-center = bspwm
-modules-right = syncthing redshift wlan pad network-up pad network-down pad battery pad date
+modules-left = bspwm xwindow
+modules-center = date
+modules-right = syncthing redshift keyboard pad wlan network-up network-down pad cpu memory pad fs pad pavolume battery
 
 ;tray-position = center
 ;tray-padding = 2
@@ -81,12 +80,14 @@ type = internal/bspwm
 pin-workspaces = true
 enable-click = true
 
-# ws-icon-0 = 1;
-# ws-icon-1 = 2;
-# ws-icon-2 = 3;
-# ws-icon-3 = 4;
-# ws-icon-4 = 5;
-# ws-icon-5 = 6;
+ws-icon-0 = 1;1
+ws-icon-1 = 2;2
+ws-icon-2 = 3;3
+ws-icon-3 = 4;4
+ws-icon-4 = 5;5
+# ws-icon-5 = 6;6
+# ws-icon-5 = 7;7
+# ws-icon-5 = 8;8
 ws-icon-default = 
 
 format = <label-state> <label-mode>
@@ -95,17 +96,14 @@ label-padding = 1
 label-focused = %icon%
 label-focused-background = ${colors.bg-dark}
 label-focused-foreground = ${colors.fg}
-# label-focused-underline = ${colors.magenta}
-; label-focused-foreground = ${xrdb:color2}
 label-focused-padding = 1
 
 label-occupied = %icon%
 label-occupied-foreground = ${colors.accent}
 label-occupied-padding = 1
 
-; label-urgent = %icon%
+label-urgent = %icon%
 label-urgent-foreground = ${colors.alert}
-; label-urgent-background = ${colors.alert}
 label-urgent-padding = 1
 
 label-empty = %icon%
@@ -117,15 +115,13 @@ type = internal/date
 interval = 5
 
 label = %date%  %time%
-date = %A, %h %d
+date = %A %h %d
 date-alt = %Y-%m-%d
-time = %I:%M %p
+time = %H:%M:%S
 time-alt = %H:%M:%S
 format-prefix = ""
-format-prefix-padding = 1
-; format-prefix-background = ${colors.bg-alt}
-format-prefix-foreground = ${colors.accent}
-; format-underline = ${xrdb:color4}
+format-padding = 1
+format-foreground = ${colors.cyan}
 
 [module/fs]
 type = internal/fs
@@ -138,8 +134,8 @@ interval = 30
 ;   <bar-free>
 ;   <bar-used>
 ;   <ramp-capacity>
-format-mounted = "<bar-used>"
-format-mounted-foreground = ${colors.accent}
+format-mounted = "<label-mounted>"
+format-mounted-foreground = ${colors.fg}
 ; Available tokens:
 ;   %mountpoint%
 ;   %type%
@@ -150,6 +146,7 @@ format-mounted-foreground = ${colors.accent}
 ;   %free%
 ;   %used%
 ; Default: %mountpoint% %percentage_free%%
+label-mounted = %mountpoint%: %percentage_used%%
 
 ; Available tags:
 ;   <label-unmounted> (default)
@@ -157,88 +154,27 @@ format-unmounted =
 label-unmounted =
 label-unmounted-foreground = ${colors.fg-alt}
 
-bar-used-indicator =
-bar-used-width = 8
-bar-used-foreground-0 = ${colors.fg}
-bar-used-foreground-1 = ${colors.fg}
-bar-used-foreground-2 = ${colors.yellow}
-bar-used-foreground-3 = ${colors.alert}
-bar-used-foreground-4 = ${colors.alert}
-bar-used-fill = |
-bar-used-empty = ¦
-bar-used-empty-foreground = ${colors.fg-alt}
-
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:80:...%
 label-padding-left = 2
-
-; [module/mpd]
-; type = internal/mpd
-; host = /home/hlissner/.config/mpd/mpd.sock
-;
-; format-online = <label-song> <toggle>
-; format-padding = 5
-;
-; label-song-maxlen = 45
-; label-song-ellipsis = true
-;
-; icon-prev = 
-; icon-seekb = 
-; icon-stop = 
-; icon-play = 
-; icon-pause = 
-; icon-next = 
-; icon-seekf = 
-;
-; icon-random = 
-; icon-repeat = 
-;
-; toggle-on-foreground = ${colors.fg}
-; toggle-off-foreground = #66
+format-foreground = ${colors.white}
 
 [module/cpu]
 type = internal/cpu
 interval = 2
-format = <bar-load>
 format-prefix = ""
-format-foreground = ${colors.accent}
-; format-underline = #f90000
-; label = %percentage%%
+format-prefix-foreground = ${colors.accent}
+label = %percentage:2%%
 format-padding = 1
-
-bar-load-indicator =
-bar-load-width = 8
-bar-load-foreground-0 = ${colors.fg}
-bar-load-foreground-1 = ${colors.fg}
-bar-load-foreground-2 = ${colors.yellow}
-bar-load-foreground-3 = ${colors.alert}
-bar-load-foreground-4 = ${colors.alert}
-bar-load-fill = |
-bar-load-empty = ¦
-bar-load-empty-foreground = ${colors.fg-alt}
 
 [module/memory]
 type = internal/memory
 interval = 3
-format = <bar-used>
 format-prefix = ""
 format-prefix-foreground = ${colors.accent}
-; format-underline = #4bffdc
-; label = %percentage_used%%
-format-padding-left = 1
-
-; Only applies if <bar-used> is used
-bar-used-indicator =
-bar-used-width = 8
-bar-used-foreground-0 = ${colors.fg}
-bar-used-foreground-1 = ${colors.fg}
-bar-used-foreground-2 = ${colors.yellow}
-bar-used-foreground-3 = ${colors.alert}
-bar-used-foreground-4 = ${colors.alert}
-bar-used-fill = |
-bar-used-empty = ¦
-bar-used-empty-foreground = ${colors.fg-alt}
+label = %percentage_used:2%%
+format-padding = 1
 
 [module/wlan]
 type = internal/network
@@ -246,8 +182,8 @@ interface = ${env:WLP:wlp3s0}
 interval = 3.0
 
 format-connected = <ramp-signal>
-format-disconnected =
-format-disconnected-foreground =
+# format-disconnected =
+# format-disconnected-foreground =
 
 ; label-connected =
 ; label-disconnected = !
@@ -266,66 +202,28 @@ ramp-signal-4-foreground = ${colors.fg}
 
 [module/network-up]
 type = internal/network
-interface = ${env:LAN:eno1}
+interface = ${env:LAN:enp3s0}
 interval = 4.0
 label-connected = "%upspeed%"
 format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.accent}
 format-connected-foreground = ${colors.fg}
-format-connected-background =
-format-connected-underline =
 format-disconnected-prefix = " "
 format-disconnected-prefix-foreground = ${colors.alert}
 format-disconnected-foreground = ${colors.alert}
 
 [module/network-down]
 type = internal/network
-interface = ${env:LAN:eno1}
+interface = ${env:LAN:enp3s0}
 interval = 4.0
 label-connected = "%downspeed%"
 format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.accent}
 format-connected-foreground = ${colors.fg}
-format-connected-background =
-format-connected-underline =
 format-disconnected-prefix = " "
 format-disconnected-prefix-foreground = ${colors.alert}
 format-disconnected-foreground = ${colors.alert}
 
-[module/pulseaudio]
-type = internal/pulseaudio
-
-; format-volume = <label-volume> <bar-volume>
-format-volume = <ramp-volume> <bar-volume>
-; label-volume = " "
-label-volume-foreground = ${colors.accent}
-
-; format-muted-prefix = " "
-format-muted-foreground = ${colors.alert}
-label-muted = 
-
-bar-volume-width = 8
-# bar-volume-foreground-0 = ${colors.magenta}
-# bar-volume-foreground-1 = ${colors.magenta}
-# bar-volume-foreground-2 = ${colors.magenta}
-# bar-volume-foreground-3 = ${colors.magenta}
-# bar-volume-foreground-4 = ${colors.magenta}
-# bar-volume-foreground-5 = ${colors.magenta}
-# bar-volume-foreground-6 = ${colors.magenta}
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 1
-bar-volume-indicator-foreground = #ff
-bar-volume-fill = ─
-bar-volume-fill-font = 1
-bar-volume-empty = ─
-bar-volume-empty-font = 1
-bar-volume-empty-foreground = ${colors.fg-alt}
-
-; Only applies if <ramp-volume> is used
-ramp-volume-0 = 
-ramp-volume-1 = 
-ramp-volume-2 = 
 
 [module/battery]
 type = internal/battery
@@ -356,6 +254,34 @@ animation-charging-2 = 
 animation-charging-framerate = 1000
 animation-charging-foreground = ${colors.fg}
 
+[module/keyboard]
+type = internal/xkeyboard
+
+; List of indicators to ignore
+blacklist-0 = num lock
+blacklist-1 = scroll lock
+
+; Available tags:
+;   <label-layout> (default)
+;   <label-indicator> (default)
+format = <label-layout> <label-indicator>
+;;format-spacing = 0
+
+; Available tokens:
+;   %layout%
+;   %name%
+;   %number%
+; Default: %layout%
+label-layout = %layout%
+;;label-layout-padding = 2
+;;label-layout-background = #bc99ed
+;;label-layout-foreground = #000
+
+; Available tokens:
+;   %name%
+; Default: %name%
+label-indicator = %name%
+
 
 ;=====================================================
 ; Custom scripts
@@ -369,9 +295,19 @@ content-foreground = ${colors.fg-alt}
 [module/redshift]
 type = custom/script
 exec = ~/.config/polybar/modules/redshift
-exec-if = pgrep -x redshift
+exec-if = pgrep redshift
 interval = 60
 format-padding = 1
+
+[module/pavolume]
+type = custom/script
+tail = true
+label = %output%
+exec = ~/.config/polybar/modules/pavolume --listen
+click-right = exec pavucontrol
+click-left = ~/.config/polybar/modules/pavolume --togmute
+scroll-up = ~/.config/polybar/modules/pavolume --up
+scroll-down = ~/.config/polybar/modules/pavolume --down
 
 [module/syncthing]
 type = custom/script
