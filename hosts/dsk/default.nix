@@ -34,6 +34,7 @@
       zig.enable = true;
       cc.enable = true;
       python.enable = true;
+      shell.enable = true;
     };
     editors = {
       default = "nvim";
