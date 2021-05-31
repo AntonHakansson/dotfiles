@@ -35,6 +35,17 @@ in {
           lightdm.enable = true;
           lightdm.greeters.mini.enable = true;
         };
+        desktopManager.xfce = {
+          enable = true;
+          thunarPlugins = with pkgs.xfce; [
+            thunar-archive-plugin
+            thunar_volman
+          ];
+
+          # "Don't install XFCE desktop components (xfdesktop, panel and notification
+          # daemon).";
+          noDesktop = true;
+        };
         windowManager.bspwm.enable = true;
       };
     };

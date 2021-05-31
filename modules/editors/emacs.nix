@@ -63,6 +63,7 @@ in {
       pandoc
       # lang python
       (python39.withPackages (ps: with ps; [
+        jupyter
         ipykernel jupyterlab
         matplotlib numpy pandas seaborn
         networkx
