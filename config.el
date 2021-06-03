@@ -1,51 +1,22 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
-
-(define-advice define-obsolete-function-alias (:filter-args (ll) fix-obsolete)
-  (let ((obsolete-name (pop ll))
-        (current-name (pop ll))
-        (when (if ll (pop ll) "1"))
-        (docstring (if ll (pop ll) nil)))
-    (list obsolete-name current-name when docstring)))
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
 (setq user-full-name "Anton Hakansson"
       user-mail-address "anton.hakansson98@gmail.com")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
-;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~//org/")
-(after! org-agenda
-  (setq org-agenda-files
-        (apply 'append
-               (mapcar
-                (lambda (directory)
-                  (directory-files-recursively
-                   directory org-agenda-file-regexp))
-                '("~/org/"))))
-  )
+(setq org-directory "~/org/")
+;; (after! org-agenda
+;;   (setq org-agenda-files
+;;         (apply 'append
+;;                (mapcar
+;;                 (lambda (directory)
+;;                   (directory-files-recursively
+;;                    directory org-agenda-file-regexp))
+;;                 '("~/org/"))))
+;;   )
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -69,10 +40,6 @@
 ;;   `require' or `use-package'.
 ;; - `map!' for binding new keys
 ;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 ;;
@@ -94,9 +61,6 @@
 (setq yas-triggers-in-field t)
 
 (setq +zen-text-scale 0.6)
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-;;(setq doom-variable-pitch-font (font-spec :family "Overpass" :size 13))
 (custom-set-faces!
   '(outline-1 :weight extra-bold :height 1.25)
   '(outline-2 :weight bold :height 1.15)
@@ -192,10 +156,7 @@
 ;;
 
 ;; autocorrect the previous word without leaving insert mode
-;; (map! :i "C-i" #'flyspell-auto-correct-word)
-;; (after! flyspell
-;;   (setq ispell-local-dictionary "english")
-;;   )
+(map! :i "C-i" #'flyspell-auto-correct-word)
 
 ;;
 ;; CC config
@@ -383,36 +344,6 @@
   (add-hook 'org-mode-hook 'org-latex-preview)
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   ;; (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
-
-  ;; Import ignore-headlines to allow a headline (but not its children) to
-  ;; be ignored. Any headline tagged with the 'ignore' tag will be
-  ;; ignored (i.e. will not be included in the export), but any child
-  ;; headlines will not be ignored (unless explicitly tagged to be
-  ;; ignored), and will instead have their levels promoted by one.
-  (use-package! ox-extra
-    :config
-    (ox-extras-activate '(latex-header-blocks ignore-headlines)))
-  (add-to-list 'org-latex-classes
-               '("ieee"
-
-                 "\\documentclass[conference]{IEEEtran}
-%\\IEEEoverridecommandlockouts
-% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
-\\usepackage{amsmath,amssymb,amsfonts}
-\\usepackage{algorithmic}
-\\usepackage{graphicx}
-\\usepackage{textcomp}
-\\usepackage{xcolor}
-\\def\\BibTeX{{\\rm B\\kern-.05em{\sc i\\kern-.025em b}\\kern-.08em
-T\\kern-.1667em\\lower.7ex\\hbox{E}\\kern-.125emX}}"
-
-
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
   ;; Make those fragments look good
   (setq org-highlight-latex-and-related '(native script entities))
 
