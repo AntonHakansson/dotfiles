@@ -70,6 +70,7 @@ in {
       ]))
       # lang org
       graphviz
+      gnuplot
     ];
 
     env.PATH = [ "$XDG_CONFIG_HOME/emacs/bin" ];
