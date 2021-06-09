@@ -18,8 +18,6 @@
 ;;                 '("~/org/"))))
 ;;   )
 
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type `relative)
 
 ;; Easier to match with a bspwm rule:
@@ -39,10 +37,7 @@
 ;;   this file. Emacs searches the `load-path' when you load packages with
 ;;   `require' or `use-package'.
 ;; - `map!' for binding new keys
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
-;;
+
 (map! :leader
       :desc "Open like spacemacs" "SPC" #'counsel-M-x)
 (map! "<mouse-8>" #'previous-buffer)
@@ -53,9 +48,9 @@
 (setq +latex-viewers '(zathura))
 
 ;; Spaces over tabs
-;; (setq c-basic-indent 4)
-;; (setq c-default-style "linux")
-(setq tab-width 4)
+(setq c-basic-indent 2)
+(setq c-default-style "linux")
+(setq tab-width 2)
 (setq-default indent-tabs-mode nil)
 
 (setq yas-triggers-in-field t)
@@ -164,8 +159,7 @@
 (setq lsp-clients-clangd-args '("-j=3"
                                 "--background-index"
                                 "--clang-tidy"
-                                "--completion-style=detailed"
-                                "--header-insertion=never"))
+                                "--completion-style=detailed"))
 (after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
 ;;
@@ -288,8 +282,9 @@
 ;; (load! "local/org-xournal")
 ;; (load! "local/org-symbolab-search")
 
-(add-hook! 'org-mode-hook #'writeroom-mode)
-(add-hook! 'org-mode-hook #'+org-pretty-mode)
+;; (add-hook! 'org-mode-hook #'writeroom-mode)
+;; (add-hook! 'org-mode-hook #'+org-pretty-mode)
+(add-hook! 'org-mode-hook #'mixed-pitch-mode)
 (map! :map org-mode-map
       :n "SPC m l /" #'counsel-org-link)
 (after! counsel
@@ -305,13 +300,20 @@
   :n "C-c d i" #'my/inkscape-create
   :n "C-c d s" #'my/write-stylus-create
   )
+(map! :map org-mode-map :leader
+      (:prefix-map ("=" . "calc")
+       "=" #'calc-dispatch
+       ;; Some other shortcuts
+       "c" #'calc
+       "q" #'quick-calc
+       "g" #'calc-grab-region))
 
 (after! org
   (setq org-startup-folded 'fold
         org-hide-emphasis-markers t
         org-catch-invisible-edits 'smart ; try not to accidently do weird stuff in invisible regions
         org-log-done 'time
-        org-ellipsis "   ⮷"
+        org-ellipsis " ▾ "
         org-todo-keywords (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
                                   (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
         org-pretty-entities-include-sub-superscripts nil
@@ -419,53 +421,30 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 
 
 (setq calc-angle-mode 'rad  ; radians are rad
-      calc-symbolic-mode t) ; keeps expressions like \sqrt{2} irrational for as long as possible
+      calc-symbolic-mode t  ; keeps expressions like \sqrt{2} irrational for as long as possible
+      calc-simplify-mode 'none)
 ;;
 ;; [[file:~/.config/doom/config.org::*Embedded calc][Embedded calc:2]]
 (map! :map calc-mode-map
       :after calc
       :localleader
-      :desc "Embedded calc (toggle)" "e" #'calc-embedded)
+      :desc "Embedded calc (toggle)" "e" #'calc-embedded
+      :desc "Embedded calc (activate)" "a" #'calc-embedded-activate
+      :desc "Embedded calc (new formula)" "n" #'calc-embedded-new-formula
+      :desc "Embedded calc (select)" "s" #'calc-embedded-select
+      :desc "Embedded calc (word)" "w" #'calc-embedded-word
+      :desc "Embedded calc (update)" "u" #'calc-embedded-update
+      :desc "Embedded calc (duplicate)" "RET" #'calc-embedded-duplicate
+      :desc "Embedded calc (next)" "j" #'calc-embedded-next
+      :desc "Embedded calc (previous)" "k" #'calc-embedded-previous
+      )
 (map! :map org-mode-map
       :after org
       :localleader
       :desc "Embedded calc (toggle)" "E" #'calc-embedded)
 (map! :map latex-mode-map
       :after latex
-      :localleader
       :desc "Embedded calc (toggle)" "e" #'calc-embedded)
-
-(defvar calc-embedded-trail-window nil)
-(defvar calc-embedded-calculator-window nil)
-
-(defadvice! calc-embedded-with-side-pannel (&rest _)
-  :after #'calc-do-embedded
-  (when calc-embedded-trail-window
-    (ignore-errors
-      (delete-window calc-embedded-trail-window))
-    (setq calc-embedded-trail-window nil))
-  (when calc-embedded-calculator-window
-    (ignore-errors
-      (delete-window calc-embedded-calculator-window))
-    (setq calc-embedded-calculator-window nil))
-  (when (and calc-embedded-info
-             (> (* (window-width) (window-height)) 1200))
-    (let ((main-window (selected-window))
-          (vertical-p (> (window-width) 80)))
-      (select-window
-       (setq calc-embedded-trail-window
-             (if vertical-p
-                 (split-window-horizontally (- (max 30 (/ (window-width) 3))))
-               (split-window-vertically (- (max 8 (/ (window-height) 4)))))))
-      (switch-to-buffer "*Calc Trail*")
-      (select-window
-       (setq calc-embedded-calculator-window
-             (if vertical-p
-                 (split-window-vertically -6)
-               (split-window-horizontally (- (/ (window-width) 2))))))
-      (switch-to-buffer "*Calculator*")
-      (select-window main-window))))
-;; Embedded calc:2 ends here
 
 (use-package! calctex
   :commands calctex-mode
@@ -473,8 +452,7 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
   ;; (add-hook 'calc-mode-hook #'calctex-mode)
   :config
   (setq calctex-additional-latex-packages "
-\\usepackage[usenames]{color}
-\\usepackage{xcolor}
+\\usepackage[usenames]{xcolor}
 \\usepackage{soul}
 \\usepackage{adjustbox}
 \\usepackage{amsmath}
@@ -484,28 +462,54 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
 \\usepackage{mathtools}
 \\usepackage{mathalpha}
 \\usepackage{xparse}
-\\usepackage{arevmath}")
-  (setq calctex-additional-latex-macros (concat calctex-additional-latex-macros "\n\\let\\evalto\\Rightarrow"))
-  ;; Let's not crash, but use slower latexpdf
-  (setq calctex-dvichop-sty nil
-        calctex-dvichop-bin nil)
-  ;; (defadvice! no-messaging-a (orig-fn &rest args)
-  ;;   :around #'calctex-default-dispatching-render-process
-  ;;   (let ((inhibit-message t) message-log-max)
-  ;;     (apply orig-fn args)))
-
+\\usepackage{arevmath}"
+        calctex-additional-latex-macros
+        (concat calctex-additional-latex-macros
+                "\n\\let\\evalto\\Rightarrow"))
+  (defadvice! no-messaging-a (orig-fn &rest args)
+    :around #'calctex-default-dispatching-render-process
+    (let ((inhibit-message t) message-log-max)
+      (apply orig-fn args)))
   ;; Fix hardcoded dvichop path (whyyyyyyy)
-  ;; (let ((vendor-folder (concat (file-truename doom-local-dir)
-  ;;                              "straight/"
-  ;;                              (format "build-%s" emacs-version)
-  ;;                              "/calctex/vendor/")))
-  ;;   (setq calctex-dvichop-sty (concat vendor-folder "texd/dvichop")
-  ;;         calctex-dvichop-bin (concat vendor-folder "texd/dvichop")))
-  ;; (unless (file-exists-p calctex-dvichop-bin)
-  ;;   (message "CalcTeX: Building dvichop binary")
-  ;;   (let ((default-directory (file-name-directory calctex-dvichop-bin)))
-  ;;     (call-process "make" nil nil nil)))
-  )
+  (let ((vendor-folder (concat (file-truename doom-local-dir)
+                               "straight/"
+                               (format "build-%s" emacs-version)
+                               "/calctex/vendor/")))
+    (setq calctex-dvichop-sty (concat vendor-folder "texd/dvichop")
+          calctex-dvichop-bin (concat vendor-folder "texd/dvichop")))
+  (unless (file-exists-p calctex-dvichop-bin)
+    (message "CalcTeX: Building dvichop binary")
+    (let ((default-directory (file-name-directory calctex-dvichop-bin)))
+      (call-process "make" nil nil nil))))
+
+(setq org-html-mathjax-options
+      '((path "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" )
+        (scale "1")
+        (autonumber "ams")
+        (multlinewidth "85%")
+        (tagindent ".8em")
+        (tagside "right")))
+
+(setq org-html-mathjax-template
+      "<script>
+MathJax = {
+  chtml: {
+    scale: %SCALE
+  },
+  svg: {
+    scale: %SCALE,
+    fontCache: \"global\"
+  },
+  tex: {
+    tags: \"%AUTONUMBER\",
+    multlineWidth: \"%MULTLINEWIDTH\",
+    tagSide: \"%TAGSIDE\",
+    tagIndent: \"%TAGINDENT\"
+  }
+};
+</script>
+<script id=\"MathJax-script\" async
+        src=\"%PATH\"></script>")
 
 (defun my/org-download-paste-clipboard (&optional use-default-filename)
   (interactive "P")
@@ -524,7 +528,7 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
   (interactive "P")
   (require 'org-download)
   (let*((basename (if (not use-default-filename) (read-string (format "Filename [%s]: " "figure.svg") nil nil "figure.svg") nil))
-        (dir (org-download--dir))
+        (dir org-download-image-dir)
         (filepath (concat dir "/" (org-download-file-format-default basename))))
       (make-directory dir t)
       (when (not (file-exists-p filepath)) (start-process-shell-command "Inkscape" nil (format "inkscape -o %s" filepath))) ; create empty svg file
@@ -537,7 +541,7 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
   (interactive "P")
   (require 'org-download)
   (let*((basename (if (not use-default-filename) (read-string (format "Filename [%s]: " "figure.svg") nil nil "figure.svg") nil))
-        (dir (org-download--dir))
+        (dir org-download-image-dir)
         (filepath (concat dir "/" (org-download-file-format-default basename)))
         (org-download-image-org-width 400))
       (make-directory dir t)
@@ -547,15 +551,16 @@ allowfullscreen>%s</iframe>" path (or "" desc)))
     )
   )
 
-(defun my/drawio-create (&optional use-default-filename)
-  (interactive "P")
+(defun my/drawio-create (&optional template-path)
+  (interactive)
   (require 'org-download)
-  (let*((basename (if (not use-default-filename) (read-string (format "Filename [%s]: " "figure.svg") nil nil "figure.svg") nil))
-        (dir (org-download--dir))
+  (let*((basename (read-string (format "Filename [%s]: " "figure.svg") nil nil "figure.svg"))
+        (template-path (or template-path (concat doom-private-dir "drawio_template.svg")))
+        (dir org-download-image-dir)
         (filepath (concat dir "/" (org-download-file-format-default basename)))
         (org-download-image-org-width 400))
       (make-directory dir t)
-      (when (not (file-exists-p filepath)) (copy-file "~/.config/doom/drawio_template.svg" filepath)) ; create empty svg file
+      (when (not (file-exists-p filepath)) (copy-file template-path filepath)) ; create empty svg file
       (start-process-shell-command "drawio" nil (format "drawio %s" filepath)) ; open svg file
       (org-download-insert-link basename filepath)
     )
