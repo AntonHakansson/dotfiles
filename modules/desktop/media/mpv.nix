@@ -10,8 +10,11 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      mpv-with-scripts
-      mpvc # CLI controller for mpv
+      unstable.mpv
+      unstable.mpvScripts.autoload
+      unstable.mpvScripts.thumbnail
+      unstable.mpvc # CLI controller for mpv
+      subdl
     ];
 
     home.configFile = {
