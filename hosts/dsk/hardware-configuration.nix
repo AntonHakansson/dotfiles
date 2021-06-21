@@ -12,6 +12,9 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  # Use zen kernel for gaming performance
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/88fecda9-c217-4c63-a2ba-c2b697752f8d";
     fsType = "ext4";
