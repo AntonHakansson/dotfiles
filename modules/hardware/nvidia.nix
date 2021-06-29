@@ -18,6 +18,9 @@ in {
     };
 
     services.xserver.videoDrivers = [ "nvidia" ];
+    services.xserver.deviceSection = ''
+      Option      "Coolbits" "31"
+    '';
 
     environment.systemPackages = with pkgs;
       [
