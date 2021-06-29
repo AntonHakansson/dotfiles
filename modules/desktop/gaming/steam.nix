@@ -18,7 +18,7 @@ in {
       programs.steam.enable = true;
       programs.gamemode.enable = true;
 
-      user.packages = with pkgs; [ mangohud lutris ];
+      user.packages = with pkgs.unstable; [ vulkan-tools vulkan-headers mangohud lutris ];
 
       # better for steam proton games
       systemd.extraConfig = "DefaultLimitNOFILE=1048576";
