@@ -4,33 +4,31 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+  imports =
+    [ (modulesPath + "/installer/scan/not-detected.nix")
+    ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   # Use zen kernel for gaming performance
   boot.kernelPackages = pkgs.linuxPackages_zen;
+  powerManagement.cpuFreqGovernor = "performance";
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/88fecda9-c217-4c63-a2ba-c2b697752f8d";
-    fsType = "ext4";
-  };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/20f7ca12-f585-4d3a-b6d9-304b46ab9b12";
+      fsType = "ext4";
+    };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/842C-1A42";
-    fsType = "vfat";
-  };
-
-  fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/a184b78e-455b-49cc-8550-52d32a6dd861";
-    fsType = "ext4";
-  };
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/3EA7-915C";
+      fsType = "vfat";
+    };
 
   swapDevices =
-    [{ device = "/dev/disk/by-uuid/db1a2221-63bf-448e-9a51-819f532520e8"; }];
+    [  { device = "/dev/disk/by-uuid/49720451-caa2-467f-9053-ee55b96cc029"; }
+    ];
 
-  powerManagement.cpuFreqGovernor = "performance";
 }
