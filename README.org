@@ -1,22 +1,31 @@
-# First time setup
+* First time setup
 
 1. Grab the latest build of [[https://nixos.org/download.html#nixos-iso][NixOS]]
 2. Boot into the installer
 3. Do your partitions and mount your root to =/mnt=
-4. src_sh[]{nix-shell -p git nixFlakes nixUnstable}
-5. src_sh[]{git clone https://github.com/AntonHakansson/dotfiles /mnt/etc/nixos}
+4. Install build dependencies:
+  #+begin_src bash
+  nix-shell -p git nixFlakes nixUnstable
+  #+end_src
+5. Copy dotfiles:
+  #+begin_src bash
+  git clone https://github.com/AntonHakansson/dotfiles /mnt/etc/nixos
+  #+end_src
 6. Install NixOS:
-  #+begin_src sh
+  #+begin_src bash
   nix build /mnt/etc/nixos#nixosConfigurations.<HOSTNAME>.config.system.build.toplevel --experimental-features "flakes nix-command" --store "/mnt" --impure
   nixos-install --root /mnt --system ./result
   #+end_src
 7. Reboot!
+8. Follow[[id:06e7c9b1-7a6e-48b8-aa6e-fee0e4e2f411][Rebuild system]] instructions
 
-# Rebuild system
+* Rebuild system
+:PROPERTIES:
+:ID:       06e7c9b1-7a6e-48b8-aa6e-fee0e4e2f411
+:END:
 
 Make sure the dotfiles are located in =~/.config/dotfiles= then from the dotfiles root directory run:
 
-#+begin_src sh
+#+begin_src bash
 nixos-rebuild switch --flake .#<HOSTNAME>
 #+end_src
-
