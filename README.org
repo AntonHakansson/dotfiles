@@ -17,7 +17,7 @@
   nixos-install --root /mnt --system ./result
   #+end_src
 7. Reboot!
-8. Follow[[id:06e7c9b1-7a6e-48b8-aa6e-fee0e4e2f411][Rebuild system]] instructions
+8. Follow [[id:06e7c9b1-7a6e-48b8-aa6e-fee0e4e2f411][Rebuild system]] instructions
 
 * Rebuild system
 :PROPERTIES:

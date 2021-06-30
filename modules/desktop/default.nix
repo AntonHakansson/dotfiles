@@ -24,6 +24,7 @@ in {
       xclip
       xdotool
       xorg.xwininfo
+      jq # json cli
     ];
 
     fonts = {
