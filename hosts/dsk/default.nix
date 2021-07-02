@@ -4,7 +4,7 @@
   ## Modules
   modules = {
     desktop = {
-      bspwm.enable = true;
+      dwm.enable = true;
       apps = {
         discord.enable = true;
         rofi.enable = true;
