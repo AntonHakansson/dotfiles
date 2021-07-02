@@ -64,6 +64,7 @@
       sensors.enable = true;
       v4l2loopback.enable = true;
     };
+    crypto.enable = true;
     theme.active = "doom-one";
   };
 
