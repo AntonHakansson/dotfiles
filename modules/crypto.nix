@@ -11,6 +11,7 @@ in {
 
     boot.kernel.sysctl = { "vm.nr_hugepages" = 128; };
 
+    systemd.services.xmr-stak.wantedBy = mkForce [ ]; # don't start on boot
     services.xmr-stak = {
       enable = true;
       configFiles = {
