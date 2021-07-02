@@ -23,7 +23,9 @@ in {
       feh # image viewer
       xclip
       xdotool
-      xorg.xwininfo
+      xorg.xwininfo xorg.xkill xorg.xprop
+      htop
+      killall
       jq # json cli
     ];
 
