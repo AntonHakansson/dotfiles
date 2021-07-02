@@ -42,7 +42,8 @@ in {
 
       # 3D modelling
       (if cfg.models.enable then [
-        blender
+        # FIXME: opencolorio dependency fails to build
+        # blender
       ] else []);
 
     # home.configFile = mkIf cfg.raster.enable {
