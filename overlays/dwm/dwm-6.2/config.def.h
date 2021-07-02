@@ -73,9 +73,9 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 
-static const char *dmenucmd[]   = { "/etc/profiles/per-user/hakanssn/bin/rofi -show drun -modi drun,run -show-icons -theme ~/.config/rofi/theme/appmenu.rasi", NULL };
+static const char *dmenucmd[]   = { "rofi", "-show", "drun", "-modi", "drun,run", "-show-icons", "-theme", "~/.config/rofi/theme/appmenu.rasi", NULL };
 static const char *termcmd[]    = { "alacritty", NULL };
-static const char *emacscmd[]   = { "emacsclient --create-frame --alternate-editor=\"emacs\" --no-wait", NULL };
+static const char *emacscmd[]   = { "emacsclient", "--create-frame", "--alternate-editor=\"emacs\"", "--no-wait", NULL };
 static const char *browsercmd[] = { "firefox", NULL };
 
 static Key keys[] = {
