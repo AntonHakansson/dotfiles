@@ -53,7 +53,6 @@
     services = {
       ssh.enable = true;
       transmission.enable = true;
-      bitwarden.enable = true;
     };
     hardware = {
       audio.enable = true;
