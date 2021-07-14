@@ -1,4 +1,6 @@
-{ pkgs, config, lib, ... }: {
+{ pkgs, config, lib, ... }:
+let secrets = import ./secrets/secrets.nix;
+in {
   imports = [ ../home.nix ./hardware-configuration.nix ];
 
   ## Modules
@@ -70,7 +72,7 @@
   ## Local config
   programs.ssh.startAgent = true;
   services.openssh.startWhenNeeded = true;
-  networking.networkmanager.enable = true;
+  # networking.networkmanager.enable = true;
 
   # CPU
   nix.maxJobs = lib.mkDefault 4;
@@ -89,17 +91,35 @@
       Option         "DPMS"
       Option         "Primary" "true"
     '';
-    screenSection = ''
-      Option         "metamodes" "DVI-I-1: 1920x1080_144 +0+225, HDMI-0: nvidia-auto-select +1920+0 {rotation=right}"
-      Option         "SLI" "Off"
-      Option         "MultiGPU" "Off"
-      Option         "BaseMosaic" "off"
-      Option         "Stereo" "0"
-      Option         "nvidiaXineramaInfoOrder" "DFP-0"
-    '';
+    # screenSection = ''
+    #   Option         "metamodes" "DVI-I-1: 1920x1080_144 +0+225, HDMI-0: nvidia-auto-select +1920+0 {rotation=right}"
+    #   Option         "SLI" "Off"
+    #   Option         "MultiGPU" "Off"
+    #   Option         "BaseMosaic" "off"
+    #   Option         "Stereo" "0"
+    #   Option         "nvidiaXineramaInfoOrder" "DFP-0"
+    # '';
   };
-  # start with "systemctl start openvpn-homeVPN.service"
-  services.openvpn.servers = {
-    homeVPN = { config = "config /root/nixos/openvpn/homeVPN.conf "; };
+
+  # Enable WireGuard VPN
+  networking.wg-quick.interfaces = {
+    wg0 = {
+      address = [ "10.66.66.2/32" "fd42:42:42::2/128" ];
+      dns = [ "94.140.14.14" "94.140.15.15" ];
+      privateKey = secrets.wireguard.privateKey;
+      # privateKeyFile =
+      #   "${config.dotfiles.dir}/hosts/dsk/secrets/wireguard-privatekey";
+      listenPort = 54635;
+
+      peers = [{
+        publicKey = "YlsWHqCsU2jE+bMnzFazyZG6u4dSjuTwy621VbDpAxI=";
+        # presharedKeyFile =
+        #   "${config.dotfiles.dir}/hosts/dsk/secrets/wireguard-presharedkey";
+        presharedKey = secrets.wireguard.presharedKey;
+        allowedIPs = [ "0.0.0.0/0" "::/0" ];
+        endpoint = secrets.wireguard.endpoint;
+        persistentKeepalive = 25;
+      }];
+    };
   };
 }

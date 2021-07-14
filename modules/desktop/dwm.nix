@@ -4,7 +4,19 @@ with lib;
 with lib.my;
 let
   cfg = config.modules.desktop.dwm;
-  configDir = config.dotfiles.configDir;
+  # configDir = config.dotfiles.configDir;
+  my-dwmblocks = (pkgs.dwmblocks.override {
+    conf = ''
+      static const Block blocks[] = {
+        /*Icon*/  /*Command*/   /*Update Interval*/   /*Update Signal*/
+        {"Mem: ", "free -h | awk '/^Mem/ { print $3\"/\"$2 }' | sed s/i//g",    30,     0},
+        {"",     "date +'%h %d (%a) %H:%M'",                                   60,     0},
+      };
+
+      static char delim[] = " | ";
+      static unsigned int delimLen = 5;
+    '';
+  });
 in {
   options.modules.desktop.dwm = { enable = mkBoolOpt false; };
 
@@ -20,7 +32,7 @@ in {
         pulseSupport = true;
         nlSupport = true;
       })
-      unclutter
+      my-dwmblocks
     ];
 
     services = {
@@ -45,24 +57,26 @@ in {
         };
         windowManager.dwm.enable = true;
       };
+      unclutter-xfixes = { enable = true; };
+    };
+
+    systemd.user.services."dwmblocks" = {
+      enable = true;
+      description = "Modular status bar for dwm written in c";
+      wantedBy = [ "default.target" ];
+      serviceConfig.Restart = "always";
+      serviceConfig.RestartSec = 2;
+      serviceConfig.ExecStart = "${my-dwmblocks}/bin/dwmblocks";
+      path = [ pkgs.procps pkgs.gawk ];
     };
 
     systemd.user.services."dunst" = {
       enable = true;
-      description = "";
+      description = "Lightweight and customizable notification daemon";
       wantedBy = [ "default.target" ];
       serviceConfig.Restart = "always";
       serviceConfig.RestartSec = 2;
       serviceConfig.ExecStart = "${pkgs.dunst}/bin/dunst";
-    };
-
-    systemd.user.services."unclutter" = {
-      enable = true;
-      description = "hide cursor after X seconds idle";
-      wantedBy = [ "default.target" ];
-      serviceConfig.Restart = "always";
-      serviceConfig.RestartSec = 2;
-      serviceConfig.ExecStart = "${pkgs.unclutter}/bin/unclutter";
     };
   };
 }
