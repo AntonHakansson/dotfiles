@@ -4,13 +4,13 @@
 My main desktop computer.
 
 * Specs
-PCPartPicker Part List: https://pcpartpicker.com/list/j3ttGq
+[[https://pcpartpicker.com/list/4HWjz7][Parts List]]
 
 | CPU          | AMD Ryzen 5 5600X 3.7 GHz 6-Core Processor               |
 | CPU Cooler   | be quiet! Pure Rock 2 CPU Cooler                         |
 | Motherboard  | Asus ROG Strix X570-F Gaming ATX AM4 Motherboard         |
 | Memory       | Crucial Ballistix 16 GB (2 x 8 GB) DDR4-3600 CL16 Memory |
 | Storage      | Samsung 980 Pro 1 TB M.2-2280 NVME Solid State Drive     |
-| Video Card   | Gigabyte GeForce GTX 760 2 GB WINDFORCE Video Card       |
+| Video Card   | KFA2 GeForce RTX 2070 SUPER                              |
 | Case         | Fractal Design Arc Midi R2 ATX Mid Tower Case            |
-| Power Supply | Antec VP 550 W 80+ Certified ATX Power Supply            |
+| Power Supply | Corsair HX850W                                           |
