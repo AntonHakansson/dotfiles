@@ -13,7 +13,7 @@ in {
         unity3d.enable = true;
       };
       browsers = {
-        default = "brave";
+        default = "firefox";
         brave.enable = true;
         firefox.enable = true;
       };
