@@ -75,7 +75,7 @@ in {
   # networking.networkmanager.enable = true;
 
   # CPU
-  nix.maxJobs = lib.mkDefault 4;
+  nix.maxJobs = lib.mkDefault 12;
   powerManagement.cpuFreqGovernor = "performance";
 
   # Monitors
@@ -107,14 +107,10 @@ in {
       address = [ "10.66.66.2/32" "fd42:42:42::2/128" ];
       dns = [ "94.140.14.14" "94.140.15.15" ];
       privateKey = secrets.wireguard.privateKey;
-      # privateKeyFile =
-      #   "${config.dotfiles.dir}/hosts/dsk/secrets/wireguard-privatekey";
       listenPort = 54635;
 
       peers = [{
         publicKey = "YlsWHqCsU2jE+bMnzFazyZG6u4dSjuTwy621VbDpAxI=";
-        # presharedKeyFile =
-        #   "${config.dotfiles.dir}/hosts/dsk/secrets/wireguard-presharedkey";
         presharedKey = secrets.wireguard.presharedKey;
         allowedIPs = [ "0.0.0.0/0" "::/0" ];
         endpoint = secrets.wireguard.endpoint;
