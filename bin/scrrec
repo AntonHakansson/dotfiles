@@ -60,7 +60,7 @@ recording-start() {
   local mp4dest=
   [[ $dest == *.gif ]] && mp4dest="${dest%.*}.mp4"
   countdown
-  ffmpeg $ffmpeg_opts "${mp4dest:-$dest}" &
+  ffmpeg "$ffmpeg_opts" "${mp4dest:-$dest}" &
   pid=$!
   echo $pid >$stopfile
   wait $pid
@@ -75,7 +75,7 @@ recording-start() {
 
 # If a recording session is already active, stop that one.
 if [[ -n "$is_script" && -f "$stopfile" ]]; then
-  kill $(cat $stopfile)
+  kill "$(cat $stopfile)"
   echo "Stopped previous recording"
   exit 0
 fi
