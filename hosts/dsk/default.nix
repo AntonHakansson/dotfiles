@@ -81,8 +81,7 @@ in {
   # Monitors
   services.xserver = {
     # This must be done manually to ensure my screen spaces are arranged exactly
-    # as I need them to be *and* the correct monitor is "primary". Using
-    # xrandrHeads does not work.
+    # as I need them to be *and* the correct monitor is "primary".
     monitorSection = ''
       VendorName     "Unknown"
       ModelName      "Acer GN246HL"
@@ -90,15 +89,13 @@ in {
       VertRefresh     56.0 - 144.0
       Option         "DPMS"
       Option         "Primary" "true"
+   '';
+    screenSection = ''
+      Option         "metamodes" "DP-1: 1920x1080 +0+190, HDMI-0: nvidia-auto-select +1920+0 {rotation=right}"
+      Option         "SLI" "Off"
+      Option         "MultiGPU" "Off"
+      Option         "BaseMosaic" "off"
     '';
-    # screenSection = ''
-    #   Option         "metamodes" "DVI-I-1: 1920x1080_144 +0+225, HDMI-0: nvidia-auto-select +1920+0 {rotation=right}"
-    #   Option         "SLI" "Off"
-    #   Option         "MultiGPU" "Off"
-    #   Option         "BaseMosaic" "off"
-    #   Option         "Stereo" "0"
-    #   Option         "nvidiaXineramaInfoOrder" "DFP-0"
-    # '';
   };
 
   # Enable WireGuard VPN
