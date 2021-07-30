@@ -71,6 +71,8 @@ in {
       # lang org
       graphviz
       gnuplot
+      drawio
+      unstable.flameshot
     ];
 
     env.PATH = [ "$XDG_CONFIG_HOME/emacs/bin" ];

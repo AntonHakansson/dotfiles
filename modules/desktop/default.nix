@@ -27,6 +27,7 @@ in {
       htop
       killall
       jq # json cli
+      unstable.flameshot # screenshot tool
     ];
 
     fonts = {
