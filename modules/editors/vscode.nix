@@ -12,7 +12,7 @@ in {
     user.packages = with pkgs; [
       (unstable.vscode-with-extensions.override {
         vscodeExtensions = with vscode-extensions; [
-          bbenoist.Nix
+          bbenoist.nix
           vscodevim.vim
           ms-vsliveshare.vsliveshare
         ];
