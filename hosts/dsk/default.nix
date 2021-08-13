@@ -99,20 +99,20 @@ in {
   };
 
   # Enable WireGuard VPN
-  networking.wg-quick.interfaces = {
-    wg0 = {
-      address = [ "10.66.66.2/32" "fd42:42:42::2/128" ];
-      dns = [ "94.140.14.14" "94.140.15.15" ];
-      privateKey = secrets.wireguard.privateKey;
-      listenPort = 54635;
+  # networking.wg-quick.interfaces = {
+  #   wg0 = {
+  #     address = [ "10.66.66.2/32" "fd42:42:42::2/128" ];
+  #     dns = [ "94.140.14.14" "94.140.15.15" ];
+  #     privateKey = secrets.wireguard.privateKey;
+  #     listenPort = 54635;
 
-      peers = [{
-        publicKey = "YlsWHqCsU2jE+bMnzFazyZG6u4dSjuTwy621VbDpAxI=";
-        presharedKey = secrets.wireguard.presharedKey;
-        allowedIPs = [ "0.0.0.0/0" "::/0" ];
-        endpoint = secrets.wireguard.endpoint;
-        persistentKeepalive = 25;
-      }];
-    };
-  };
+  #     peers = [{
+  #       publicKey = "YlsWHqCsU2jE+bMnzFazyZG6u4dSjuTwy621VbDpAxI=";
+  #       presharedKey = secrets.wireguard.presharedKey;
+  #       allowedIPs = [ "0.0.0.0/0" "::/0" ];
+  #       endpoint = secrets.wireguard.endpoint;
+  #       persistentKeepalive = 25;
+  #     }];
+  #   };
+  # };
 }
