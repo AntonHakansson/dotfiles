@@ -4,17 +4,26 @@ with lib;
 with lib.my;
 let
   cfg = config.modules.desktop.dwm;
-  # configDir = config.dotfiles.configDir;
+  memory = pkgs.writeScriptBin "sb-memory" ''
+    case $BLOCK_BUTTON in
+      1) ${pkgs.libnotify}/bin/notify-send "Memory hogs" "$(${pkgs.procps}/bin/ps axch -o cmd:15,%mem --sort=-%mem | ${pkgs.coreutils}/bin/head)" ;;
+      2) ${pkgs.util-linux}/bin/setsid -f "$TERMINAL" -e htop --sort PERCENT_MEM ;;
+      3) ${pkgs.libnotify}/bin/notify-send "Memory module" "\- Shows Memory Used/Total.
+          - Click to show memory hogs.
+          - Middle click to open htop." ;;
+      6) "$TERMINAL" -e "$EDITOR" "$0" ;;
+    esac
+    ${pkgs.procps}/bin/free --mebi | sed -n '2{p;q}' | ${pkgs.gawk}/bin/awk '{printf ("%2.1f/%2.1fGiB\n", ( $3 / 1024), ($2 / 1024))}'
+  '';
   my-dwmblocks = (pkgs.dwmblocks.override {
     conf = ''
       static const Block blocks[] = {
         /*Icon*/  /*Command*/   /*Update Interval*/   /*Update Signal*/
-        {"Mem: ", "free -h | awk '/^Mem/ { print $3\"/\"$2 }' | sed s/i//g",    30,     0},
-        {"",     "date +'%h %d (%a) %H:%M'",                                   60,     0},
+        {"Mem: ", "${memory}/bin/sb-memory",  30,     14},
+        {"",     "date +'%h %d (%a) %H:%M'",  60,     1},
       };
 
-      static char delim[] = " | ";
-      static unsigned int delimLen = 5;
+      static char *delim = " | ";
     '';
   });
 in {
@@ -24,16 +33,8 @@ in {
     # TODO
     # modules.theme.onReload.dwm = '''';
 
-    environment.systemPackages = with pkgs; [
-      lightdm
-      dunst
-      libnotify
-      (polybar.override {
-        pulseSupport = true;
-        nlSupport = true;
-      })
-      my-dwmblocks
-    ];
+    environment.systemPackages = with pkgs; [ dunst libnotify ];
+    user.packages = [ memory ];
 
     services = {
       picom.enable = true;
@@ -67,7 +68,7 @@ in {
       serviceConfig.Restart = "always";
       serviceConfig.RestartSec = 2;
       serviceConfig.ExecStart = "${my-dwmblocks}/bin/dwmblocks";
-      path = [ pkgs.procps pkgs.gawk ];
+      path = [ memory ];
     };
 
     systemd.user.services."dunst" = {
