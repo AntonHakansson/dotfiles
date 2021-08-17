@@ -1,6 +1,6 @@
-self: super: {
-  dwm = super.dwm.overrideAttrs (oldAttrs: rec {
-    src = super.fetchFromGitHub {
+final: prev: {
+  dwm = prev.dwm.overrideAttrs (oldAttrs: rec {
+    src = prev.fetchFromGitHub {
       owner = "bakkeby";
       repo = "dwm-flexipatch";
       rev = "c2e4fed9182c84c713b24e6f3c60754c950bcf9b";
@@ -17,15 +17,15 @@ self: super: {
     '';
   });
 
-  dwmblocks = super.dwmblocks.overrideAttrs (oldAttrs: rec {
-    src = super.fetchFromGitHub {
+  dwmblocks = prev.dwmblocks.overrideAttrs (oldAttrs: rec {
+    src = prev.fetchFromGitHub {
       owner = "LukeSmithxyz";
       repo = "dwmblocks";
       rev = "66f31c307adbdcc2505239260ecda24a49eea7af";
       sha256 = "sha256-j3wCRyl1+0D2XcdqhE5Zgf53bEXhcaU4dvdyYG9LZ2g=";
     };
     buildInputs = oldAttrs.buildInputs
-      ++ [ super.xorg.libXft super.xorg.libXinerama ];
+      ++ [ prev.xorg.libXft prev.xorg.libXinerama ];
     prePatch = ''
       sed -i "s@/usr/local/@$out@" Makefile
     '';
