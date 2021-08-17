@@ -1,7 +1,12 @@
 set statusbar-h-padding 0
 set statusbar-v-padding 0
+set window-title-home-tilde 1
+set statusbar-home-tilde 1
 set page-padding 1
 set selection-clipboard clipboard
+set recolor-lightcolor "#282c34"
+set recolor-darkcolor "#bbc2cf"
+set recolor-reverse-video "true"
 map u scroll half-up
 map d scroll half-down
 map D toggle_page_mode
