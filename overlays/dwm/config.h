@@ -398,6 +398,9 @@ static Key keys[] = {
     { 0,      XF86XK_AudioRaiseVolume, spawn, {.v = volupcmd }   },
     { MODKEY, XK_minus,                spawn, {.v = voldowncmd } },
     { MODKEY, XK_equal,                spawn, {.v = volupcmd }   },
+
+    // Colors
+    { MODKEY|ShiftMask,             XK_F5,         xrdb,                   {.v = NULL } },
 };
 
 /* button definitions */

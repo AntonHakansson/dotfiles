@@ -7,7 +7,8 @@
 #define bgrn #0189cc
 #define ylw  #f0c674
 #define bylw #f9a03f
-#define blu  #61bfff
+#define blu  #51afef
+#define dblu #005577
 #define bblu #8be9fd
 #define mag  #bd93f9
 #define bmag #ff79c6
@@ -57,6 +58,48 @@ st.scratch.font: JetBrainsMono:pixelsize=16
 !! xst
 st.font: JetBrainsMono:pixelsize=12
 st.borderpx: 10
+
+
+!! dwm
+dwm.normfgcolor: fg
+dwm.normbgcolor: bg
+dwm.normbordercolor: bblk
+dwm.normfloatcolor: bblk
+
+dwm.selfgcolor: fg
+dwm.selbgcolor: bg
+dwm.selbordercolor: dblu
+dwm.selfloatcolor: dblu
+
+dwm.titlenormfgcolor: #bbbbbb
+dwm.titlenormbgcolor: #222222
+dwm.titlenormbordercolor: #444444
+dwm.titlenormfloatcolor: #db8fd9
+
+dwm.titleselfgcolor: fg
+dwm.titleselbgcolor: bg
+dwm.titleselbordercolor: dblu
+dwm.titleselfloatcolor: dblu
+
+dwm.tagsnormfgcolor: fg
+dwm.tagsnormbgcolor: bg
+dwm.tagsnormbordercolor: #444444
+dwm.tagsnormfloatcolor: #db8fd9
+
+dwm.tagsselfgcolor: fg
+dwm.tagsselbgcolor: dblu
+dwm.tagsselbordercolor: dblu
+dwm.tagsselfloatcolor: dblu
+
+dwm.hidnormfgcolor: dblu
+dwm.hidselfgcolor: #227799
+dwm.hidnormbgcolor: #222222
+dwm.hidselbgcolor: #222222
+
+dwm.urgfgcolor: fg
+dwm.urgbgcolor: bg
+dwm.urgbordercolor: #ff0000
+dwm.urgfloatcolor: #db8fd9
 
 
 !! urxvt
