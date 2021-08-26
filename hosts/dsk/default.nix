@@ -19,7 +19,6 @@ in {
       };
       gaming = { steam.enable = true; };
       media = {
-        # daw.enable = true;
         documents.enable = true;
         graphics.enable = true;
         mpv.enable = true;
@@ -49,7 +48,6 @@ in {
       direnv.enable = true;
       git.enable = true;
       gnupg.enable = true;
-      # tmux.enable   = true;
       zsh.enable = true;
     };
     services = {
@@ -72,7 +70,6 @@ in {
   ## Local config
   programs.ssh.startAgent = true;
   services.openssh.startWhenNeeded = true;
-  # networking.networkmanager.enable = true;
 
   # CPU
   nix.maxJobs = lib.mkDefault 12;
@@ -89,7 +86,7 @@ in {
       VertRefresh     56.0 - 144.0
       Option         "DPMS"
       Option         "Primary" "true"
-   '';
+    '';
     screenSection = ''
       Option         "metamodes" "DP-1: 1920x1080 +0+190, HDMI-0: nvidia-auto-select +1920+0 {rotation=right}"
       Option         "SLI" "Off"
@@ -97,22 +94,4 @@ in {
       Option         "BaseMosaic" "off"
     '';
   };
-
-  # Enable WireGuard VPN
-  # networking.wg-quick.interfaces = {
-  #   wg0 = {
-  #     address = [ "10.66.66.2/32" "fd42:42:42::2/128" ];
-  #     dns = [ "94.140.14.14" "94.140.15.15" ];
-  #     privateKey = secrets.wireguard.privateKey;
-  #     listenPort = 54635;
-
-  #     peers = [{
-  #       publicKey = "YlsWHqCsU2jE+bMnzFazyZG6u4dSjuTwy621VbDpAxI=";
-  #       presharedKey = secrets.wireguard.presharedKey;
-  #       allowedIPs = [ "0.0.0.0/0" "::/0" ];
-  #       endpoint = secrets.wireguard.endpoint;
-  #       persistentKeepalive = 25;
-  #     }];
-  #   };
-  # };
 }
