@@ -58,6 +58,7 @@ in {
           "gtk-icon-theme-name=${cfg.gtk.iconTheme}"}
           ${optionalString (cfg.gtk.cursorTheme != "")
           "gtk-cursor-theme-name=${cfg.gtk.cursorTheme}"}
+          gtk-cursor-theme-size=10
           gtk-fallback-icon-theme=gnome
           gtk-application-prefer-dark-theme=true
           gtk-xft-hinting=1
@@ -71,6 +72,7 @@ in {
           ${optionalString (cfg.gtk.iconTheme != "")
           ''gtk-icon-theme-name="${cfg.gtk.iconTheme}"''}
           gtk-font-name="Sans 10"
+          gtk-cursor-theme-size=10
         '';
         # QT4/5 global theme
         "Trolltech.conf".text = ''

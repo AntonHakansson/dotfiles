@@ -22,13 +22,6 @@ in {
         desktop.browsers = {
           firefox.userChrome = concatMapStringsSep "\n" readFile
             [ ./config/firefox/userChrome.css ];
-          # I don't provide qutebrowser yet
-          #   qutebrowser.userStyles = concatMapStringsSep "\n" readFile
-          #     (map toCSSFile [
-          #       ./config/qutebrowser/userstyles/monospace-textareas.scss
-          #       ./config/qutebrowser/userstyles/stackoverflow.scss
-          #       ./config/qutebrowser/userstyles/xkcd.scss
-          #     ]);
         };
       };
     }
@@ -92,13 +85,16 @@ in {
               recursive = true;
             };
           })
-          (mkIf (desktop.bspwm.enable || desktop.dwm.enable) {
+          (mkIf (desktop.bspwm.enable) {
             "polybar" = {
               source = ./config/polybar;
               recursive = true;
             };
+          })
+          (mkIf (desktop.bspwm.enable || desktop.dwm.enable) {
             "dunst/dunstrc".source = ./config/dunstrc;
           })
+
           # (mkIf desktop.media.graphics.vector.enable {
           #   "inkscape/templates/default.svg".source = ./config/inkscape/default-template.svg;
           # })
