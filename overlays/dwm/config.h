@@ -18,7 +18,7 @@ static const int topbar                  = 1;   /* 0 means bottom bar */
 static int tagindicatortype              = INDICATOR_TOP_LEFT_SQUARE;
 static int tiledindicatortype            = INDICATOR_NONE;
 static int floatindicatortype            = INDICATOR_TOP_LEFT_SQUARE;
-static const char *fonts[]               = { "monospace:size=10" };
+static const char *fonts[]               = { "Fira Code:size=10" };
 
 static char c000000[]                    = "#000000"; // placeholder value
 
