@@ -46,6 +46,8 @@ in {
         };
       };
 
+      services.xserver.desktopManager.wallpaper.mode = "fill";
+
       # Compositor
       services.picom = {
         fade = true;
