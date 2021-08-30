@@ -9,6 +9,7 @@ in {
       dwm.enable = true;
       apps = {
         discord.enable = true;
+        zoom.enable = true;
         rofi.enable = true;
         unity3d.enable = true;
       };
