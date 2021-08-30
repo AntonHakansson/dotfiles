@@ -45,8 +45,6 @@
         };
       });
     in {
-      lib = lib.my;
-
       overlay = final: prev: {
         unstable = pkgs';
         my = self.packages."${system}";
