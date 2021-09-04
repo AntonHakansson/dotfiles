@@ -26,6 +26,7 @@ in {
       xorg.xwininfo xorg.xkill xorg.xprop
       htop
       killall
+      file
       jq # json cli
       unstable.flameshot # screenshot tool
     ];
