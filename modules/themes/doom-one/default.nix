@@ -11,8 +11,8 @@ in {
         theme = {
           wallpaper = mkDefault ./config/wallpaper.png;
           gtk = {
-            theme = "Dracula";
-            iconTheme = "Paper";
+            theme = "Arc-Dark";
+            iconTheme = "Arc";
             cursorTheme = "Paper";
           };
         };
@@ -29,7 +29,8 @@ in {
     # Desktop (X11) theming
     (mkIf config.services.xserver.enable {
       user.packages = with pkgs; [
-        dracula-theme
+        arc-theme
+        arc-icon-theme
         paper-icon-theme # for rofi
       ];
       fonts = {
