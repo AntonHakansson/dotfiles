@@ -12,7 +12,6 @@ final: prev: {
       cp ${./patches.h} patches.def.h
     '';
     preBuild = ''
-      makeFlagsArray+=(XRENDER="-lXrender")                 # BAR_ALPHA_PATCH
       makeFlagsArray+=(XCBLIBS="-lX11-xcb -lxcb -lxcb-res") # SWALLOW_PATCH
     '';
   });

@@ -20,7 +20,7 @@
 #define fg wht
 
 *.foreground:  fg
-*.background:  bg
+*.background:  bblk
 *.cursorColor: mag
 
 *.color0:  blk
@@ -61,45 +61,45 @@ st.borderpx: 10
 
 
 !! dwm
-dwm.normfgcolor: fg
-dwm.normbgcolor: bg
-dwm.normbordercolor: bblk
-dwm.normfloatcolor: bblk
+dwm.normfgcolor: #bbc2cf
+dwm.normbgcolor: #282c34
+dwm.normbordercolor: #282c34
+dwm.normfloatcolor: #282c34
 
-dwm.selfgcolor: fg
-dwm.selbgcolor: bg
-dwm.selbordercolor: dblu
-dwm.selfloatcolor: dblu
+dwm.selfgcolor: #bbc2cf
+dwm.selbgcolor: #282c34
+dwm.selbordercolor: #51afef
+dwm.selfloatcolor: #51afef
 
-dwm.titlenormfgcolor: #bbbbbb
-dwm.titlenormbgcolor: #222222
+dwm.titlenormfgcolor: #bbc2cf
+dwm.titlenormbgcolor: #282c34
 dwm.titlenormbordercolor: #444444
-dwm.titlenormfloatcolor: #db8fd9
+dwm.titlenormfloatcolor: #c678dd
 
-dwm.titleselfgcolor: fg
-dwm.titleselbgcolor: bg
-dwm.titleselbordercolor: dblu
-dwm.titleselfloatcolor: dblu
+dwm.titleselfgcolor: #bbc2cf
+dwm.titleselbgcolor: #282c34
+dwm.titleselbordercolor: #51afef
+dwm.titleselfloatcolor: #51afef
 
-dwm.tagsnormfgcolor: fg
-dwm.tagsnormbgcolor: bg
+dwm.tagsnormfgcolor: #bbc2cf
+dwm.tagsnormbgcolor: #1C1F24
 dwm.tagsnormbordercolor: #444444
-dwm.tagsnormfloatcolor: #db8fd9
+dwm.tagsnormfloatcolor: #c678dd
 
-dwm.tagsselfgcolor: fg
-dwm.tagsselbgcolor: dblu
-dwm.tagsselbordercolor: dblu
-dwm.tagsselfloatcolor: dblu
+dwm.tagsselfgcolor: #bbc2cf
+dwm.tagsselbgcolor: #282c34
+dwm.tagsselbordercolor: #21242b
+dwm.tagsselfloatcolor: #21242b
 
-dwm.hidnormfgcolor: dblu
+dwm.hidnormfgcolor: #51afef
 dwm.hidselfgcolor: #227799
 dwm.hidnormbgcolor: #222222
 dwm.hidselbgcolor: #222222
 
-dwm.urgfgcolor: fg
-dwm.urgbgcolor: bg
-dwm.urgbordercolor: #ff0000
-dwm.urgfloatcolor: #db8fd9
+dwm.urgfgcolor: #bbc2cf
+dwm.urgbgcolor: #282c34
+dwm.urgbordercolor: #ff6c6b
+dwm.urgfloatcolor: #ff6c6b
 
 
 !! urxvt
