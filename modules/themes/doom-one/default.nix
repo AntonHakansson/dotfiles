@@ -88,7 +88,7 @@ in {
               recursive = true;
             };
           })
-          (mkIf (desktop.bspwm.enable) {
+          (mkIf desktop.bspwm.enable {
             "polybar" = {
               source = ./config/polybar;
               recursive = true;
@@ -96,6 +96,9 @@ in {
           })
           (mkIf (desktop.bspwm.enable || desktop.dwm.enable) {
             "dunst/dunstrc".source = ./config/dunstrc;
+          })
+          (mkIf desktop.term.alacritty.enable {
+            "alacritty/alacritty.yml".source = ./config/alacritty.yml;
           })
 
           # (mkIf desktop.media.graphics.vector.enable {
