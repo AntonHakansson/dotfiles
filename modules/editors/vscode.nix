@@ -13,6 +13,9 @@ let
       bbenoist.nix
 
       # typescript
+      ms-vscode.cpptools
+
+      # typescript
       jpoissonnier.vscode-styled-components
     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [{
       # One Dark Pro
