@@ -12,6 +12,7 @@
  * Documentation: https://github.com/bakkeby/dwm-flexipatch/blob/master/patches.def.h
  */
 
+#define NOBORDER_PATCH 1 // removes border when there is only one window visible.
 #define NODMENU_PATCH 1
 #define PERTAG_PATCH 1
 #define RESIZEPOINT_PATCH 1
