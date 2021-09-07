@@ -96,8 +96,8 @@ dwm.hidselfgcolor: #227799
 dwm.hidnormbgcolor: #222222
 dwm.hidselbgcolor: #222222
 
-dwm.urgfgcolor: #bbc2cf
-dwm.urgbgcolor: #282c34
+dwm.urgfgcolor: #21242b
+dwm.urgbgcolor: #ff6c6b
 dwm.urgbordercolor: #ff6c6b
 dwm.urgfloatcolor: #ff6c6b
 
