@@ -36,8 +36,10 @@ in {
     home.configFile = {
       "Code/User/settings.json".text = ''
         {
-          "window.menuBarVisibility": "toggle"
-          "workbench.colorTheme": "One Dark Pro"
+          "editor.fontFamily": "Fira Code",
+          "window.menuBarVisibility": "toggle",
+          "workbench.colorTheme": "One Dark Pro",
+          "vim.useSystemClipboard": true,
         }
       '';
     };
