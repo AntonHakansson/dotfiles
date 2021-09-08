@@ -75,24 +75,4 @@ in {
   # CPU
   nix.maxJobs = lib.mkDefault 12;
   powerManagement.cpuFreqGovernor = "performance";
-
-  # Monitors
-  services.xserver = {
-    # This must be done manually to ensure my screen spaces are arranged exactly
-    # as I need them to be *and* the correct monitor is "primary".
-    monitorSection = ''
-      VendorName     "Unknown"
-      ModelName      "Acer GN246HL"
-      HorizSync       30.0 - 160.0
-      VertRefresh     56.0 - 144.0
-      Option         "DPMS"
-      Option         "Primary" "true"
-    '';
-    screenSection = ''
-      Option         "metamodes" "DP-1: 1920x1080 +0+190, HDMI-0: nvidia-auto-select +1920+0 {rotation=right}"
-      Option         "SLI" "Off"
-      Option         "MultiGPU" "Off"
-      Option         "BaseMosaic" "off"
-    '';
-  };
 }
