@@ -14,6 +14,7 @@ in {
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
       spotify
+      unstable.ncspot # terminal spotify client
     ];
   };
 }
