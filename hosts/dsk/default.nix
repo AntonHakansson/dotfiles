@@ -12,6 +12,7 @@ in {
         zoom.enable = true;
         rofi.enable = true;
         unity3d.enable = true;
+        flameshot.enable = true;
       };
       browsers = {
         default = "firefox";

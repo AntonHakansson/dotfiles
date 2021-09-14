@@ -28,7 +28,6 @@ in {
       killall
       file
       jq # json cli
-      unstable.flameshot # screenshot tool
     ];
 
     fonts = {
