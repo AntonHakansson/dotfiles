@@ -3,7 +3,7 @@ final: prev: {
     src = prev.fetchFromGitHub {
       owner = "bakkeby";
       repo = "dwm-flexipatch";
-      rev = "c2e4fed9182c84c713b24e6f3c60754c950bcf9b";
+      rev = "a42a81a7114c2b9699882d6896d97e2cb384c1f1";
       sha256 = "sha256-bBhcqULh/5XJExW5u7tnt6uvOQEV7WarnnseLpsu20c=";
     };
     buildInputs = oldAttrs.buildInputs ++ [ ];
