@@ -12,8 +12,9 @@ let
       # nix
       bbenoist.nix
 
-      # typescript
+      # cpp
       ms-vscode.cpptools
+      xaver.clang-format
 
       # typescript
       jpoissonnier.vscode-styled-components
