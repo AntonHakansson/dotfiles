@@ -94,7 +94,7 @@ in {
               recursive = true;
             };
           })
-          (mkIf (desktop.bspwm.enable || desktop.dwm.enable) {
+          (mkIf (desktop.bspwm.enable || desktop.dwm.enable || desktop.awesomewm.enable) {
             "dunst/dunstrc".source = ./config/dunstrc;
           })
           (mkIf desktop.term.alacritty.enable {
