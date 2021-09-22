@@ -83,25 +83,33 @@ in {
         };
         windowManager.dwm.enable = true;
       };
-      unclutter-xfixes = { enable = true; };
+
+      # Hide mouse cursor when inactive
+      unclutter-xfixes.enable = true;
     };
 
-    systemd.user.services."dwmblocks" = {
+    systemd.user.services.dwmblocks = {
       enable = true;
       description = "Modular status bar for dwm written in c";
       wantedBy = [ "default.target" ];
+      after    = [ "graphical-session.target" ];
       serviceConfig.Restart = "always";
-      serviceConfig.RestartSec = 2;
       serviceConfig.ExecStart = "${dwmblocks}/bin/dwmblocks";
     };
 
-    systemd.user.services."dunst" = {
+    systemd.user.services.dunst = {
       enable = true;
-      description = "Lightweight and customizable notification daemon";
+      description = "Dunst notification daemon";
       wantedBy = [ "default.target" ];
-      serviceConfig.Restart = "always";
-      serviceConfig.RestartSec = 2;
-      serviceConfig.ExecStart = "${pkgs.dunst}/bin/dunst";
+      after = [ "graphical-session-pre.target" ];
+      partOf = [ "graphical-session.target" ];
+      serviceConfig = {
+        Type = "dbus";
+        BusName = "org.freedesktop.Notifications";
+        Restart = "always";
+        RestartSec = 1;
+        ExecStart = "${pkgs.dunst}/bin/dunst";
+      };
     };
   };
 }
