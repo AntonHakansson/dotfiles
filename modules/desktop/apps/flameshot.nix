@@ -11,51 +11,18 @@ in {
   config = mkIf cfg.enable {
     user.packages = with pkgs; [ unstable.flameshot ];
 
+    # https://github.com/flameshot-org/flameshot/blob/master/src/utils/confighandler.cpp#L76
     home.configFile."flameshot/flameshot.ini".text = ''
       [General]
+      showHelp=false
+      showSidePanelButton=false
       disabledTrayIcon=true
+      showStartupLaunchMessage=false
+      startupLaunch=false
       savePath=${config.user.home}/dl
-
-      contrastOpacity=188
-      drawColor=#800000
       drawThickness=3
-      savePathFixed=false
-      showStartupLaunchMessage=true
-      startupLaunch=true
-
-      [Shortcuts]
-      TYPE_ARROW=A
-      TYPE_CIRCLE=C
-      TYPE_CIRCLECOUNT=
-      TYPE_COMMIT_CURRENT_TOOL=Ctrl+Return
-      TYPE_COPY=Ctrl+C
-      TYPE_DELETE_CURRENT_TOOL=Del
-      TYPE_DRAWER=D
-      TYPE_EXIT=Ctrl+Q
-      TYPE_IMAGEUPLOADER=Return
-      TYPE_MARKER=M
-      TYPE_MOVESELECTION=Ctrl+M
-      TYPE_MOVE_DOWN=Down
-      TYPE_MOVE_LEFT=Left
-      TYPE_MOVE_RIGHT=Right
-      TYPE_MOVE_UP=Up
-      TYPE_OPEN_APP=Ctrl+O
-      TYPE_PENCIL=P
-      TYPE_PIN=
-      TYPE_PIXELATE=B
-      TYPE_RECTANGLE=R
-      TYPE_REDO=Ctrl+Shift+Z
-      TYPE_RESIZE_DOWN=Shift+Down
-      TYPE_RESIZE_LEFT=Shift+Left
-      TYPE_RESIZE_RIGHT=Shift+Right
-      TYPE_RESIZE_UP=Shift+Up
-      TYPE_SAVE=Ctrl+S
-      TYPE_SELECTION=S
-      TYPE_SELECTIONINDICATOR=
-      TYPE_SELECT_ALL=Ctrl+A
-      TYPE_TEXT=T
-      TYPE_TOGGLE_PANEL=Space
-      TYPE_UNDO=Ctrl+Z
+      uiColor=#FF79C6
+      contrastUiColor=#51AFEF
     '';
   };
 }
