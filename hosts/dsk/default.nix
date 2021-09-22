@@ -6,7 +6,7 @@ in {
   ## Modules
   modules = {
     desktop = {
-      dwm.enable = true;
+      awesomewm.enable = true;
       apps = {
         discord.enable = true;
         zoom.enable = true;
