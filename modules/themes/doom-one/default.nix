@@ -100,13 +100,6 @@ in {
           (mkIf desktop.term.alacritty.enable {
             "alacritty/alacritty.yml".source = ./config/alacritty.yml;
           })
-
-          # (mkIf desktop.media.graphics.vector.enable {
-          #   "inkscape/templates/default.svg".source = ./config/inkscape/default-template.svg;
-          # })
-          # (mkIf desktop.browsers.qutebrowser.enable {
-          #   "qutebrowser/extra/theme.py".source = ./config/qutebrowser/theme.py;
-          # })
         ];
     })
   ]);
