@@ -1,4 +1,4 @@
-{ options, config, lib, pkgs, ... }:
+{ options, config, lib, pkgs, home-manager, ... }:
 
 with lib;
 with lib.my;
@@ -50,17 +50,40 @@ in {
       services.xserver.desktopManager.wallpaper.mode = "fill";
 
       # Compositor
-      services.picom = {
+      home-manager.users.${config.user.name}.services.picom = {
+        # Round corner support -- https://github.com/ibhagwan/picom
+        package = pkgs.nur.repos.reedrw.picom-next-ibhagwan;
         fade = true;
         fadeDelta = 1;
-        fadeSteps = [ 1.0e-2 1.2e-2 ];
         shadow = true;
-        shadowOffsets = [ (-10) (-10) ];
-        settings = {
+        shadowOffsets = [ (-5) (-5) ];
+        extraOptions = ''
           shadow-radius = 12;
-          blur-kern = "7x7box";
-          blur-strength = 320;
-        };
+          shadow-exclude = [
+            "name = 'Notification'",
+            "class_g = 'Conky'",
+            "class_g = 'Notify-osd'",
+            "class_g = 'Cairo-clock'",
+            "class_g = 'slop'",
+            "class_g = 'Polybar'",
+            "class_g = 'awesome'",
+            "_GTK_FRAME_EXTENTS@:c"
+          ];
+
+          detect-rounded-corners = true;
+          corner-radius = 8;
+          rounded-corners-exclude = [
+            "class_g = 'awesome'",
+            "class_g = 'menu'",
+            "class_g = 'i3status'",
+            "class_g = 'nitrogen'",
+            "class_g = 'Polybar'",
+            "window_type = 'tooltip'",
+            "window_type = 'desktop'"
+          ];
+
+          round-borders = 1;
+        '';
       };
 
       # Login screen theme

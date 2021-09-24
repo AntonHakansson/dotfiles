@@ -1,4 +1,4 @@
-{ options, config, lib, pkgs, ... }:
+{ options, config, lib, pkgs, home-manager, ... }:
 
 with lib;
 with lib.my;
@@ -13,8 +13,8 @@ in {
 
     environment.systemPackages = with pkgs; [ dunst libnotify ];
 
+    home-manager.users.${config.user.name}.services.picom.enable = true;
     services = {
-      picom.enable = true;
       redshift.enable = true;
       xserver = {
         enable = true;
