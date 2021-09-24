@@ -4,7 +4,8 @@ with lib;
 with lib.my;
 let
   cfg = config.modules.desktop.awesomewm;
-in {
+in
+{
   options.modules.desktop.awesomewm = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {

@@ -8,7 +8,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.term.st;
-in {
+in
+{
   options.modules.desktop.term.st = {
     enable = mkBoolOpt false;
   };
@@ -20,7 +21,7 @@ in {
     '';
 
     user.packages = with pkgs; [
-      xst  # st + nice-to-have extensions
+      xst # st + nice-to-have extensions
       (makeDesktopItem {
         name = "xst";
         desktopName = "Suckless Terminal";

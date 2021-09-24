@@ -6,7 +6,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.editors.vim;
-in {
+in
+{
   options.modules.editors.vim = {
     enable = mkBoolOpt false;
   };
@@ -22,7 +23,7 @@ in {
 
     environment.shellAliases = {
       vim = "nvim";
-      v   = "nvim";
+      v = "nvim";
     };
   };
 }

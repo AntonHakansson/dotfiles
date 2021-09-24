@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.crypto;
-in {
+in
+{
   options.modules.crypto = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
@@ -25,7 +26,7 @@ in {
            * server usually takes to process our calls.
            *
            * call_timeout - How long should we wait for a response from the server before we assume it is dead and drop the connection.
-           * retry_time	- How long should we wait before another connection attempt.
+           * retry_time  - How long should we wait before another connection attempt.
            *                Both values are in seconds.
            * giveup_limit - Limit how many times we try to reconnect to the pool. Zero means no limit. Note that stak miners
            *                don't mine while the connection is lost, so your computer's power usage goes down to idle.

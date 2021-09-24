@@ -5,7 +5,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.apps.flameshot;
-in {
+in
+{
   options.modules.desktop.apps.flameshot = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {

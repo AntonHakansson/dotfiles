@@ -1,6 +1,7 @@
 { pkgs, config, lib, ... }:
 let secrets = import ./secrets/secrets.nix;
-in {
+in
+{
   imports = [ ../home.nix ./hardware-configuration.nix ];
 
   ## Modules

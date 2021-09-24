@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.theme;
-in {
+in
+{
   config = mkIf (cfg.active == "doom-one") (mkMerge [
     # Desktop-agnostic configuration
     {

@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hardware.annepro;
-in {
+in
+{
   options.modules.hardware.annepro = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {

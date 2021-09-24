@@ -52,7 +52,8 @@ let
       static unsigned int delimLen = 5;
     '';
   });
-in {
+in
+{
   options.modules.desktop.dwm = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
@@ -92,7 +93,7 @@ in {
       enable = true;
       description = "Modular status bar for dwm written in c";
       wantedBy = [ "default.target" ];
-      after    = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
       serviceConfig.Restart = "always";
       serviceConfig.ExecStart = "${dwmblocks}/bin/dwmblocks";
     };

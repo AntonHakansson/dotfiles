@@ -2,13 +2,15 @@
 
 with lib;
 with lib.my;
-let cfg = config.modules.editors.emacs;
-    configDir = config.dotfiles.configDir;
-in {
+let
+  cfg = config.modules.editors.emacs;
+  configDir = config.dotfiles.configDir;
+in
+{
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;
     doom = {
-      enable  = mkBoolOpt true;
+      enable = mkBoolOpt true;
       fromSSH = mkBoolOpt false;
     };
   };
@@ -18,25 +20,28 @@ in {
 
     user.packages = with pkgs; [
       ## Emacs itself
-      binutils       # native-comp needs 'as', provided by this
+      binutils # native-comp needs 'as', provided by this
       ((emacsPackagesNgGen emacsPgtkGcc).emacsWithPackages (epkgs: [ epkgs.vterm ]))
 
       ## Doom dependencies
       git
-      (ripgrep.override {withPCRE2 = true;})
-      gnutls              # for TLS connectivity
+      (ripgrep.override { withPCRE2 = true; })
+      gnutls # for TLS connectivity
 
       ## Optional dependencies
-      fd                  # faster projectile indexing
-      imagemagick         # for image-dired
+      fd # faster projectile indexing
+      imagemagick # for image-dired
       (mkIf (config.programs.gnupg.agent.enable)
-        pinentry_emacs)   # in-emacs gnupg prompts
-      zstd                # for undo-fu-session/undo-tree compression
+        pinentry_emacs) # in-emacs gnupg prompts
+      zstd # for undo-fu-session/undo-tree compression
 
       ## Module dependencies
       # :checkers spell
       (aspellWithDicts (ds: with ds; [
-        en en-computers en-science sv
+        en
+        en-computers
+        en-science
+        sv
       ]))
       # :checkers grammar
       languagetool
@@ -64,8 +69,12 @@ in {
       # lang python
       (python39.withPackages (ps: with ps; [
         jupyter
-        ipykernel jupyterlab
-        matplotlib numpy pandas seaborn
+        ipykernel
+        jupyterlab
+        matplotlib
+        numpy
+        pandas
+        seaborn
         networkx
       ]))
       # lang org

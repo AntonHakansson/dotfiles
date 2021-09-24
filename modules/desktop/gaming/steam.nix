@@ -7,7 +7,8 @@ let
   my_steam = (pkgs.unstable.steam.override {
     extraLibraries = pkgs: [ pkgs.pipewire ];
   });
-in {
+in
+{
   options.modules.desktop.gaming.steam = with types; {
     enable = mkBoolOpt false;
     hardware.enable = mkBoolOpt false;

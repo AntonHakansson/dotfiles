@@ -9,7 +9,7 @@ with lib;
   location = (if config.time.timeZone == "Europe/Stockholm" then {
     latitude = 59.20;
     longitude = 18.03;
-  } else {});
+  } else { });
   services.xserver.layout = "us";
   services.xserver.xkbVariant = "altgr-intl";
 }

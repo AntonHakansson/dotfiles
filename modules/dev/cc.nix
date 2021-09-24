@@ -5,7 +5,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.dev.cc;
-in {
+in
+{
   options.modules.dev.cc = {
     enable = mkBoolOpt false;
   };

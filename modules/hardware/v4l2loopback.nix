@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hardware.v4l2loopback;
-in {
+in
+{
   options.modules.hardware.v4l2loopback = {
     enable = mkEnableOption "Video4Linux2 device driver kernel module.";
     videoNr = mkOption {

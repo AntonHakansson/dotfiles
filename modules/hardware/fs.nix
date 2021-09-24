@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hardware.fs;
-in {
+in
+{
   options.modules.hardware.fs = {
     enable = mkBoolOpt false;
     zfs.enable = mkBoolOpt false;
@@ -18,9 +19,9 @@ in {
       # Support for more filesystems, mostly to support external drives
       environment.systemPackages = with pkgs; [
         sshfs
-        exfat     # Windows drives
-        ntfs3g    # Windows drives
-        hfsprogs  # MacOS drives
+        exfat # Windows drives
+        ntfs3g # Windows drives
+        hfsprogs # MacOS drives
       ];
     }
 

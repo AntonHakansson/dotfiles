@@ -28,7 +28,8 @@ let
   vscode-with-extensions = (pkgs.unstable.vscode-with-extensions.override {
     vscodeExtensions = extensions;
   });
-in {
+in
+{
 
   options.modules.editors.vscode = { enable = mkBoolOpt false; };
 
@@ -44,19 +45,21 @@ in {
     '';
 
     system.userActivationScripts = mkIf cfg.enable {
-      vscodeMergeConfigs = let
-        nixos-config = "$XDG_CONFIG_HOME/Code/User/nixos-settings.json";
-        code-config = "$XDG_CONFIG_HOME/Code/User/settings.json";
-      in ''
-        if [ -e ${code-config} ]
-        then
-          merged_settings=$(${pkgs.jq}/bin/jq -s '.[0] * .[1]' ${nixos-config} ${code-config})
-          $(echo $merged_settings | ${pkgs.jq}/bin/jq) && $(echo $merged_settings > ${code-config})
-        else
-          cp ${nixos-config} ${code-config}
-          chmod +w ${code-config}
-        fi
-      '';
+      vscodeMergeConfigs =
+        let
+          nixos-config = "$XDG_CONFIG_HOME/Code/User/nixos-settings.json";
+          code-config = "$XDG_CONFIG_HOME/Code/User/settings.json";
+        in
+        ''
+          if [ -e ${code-config} ]
+          then
+            merged_settings=$(${pkgs.jq}/bin/jq -s '.[0] * .[1]' ${nixos-config} ${code-config})
+            $(echo $merged_settings | ${pkgs.jq}/bin/jq) && $(echo $merged_settings > ${code-config})
+          else
+            cp ${nixos-config} ${code-config}
+            chmod +w ${code-config}
+          fi
+        '';
     };
   };
 }
