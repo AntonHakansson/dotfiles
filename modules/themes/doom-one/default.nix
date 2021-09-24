@@ -12,8 +12,8 @@ in
         theme = {
           wallpaper = mkDefault ./config/wallpaper.png;
           gtk = {
-            theme = "Arc-Dark";
-            iconTheme = "Arc";
+            theme = "Flat-Remix-GTK-Blue-Darker-Solid";
+            iconTheme = "Flat-Remix-Blue-Dark";
             cursorTheme = "Paper";
           };
         };
@@ -30,8 +30,8 @@ in
     # Desktop (X11) theming
     (mkIf config.services.xserver.enable {
       user.packages = with pkgs; [
-        arc-theme
-        arc-icon-theme
+        pkgs.flat-remix-gtk
+        pkgs.flat-remix-icon-theme
         paper-icon-theme # for rofi
       ];
       fonts = {
