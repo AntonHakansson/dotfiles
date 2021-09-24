@@ -14,6 +14,7 @@
     # Core dependencies.
     nixpkgs.url = "nixpkgs/nixos-unstable"; # primary nixpkgs
     nixpkgs-unstable.url = "nixpkgs/master"; # for packages on the edge
+    nur.url = "github:nix-community/NUR/master"; # community driven nixpkgs
     home-manager.url = "github:rycee/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -23,7 +24,7 @@
     zig-overlay.url = "github:arqv/zig-overlay";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, nur, ... }:
     let
       inherit (lib.my) mapModules mapModulesRec mapHosts;
 
@@ -35,7 +36,7 @@
           config.allowUnfree = true; # forgive me Stallman senpai
           overlays = extraOverlays ++ (lib.attrValues self.overlays);
         };
-      pkgs = mkPkgs nixpkgs [ self.overlay ];
+      pkgs = mkPkgs nixpkgs [ self.overlay nur.overlay ];
       pkgs' = mkPkgs nixpkgs-unstable [ ];
 
       lib = nixpkgs.lib.extend (self: super: {
