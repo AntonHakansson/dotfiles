@@ -6,8 +6,7 @@ with builtins;
 with lib;
 with lib.my;
 let cfg = config.modules.dev.zig;
-in
-{
+in {
   options.modules.dev.zig = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {

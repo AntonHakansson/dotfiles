@@ -5,8 +5,7 @@ with lib.my;
 let
   cfg = config.modules.desktop.bspwm;
   configDir = config.dotfiles.configDir;
-in
-{
+in {
   options.modules.desktop.bspwm = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {

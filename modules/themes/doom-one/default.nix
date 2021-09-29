@@ -3,8 +3,7 @@
 with lib;
 with lib.my;
 let cfg = config.modules.theme;
-in
-{
+in {
   config = mkIf (cfg.active == "doom-one") (mkMerge [
     # Desktop-agnostic configuration
     {
@@ -118,9 +117,10 @@ in
               recursive = true;
             };
           })
-          (mkIf (desktop.bspwm.enable || desktop.dwm.enable || desktop.awesomewm.enable) {
-            "dunst/dunstrc".source = ./config/dunstrc;
-          })
+          (mkIf (desktop.bspwm.enable || desktop.dwm.enable
+            || desktop.awesomewm.enable) {
+              "dunst/dunstrc".source = ./config/dunstrc;
+            })
           (mkIf desktop.term.alacritty.enable {
             "alacritty/alacritty.yml".source = ./config/alacritty.yml;
           })

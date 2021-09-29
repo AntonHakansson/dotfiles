@@ -6,28 +6,26 @@
 {
   imports = [ ];
 
-  boot.initrd.availableKernelModules = [ "ata_piix" "ohci_pci" "sd_mod" "sr_mod" ];
+  boot.initrd.availableKernelModules =
+    [ "ata_piix" "ohci_pci" "sd_mod" "sr_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    {
-      device = "/dev/disk/by-uuid/e544b8c3-3077-4663-b99f-15f54fc35299";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/e544b8c3-3077-4663-b99f-15f54fc35299";
+    fsType = "ext4";
+  };
 
-  fileSystems."/home" =
-    {
-      device = "/dev/disk/by-uuid/36f5f7c6-5e15-48fa-a91c-6329bf683d9c";
-      fsType = "ext4";
-    };
+  fileSystems."/home" = {
+    device = "/dev/disk/by-uuid/36f5f7c6-5e15-48fa-a91c-6329bf683d9c";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    {
-      device = "/dev/disk/by-uuid/D7B3-8FC9";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/D7B3-8FC9";
+    fsType = "vfat";
+  };
 
   swapDevices =
     [{ device = "/dev/disk/by-uuid/c4c2e280-5606-483b-b6ea-6fa88a739c1e"; }];

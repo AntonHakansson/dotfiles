@@ -3,11 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.term.alacritty;
-in
-{
-  options.modules.desktop.term.alacritty = {
-    enable = mkBoolOpt false;
-  };
+in {
+  options.modules.desktop.term.alacritty = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
     # xst-256color isn't supported over ssh, so revert to a known one
@@ -15,8 +12,6 @@ in
       [ "$TERM" = alacritty ] && export TERM=xterm-256color
     '';
 
-    user.packages = with pkgs; [
-      alacritty
-    ];
+    user.packages = with pkgs; [ alacritty ];
   };
 }

@@ -8,11 +8,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.term.st;
-in
-{
-  options.modules.desktop.term.st = {
-    enable = mkBoolOpt false;
-  };
+in {
+  options.modules.desktop.term.st = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
     # xst-256color isn't supported over ssh, so revert to a known one

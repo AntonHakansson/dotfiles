@@ -5,8 +5,7 @@ with lib.my;
 let
   cfg = config.modules.editors.emacs;
   configDir = config.dotfiles.configDir;
-in
-{
+in {
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;
     doom = {
@@ -21,7 +20,8 @@ in
     user.packages = with pkgs; [
       ## Emacs itself
       binutils # native-comp needs 'as', provided by this
-      ((emacsPackagesNgGen emacsPgtkGcc).emacsWithPackages (epkgs: [ epkgs.vterm ]))
+      ((emacsPackagesNgGen emacsPgtkGcc).emacsWithPackages
+        (epkgs: [ epkgs.vterm ]))
 
       ## Doom dependencies
       git
@@ -37,12 +37,7 @@ in
 
       ## Module dependencies
       # :checkers spell
-      (aspellWithDicts (ds: with ds; [
-        en
-        en-computers
-        en-science
-        sv
-      ]))
+      (aspellWithDicts (ds: with ds; [ en en-computers en-science sv ]))
       # :checkers grammar
       languagetool
       # :tools editorconfig
@@ -67,16 +62,17 @@ in
       # lang markdown
       pandoc
       # lang python
-      (python39.withPackages (ps: with ps; [
-        jupyter
-        ipykernel
-        jupyterlab
-        matplotlib
-        numpy
-        pandas
-        seaborn
-        networkx
-      ]))
+      (python39.withPackages (ps:
+        with ps; [
+          jupyter
+          ipykernel
+          jupyterlab
+          matplotlib
+          numpy
+          pandas
+          seaborn
+          networkx
+        ]))
       # lang org
       graphviz
       gnuplot
@@ -103,4 +99,4 @@ in
     # '';
   };
 }
- 
+

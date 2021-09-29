@@ -7,8 +7,7 @@ with lib.my;
 let
   cfg = config.modules.desktop.media.graphics;
   configDir = config.dotfiles.configDir;
-in
-{
+in {
   options.modules.desktop.media.graphics = {
     enable = mkBoolOpt false;
     tools.enable = mkBoolOpt true;
@@ -23,29 +22,25 @@ in
       (if cfg.tools.enable then [
         font-manager # so many damned fonts...
         imagemagick # for image manipulation from the shell
-      ] else [ ]) ++
+      ] else
+        [ ]) ++
 
       # replaces illustrator & indesign
-      (if cfg.vector.enable then [
-        unstable.inkscape
-      ] else [ ]) ++
+      (if cfg.vector.enable then [ unstable.inkscape ] else [ ]) ++
 
       # Replaces photoshop
       (if cfg.raster.enable then [
         krita
         gimp
         gimpPlugins.resynthesizer # content-aware scaling in gimp
-      ] else [ ]) ++
+      ] else
+        [ ]) ++
 
       # Sprite sheets & animation
-      (if cfg.sprites.enable then [
-        aseprite-unfree
-      ] else [ ]) ++
+      (if cfg.sprites.enable then [ aseprite-unfree ] else [ ]) ++
 
       # 3D modelling
-      (if cfg.models.enable then [
-        blender
-      ] else [ ]);
+      (if cfg.models.enable then [ blender ] else [ ]);
 
     # home.configFile = mkIf cfg.raster.enable {
     #   "GIMP/2.10" = { source = "${configDir}/gimp"; recursive = true; };

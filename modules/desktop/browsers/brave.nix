@@ -3,11 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.browsers.brave;
-in
-{
-  options.modules.desktop.browsers.brave = {
-    enable = mkBoolOpt false;
-  };
+in {
+  options.modules.desktop.browsers.brave = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [

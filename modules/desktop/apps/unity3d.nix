@@ -5,15 +5,9 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.apps.unity3d;
-in
-{
-  options.modules.desktop.apps.unity3d = {
-    enable = mkBoolOpt false;
-  };
+in {
+  options.modules.desktop.apps.unity3d = { enable = mkBoolOpt false; };
 
-  config = mkIf cfg.enable {
-    user.packages = with pkgs; [
-      unstable.unityhub
-    ];
-  };
+  config =
+    mkIf cfg.enable { user.packages = with pkgs; [ unstable.unityhub ]; };
 }

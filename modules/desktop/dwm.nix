@@ -52,8 +52,7 @@ let
       static unsigned int delimLen = 5;
     '';
   });
-in
-{
+in {
   options.modules.desktop.dwm = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {

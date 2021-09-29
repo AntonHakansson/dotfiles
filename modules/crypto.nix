@@ -3,8 +3,7 @@
 with lib;
 with lib.my;
 let cfg = config.modules.crypto;
-in
-{
+in {
   options.modules.crypto = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {

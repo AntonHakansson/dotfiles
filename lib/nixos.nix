@@ -3,16 +3,17 @@
 with lib;
 with lib.my;
 let sys = "x86_64-linux";
-in
-{
-  mkHost = path: attrs @ { system ? sys, ... }:
+in {
+  mkHost = path:
+    attrs@{ system ? sys, ... }:
     nixosSystem {
       inherit system;
       specialArgs = { inherit lib inputs system; };
       modules = [
         {
           nixpkgs.pkgs = pkgs;
-          networking.hostName = mkDefault (removeSuffix ".nix" (baseNameOf path));
+          networking.hostName =
+            mkDefault (removeSuffix ".nix" (baseNameOf path));
         }
         (filterAttrs (n: v: !elem n [ "system" ]) attrs)
         ../. # /default.nix
@@ -20,7 +21,7 @@ in
       ];
     };
 
-  mapHosts = dir: attrs @ { system ? system, ... }:
-    mapModules dir
-      (hostPath: mkHost hostPath attrs);
+  mapHosts = dir:
+    attrs@{ system ? system, ... }:
+    mapModules dir (hostPath: mkHost hostPath attrs);
 }

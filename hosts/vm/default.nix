@@ -1,9 +1,5 @@
-{ pkgs, config, lib, ... }:
-{
-  imports = [
-    ../home.nix
-    ./hardware-configuration.nix
-  ];
+{ pkgs, config, lib, ... }: {
+  imports = [ ../home.nix ./hardware-configuration.nix ];
 
   ## Modules
   modules = {
@@ -42,9 +38,7 @@
       #   # qemu.enable = true;
       # };
     };
-    dev = {
-      zig.enable = true;
-    };
+    dev = { zig.enable = true; };
     editors = {
       default = "nvim";
       # emacs.enable = true;
@@ -59,9 +53,7 @@
       # tmux.enable   = true;
       zsh.enable = true;
     };
-    services = {
-      ssh.enable = true;
-    };
+    services = { ssh.enable = true; };
     theme.active = "doom-one";
   };
 

@@ -3,11 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.services.transmission;
-in
-{
-  options.modules.services.transmission = {
-    enable = mkBoolOpt false;
-  };
+in {
+  options.modules.services.transmission = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
     services.transmission = {
@@ -29,8 +26,6 @@ in
     };
 
     user.extraGroups = [ "transmission" ];
-    environment.shellAliases = {
-      tsm = "transmission-remote";
-    };
+    environment.shellAliases = { tsm = "transmission-remote"; };
   };
 }

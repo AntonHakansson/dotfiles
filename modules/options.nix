@@ -1,23 +1,21 @@
 { config, options, lib, home-manager, ... }:
 
 with lib;
-with lib.my;
-{
+with lib.my; {
   options = with types; {
     user = mkOpt attrs { };
 
-    dotfiles = let t = either str path; in
-      {
-        dir = mkOpt t
-          (findFirst pathExists (toString ../.) [
-            "${config.user.home}/.config/dotfiles"
-            "/etc/dotfiles"
-          ]);
-        binDir = mkOpt t "${config.dotfiles.dir}/bin";
-        configDir = mkOpt t "${config.dotfiles.dir}/config";
-        modulesDir = mkOpt t "${config.dotfiles.dir}/modules";
-        themesDir = mkOpt t "${config.dotfiles.modulesDir}/themes";
-      };
+    dotfiles = let t = either str path;
+    in {
+      dir = mkOpt t (findFirst pathExists (toString ../.) [
+        "${config.user.home}/.config/dotfiles"
+        "/etc/dotfiles"
+      ]);
+      binDir = mkOpt t "${config.dotfiles.dir}/bin";
+      configDir = mkOpt t "${config.dotfiles.dir}/config";
+      modulesDir = mkOpt t "${config.dotfiles.dir}/modules";
+      themesDir = mkOpt t "${config.dotfiles.modulesDir}/themes";
+    };
 
     home = {
       file = mkOpt' attrs { } "Files to place directly in $HOME";
@@ -27,31 +25,29 @@ with lib.my;
 
     env = mkOption {
       type = attrsOf (oneOf [ str path (listOf (either str path)) ]);
-      apply = mapAttrs
-        (n: v:
-          if isList v
-          then concatMapStringsSep ":" (x: toString x) v
-          else (toString v));
+      apply = mapAttrs (n: v:
+        if isList v then
+          concatMapStringsSep ":" (x: toString x) v
+        else
+          (toString v));
       default = { };
       description = "TODO";
     };
   };
 
   config = {
-    user =
-      let
-        user = builtins.getEnv "USER";
-        name = if elem user [ "" "root" ] then "hakanssn" else user;
-      in
-      {
-        inherit name;
-        description = "The primary user account";
-        extraGroups = [ "wheel" ];
-        isNormalUser = true;
-        home = "/home/${name}";
-        group = "users";
-        uid = 1000;
-      };
+    user = let
+      user = builtins.getEnv "USER";
+      name = if elem user [ "" "root" ] then "hakanssn" else user;
+    in {
+      inherit name;
+      description = "The primary user account";
+      extraGroups = [ "wheel" ];
+      isNormalUser = true;
+      home = "/home/${name}";
+      group = "users";
+      uid = 1000;
+    };
 
     # Install user packages to /etc/profiles instead. Necessary for
     # nixos-rebuild build-vm to work.
@@ -82,18 +78,17 @@ with lib.my;
 
     users.users.${config.user.name} = mkAliasDefinitions options.user;
 
-    nix = let users = [ "root" config.user.name ]; in
-      {
-        trustedUsers = users;
-        allowedUsers = users;
-      };
+    nix = let users = [ "root" config.user.name ];
+    in {
+      trustedUsers = users;
+      allowedUsers = users;
+    };
 
     # must already begin with pre-existing PATH. Also, can't use binDir here,
     # because it contains a nix store path.
     env.PATH = [ "$DOTFILES_BIN" "$XDG_BIN_HOME" "$PATH" ];
 
-    environment.extraInit =
-      concatStringsSep "\n"
-        (mapAttrsToList (n: v: "export ${n}=\"${v}\"") config.env);
+    environment.extraInit = concatStringsSep "\n"
+      (mapAttrsToList (n: v: ''export ${n}="${v}"'') config.env);
   };
 }

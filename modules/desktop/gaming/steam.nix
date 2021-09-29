@@ -7,8 +7,7 @@ let
   my_steam = (pkgs.unstable.steam.override {
     extraLibraries = pkgs: [ pkgs.pipewire ];
   });
-in
-{
+in {
   options.modules.desktop.gaming.steam = with types; {
     enable = mkBoolOpt false;
     hardware.enable = mkBoolOpt false;
@@ -19,7 +18,12 @@ in
       programs.steam.enable = true;
       programs.gamemode.enable = true;
 
-      user.packages = with pkgs; [ vulkan-tools vulkan-headers mangohud lutris ];
+      user.packages = with pkgs; [
+        vulkan-tools
+        vulkan-headers
+        mangohud
+        lutris
+      ];
 
       # better for steam proton games
       systemd.extraConfig = "DefaultLimitNOFILE=1048576";
