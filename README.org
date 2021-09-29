@@ -2,7 +2,7 @@
 #+AUTHOR: AntonHakansson
 #+STARTUP: showeverything
 
-[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-21.05-informational?style=flat.svg]]
+[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-21.11-informational?style=flat.svg]]
 
 [[https://github.com/AntonHakansson/dotfiles/actions/workflows/check.yml][https://github.com/AntonHakansson/dotfiles/actions/workflows/check.yml/badge.svg]]
 [[https://github.com/AntonHakansson/dotfiles/actions/workflows/format.yml][https://github.com/AntonHakansson/dotfiles/actions/workflows/format.yml/badge.svg]]
