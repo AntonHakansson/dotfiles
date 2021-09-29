@@ -1,18 +1,27 @@
+#+TITLE: [[https://nixos.org][NixOS]] configuration
+#+AUTHOR: AntonHakansson
+#+STARTUP: showeverything
+
+[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-21.05-informational?style=flat.svg]]
+
+[[https://github.com/AntonHakansson/dotfiles/actions/workflows/check.yml][https://github.com/AntonHakansson/dotfiles/actions/workflows/check.yml/badge.svg]]
+[[https://github.com/AntonHakansson/dotfiles/actions/workflows/format.yml][https://github.com/AntonHakansson/dotfiles/actions/workflows/format.yml/badge.svg]]
+
 * First time setup
 
 1. Grab the latest build of [[https://nixos.org/download.html#nixos-iso][NixOS]]
 2. Boot into the installer
 3. Do your partitions and mount your root to =/mnt=
 4. Install build dependencies:
-  #+begin_src bash
+  #+begin_src sh
   nix-shell -p git nixFlakes nixUnstable
   #+end_src
 5. Copy dotfiles:
-  #+begin_src bash
+  #+begin_src sh
   git clone https://github.com/AntonHakansson/dotfiles /mnt/etc/nixos
   #+end_src
 6. Install NixOS:
-  #+begin_src bash
+  #+begin_src sh
   nix build /mnt/etc/nixos#nixosConfigurations.<HOSTNAME>.config.system.build.toplevel --experimental-features "flakes nix-command" --store "/mnt" --impure
   nixos-install --root /mnt --system ./result
   #+end_src
@@ -26,6 +35,6 @@
 
 Make sure the dotfiles are located in =~/.config/dotfiles= then from the dotfiles root directory run:
 
-#+begin_src bash
+#+begin_src sh
 nixos-rebuild switch --flake .#<HOSTNAME>
 #+end_src
