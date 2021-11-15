@@ -54,6 +54,7 @@ in {
     };
     services = {
       ssh.enable = true;
+      docker.enable = true;
       transmission.enable = true;
     };
     hardware = {
