@@ -18,13 +18,16 @@ let
 
       # typescript
       jpoissonnier.vscode-styled-components
-    ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [{
-      # One Dark Pro
-      name = "Material-theme";
-      publisher = "zhuangtongfa";
-      version = "3.11.4";
-      sha256 = "sha256-3jo5oToo3Lk94Z5VW/zWCWv1GcCUTC3F4fI+erD0SDI=";
-    }];
+      svelte.svelte-vscode
+    ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+      {
+        # One Dark Pro
+        name = "Material-theme";
+        publisher = "zhuangtongfa";
+        version = "3.11.4";
+        sha256 = "sha256-3jo5oToo3Lk94Z5VW/zWCWv1GcCUTC3F4fI+erD0SDI=";
+      }
+    ];
   vscode-with-extensions = (pkgs.unstable.vscode-with-extensions.override {
     vscodeExtensions = extensions;
   });
