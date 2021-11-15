@@ -47,7 +47,7 @@ in {
 
       # :lang nix
       nixfmt
-      # lang sh
+      # :lang sh
       shellcheck
       shfmt
       # :lang cc
@@ -59,9 +59,9 @@ in {
       # :lang rust
       rustfmt
       unstable.rust-analyzer
-      # lang markdown
+      # :lang markdown
       pandoc
-      # lang python
+      # :lang python
       (python39.withPackages (ps:
         with ps; [
           jupyter
@@ -73,7 +73,7 @@ in {
           seaborn
           networkx
         ]))
-      # lang org
+      # :lang org
       graphviz
       gnuplot
       drawio
