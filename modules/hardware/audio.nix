@@ -20,6 +20,7 @@ in {
     user.packages = with pkgs; [
       pulseaudio # I still use pacmd, pactl
       pavucontrol
+      unstable.easyeffects
     ];
     user.extraGroups = [ "audio" ];
   };
