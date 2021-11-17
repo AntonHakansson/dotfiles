@@ -76,6 +76,7 @@ in {
       # :lang org
       graphviz
       gnuplot
+      maxima
       drawio
     ];
 
