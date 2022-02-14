@@ -20,7 +20,7 @@ in {
     user.packages = with pkgs; [
       ## Emacs itself
       binutils # native-comp needs 'as', provided by this
-      ((emacsPackagesNgGen emacsPgtkGcc).emacsWithPackages
+      ((emacsPackagesNgGen emacsGcc).emacsWithPackages
         (epkgs: [ epkgs.vterm ]))
 
       ## Doom dependencies
@@ -61,18 +61,6 @@ in {
       unstable.rust-analyzer
       # :lang markdown
       pandoc
-      # :lang python
-      (python39.withPackages (ps:
-        with ps; [
-          jupyter
-          ipykernel
-          jupyterlab
-          matplotlib
-          numpy
-          pandas
-          seaborn
-          networkx
-        ]))
       # :lang org
       graphviz
       gnuplot

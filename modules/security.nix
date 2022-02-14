@@ -2,9 +2,6 @@
 
 {
   ## System security tweaks
-  # sets hidepid=2 on /proc (make process info visible only to owning user)
-  # NOTE Was removed on nixpkgs-unstable because it doesn't do anything
-  # security.hideProcessInformation = true;
   # Prevent replacing the running kernel w/o reboot
   security.protectKernelImage = true;
 

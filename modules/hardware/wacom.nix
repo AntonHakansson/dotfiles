@@ -7,8 +7,8 @@ in {
   options.modules.hardware.wacom = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
-    # For my intuos4 pro. Doesn't work for cintiqs.
     services.xserver.wacom.enable = true;
+
     # TODO Move this to udev
     user.packages = with pkgs;
       [

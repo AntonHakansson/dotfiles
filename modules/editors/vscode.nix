@@ -16,6 +16,9 @@ let
       ms-vscode.cpptools
       xaver.clang-format
 
+      # go
+      golang.go
+
       # typescript
       jpoissonnier.vscode-styled-components
       svelte.svelte-vscode

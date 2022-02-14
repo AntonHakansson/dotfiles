@@ -10,9 +10,9 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      unstable.mpv
-      unstable.mpvScripts.autoload
-      unstable.mpvScripts.thumbnail
+      (unstable.mpv-with-scripts.override {
+        scripts = with unstable.mpvScripts; [ autoload ];
+      })
       unstable.mpvc # CLI controller for mpv
       subdl
     ];

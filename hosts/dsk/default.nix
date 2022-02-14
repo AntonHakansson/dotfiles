@@ -54,6 +54,7 @@ in {
     };
     services = {
       ssh.enable = true;
+      vpn.enable = true;
       docker.enable = true;
       transmission.enable = true;
     };

@@ -1,9 +1,3 @@
-# modules/dev/python.nix --- https://godotengine.org/
-#
-# Python's ecosystem repulses me. The list of environment "managers" exhausts
-# me. The Py2->3 transition make trainwrecks jealous. But SciPy, NumPy, iPython
-# and Jupyter can have my babies. Every single one.
-
 { config, options, lib, pkgs, ... }:
 
 with lib;
@@ -13,15 +7,20 @@ in {
   options.modules.dev.python = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [
-      python39
-      python39Packages.pip
-      python39Packages.ipython
-      python39Packages.black
-      python39Packages.setuptools
-      python39Packages.pylint
-      python39Packages.poetry
-    ];
+    user.packages = with pkgs;
+      [
+        (python38.withPackages (p:
+          with p; [
+            pip
+            ipython
+            black
+            setuptools
+            pylint
+            poetry
+            sympy
+            numpy
+          ]))
+      ];
 
     env.IPYTHONDIR = "$XDG_CONFIG_HOME/ipython";
     env.PIP_CONFIG_FILE = "$XDG_CONFIG_HOME/pip/pip.conf";
