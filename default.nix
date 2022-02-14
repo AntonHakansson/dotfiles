@@ -28,12 +28,14 @@ with lib.my; {
       "nixpkgs-overlays=${config.dotfiles.dir}/overlays"
       "dotfiles=${config.dotfiles.dir}"
     ];
-    binaryCaches = [ "https://nix-community.cachix.org" ];
-    binaryCachePublicKeys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    ];
     registry = registryInputs // { dotfiles.flake = inputs.self; };
-    autoOptimiseStore = true;
+    settings = {
+      auto-optimise-store = true;
+      substituters = [ "https://nix-community.cachix.org" ];
+      trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
+    };
   };
   system.configurationRevision = with inputs; mkIf (self ? rev) self.rev;
   system.stateVersion = "21.05";
