@@ -26,7 +26,7 @@ in {
         [ ]) ++
 
       # replaces illustrator & indesign
-      (if cfg.vector.enable then [ unstable.inkscape ] else [ ]) ++
+      (if cfg.vector.enable then [ inkscape ] else [ ]) ++
 
       # Replaces photoshop
       (if cfg.raster.enable then [
