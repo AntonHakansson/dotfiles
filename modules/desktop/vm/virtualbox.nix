@@ -9,14 +9,13 @@ in {
   config = mkIf cfg.enable {
     virtualisation.virtualbox.host = {
       enable = true;
-      # urg, takes so long to build, but needed for macOS guest
       # enableExtensionPack = true;
     };
 
     virtualisation.libvirtd.enable = true;
 
     programs.dconf.enable = true;
-    environment.systemPackages = with pkgs; [ virt-manager ];
+    environment.systemPackages = with pkgs; [ unstable.virt-manager ];
 
     user.extraGroups = [ "vboxusers" "libvirtd" ];
   };
