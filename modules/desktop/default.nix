@@ -45,6 +45,10 @@ in {
     };
 
     ## Apps/Services
+    services.flatpak.enable = true;
+    xdg.portal.enable = true;
+    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
     services.xserver.displayManager.lightdm.greeters.mini.user =
       config.user.name;
 
