@@ -20,7 +20,7 @@ in {
     user.packages = with pkgs; [
       ## Emacs itself
       binutils # native-comp needs 'as', provided by this
-      ((emacsPackagesNgGen emacsGcc).emacsWithPackages
+      ((emacsPackagesFor emacsPgtkGcc).emacsWithPackages
         (epkgs: [ epkgs.vterm ]))
 
       ## Doom dependencies
@@ -52,10 +52,8 @@ in {
       shfmt
       # :lang cc
       ccls
-      # :lang javascript
-      nodePackages.javascript-typescript-langserver
       # :lang latex & :lang org (latex previews)
-      texlive.combined.scheme-full
+      texlive.combined.scheme-tetex
       # :lang rust
       rustfmt
       rust-analyzer
