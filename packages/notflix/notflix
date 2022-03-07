@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+set -eou pipefail
+
+die() {
+    if tty -s; then
+        printf "notflix: %s\n" "$@" >&2
+    else
+        notify-send "$@"
+    fi
+    exit 1
+}
+
+main() {
+    cachedir="/tmp/notflix"
+    mkdir -p "$cachedir"
+
+    if [ -z "$@" ]; then
+        query=$(echo "" | rofi -dmenu -p "Search Torrent: ")
+    else
+        query="$*"
+    fi
+
+    if [ -z "$query" ]; then
+        echo "Aborted..."
+        exit 0
+    fi
+
+    baseurl="https://1337x.to"
+    query=${query// /+}
+
+    curl -s "$baseurl"/search/"$query"/1/ >"$cachedir"/tmp.html
+
+    # Titles
+    grep -o '<a href="/torrent/.*</a>' "$cachedir/tmp.html" |
+        sed 's/<[^>]*>//g' >"$cachedir"/titles.bw
+
+    result_count=$(wc -l "$cachedir"/titles.bw | awk '{print $1}')
+    [ "$result_count" -lt 1 ] && die "😔 No Result found. Try again 🔴"
+
+    # Size
+    grep -o '<td class="coll-4 size.*</td>' $cachedir/tmp.html |
+        sed 's/<span class="seeds">.*<\/span>//g' |
+        sed -e 's/<[^>]*>//g' >$cachedir/size.bw
+
+    # Seeders and Leechers
+    grep -o '<td class="coll-2 seeds.*</td>\|<td class="coll-3 leeches.*</td>' $cachedir/tmp.html |
+        sed 's/<[^>]*>//g' | sed 'N;s/\n/ /' >$cachedir/seedleech.bw
+
+    # Links
+    grep -E '/torrent/' $cachedir/tmp.html |
+        sed -E 's#.*(/torrent/.*)/">.*/#\1#' |
+        sed 's/td>//g' >$cachedir/links.bw
+
+    LINE=$(paste -d"$(printf "\t")" $cachedir/titles.bw $cachedir/size.bw $cachedir/seedleech.bw | rofi -dmenu -i -p "Select torrent" -format d)
+    [ -z "$LINE" ] && die "Aborted..."
+
+    url=$(sed -n "${LINE}p" <$cachedir/links.bw)
+    url="${baseurl}${url}/"
+
+    curl -s "$url" >$cachedir/tmp.html
+    magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" $cachedir/tmp.html | head -n 1)
+
+    transmission-remote -a "$magnet"
+
+    if tty -s; then
+        watch transmission-remote -l
+    fi
+}
+
+main "$@"
