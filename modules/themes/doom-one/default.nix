@@ -39,7 +39,7 @@ in {
           fira-code-symbols
           jetbrains-mono
           siji
-          font-awesome-ttf
+          font-awesome
         ];
         fontconfig.defaultFonts = {
           sansSerif = [ "Fira Sans" ];
@@ -50,40 +50,18 @@ in {
       services.xserver.desktopManager.wallpaper.mode = "fill";
 
       # Compositor
-      home-manager.users.${config.user.name}.services.picom = {
-        # Round corner support -- https://github.com/ibhagwan/picom
-        package = pkgs.nur.repos.reedrw.picom-next-ibhagwan;
+      services.picom = {
         fade = true;
         fadeDelta = 1;
+        fadeSteps = [ 1.0e-2 1.2e-2 ];
         shadow = true;
-        shadowOffsets = [ (-5) (-5) ];
-        extraOptions = ''
+        shadowOffsets = [ (-10) (-10) ];
+        shadowOpacity = 0.22;
+        settings = {
           shadow-radius = 12;
-          shadow-exclude = [
-            "name = 'Notification'",
-            "class_g = 'Conky'",
-            "class_g = 'Notify-osd'",
-            "class_g = 'Cairo-clock'",
-            "class_g = 'slop'",
-            "class_g = 'Polybar'",
-            "class_g = 'awesome'",
-            "_GTK_FRAME_EXTENTS@:c"
-          ];
-
-          detect-rounded-corners = true;
-          corner-radius = 8;
-          rounded-corners-exclude = [
-            "class_g = 'awesome'",
-            "class_g = 'menu'",
-            "class_g = 'i3status'",
-            "class_g = 'nitrogen'",
-            "class_g = 'Polybar'",
-            "window_type = 'tooltip'",
-            "window_type = 'desktop'"
-          ];
-
-          round-borders = 1;
-        '';
+          blur-kern = "7x7box";
+          blur-strength = 320;
+        };
       };
 
       # Login screen theme
