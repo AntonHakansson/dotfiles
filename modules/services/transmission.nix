@@ -1,4 +1,4 @@
-{ config, options, pkgs, lib, my, ... }:
+{ config, options, pkgs, lib, ... }:
 
 with lib;
 with lib.my;
@@ -7,6 +7,9 @@ in {
   options.modules.services.transmission = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
+
+    user.packages = with pkgs; [ my.notflix ];
+
     services.transmission = {
       enable = true;
       home = "${config.user.home}/torrents";
