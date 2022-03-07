@@ -58,7 +58,7 @@ in {
       texlive.combined.scheme-full
       # :lang rust
       rustfmt
-      unstable.rust-analyzer
+      rust-analyzer
       # :lang markdown
       pandoc
       # :lang org
