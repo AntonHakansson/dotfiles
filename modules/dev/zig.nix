@@ -11,6 +11,6 @@ in {
 
   config = mkIf cfg.enable {
     user.packages =
-      [ inputs.zig-overlay.packages."x86_64-linux".master.latest ];
+      [ inputs.zig-overlay.packages."x86_64-linux".master.latest pkgs.zls ];
   };
 }
